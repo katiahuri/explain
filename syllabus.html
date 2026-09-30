@@ -183,6 +183,11 @@
     .fit-list li::before { content: "✓"; width: 22px; height: 22px; display: grid; place-items: center; border-radius: 50%; color: var(--violet); background: var(--lavender); font-size: 11px; font-weight: 900; }
     .fit-card.not .fit-list li::before { content: "×"; color: #687085; background: #eef1f6; }
 
+    .cert { display: grid; grid-template-columns: .82fr 1.18fr; gap: 58px; align-items: center; }
+    .cert .fit-list { margin-top: 26px; }
+    .cert-shot { margin: 0; overflow: hidden; border: 1px solid var(--line); border-radius: 20px; background: white; box-shadow: 0 30px 80px rgba(11,16,38,.16); }
+    .cert-shot img { display: block; width: 100%; height: auto; }
+
     .offer { padding: 110px 0; color: white; text-align: center; background: var(--navy); }
     .offer-inner { position: relative; overflow: hidden; padding: 72px 34px; border: 1px solid rgba(255,255,255,.10); border-radius: 34px; background: radial-gradient(circle at 50% 125%, rgba(59,130,246,.38), transparent 42%), radial-gradient(circle at 10% 0%, rgba(124,58,237,.22), transparent 32%), #0e1532; }
     .offer-inner::before, .offer-inner::after { content: ""; position: absolute; width: 230px; height: 230px; border: 1px solid rgba(124,92,255,.22); border-radius: 50%; }
@@ -209,7 +214,7 @@
     }
     @media (max-width: 920px) {
       .hero { min-height: auto; }
-      .hero-grid, .section-head, .capstone, .audience-grid { grid-template-columns: 1fr; }
+      .hero-grid, .section-head, .capstone, .audience-grid, .cert { grid-template-columns: 1fr; }
       .hero-grid { padding-top: 55px; }
       .system-visual { min-height: 360px; }
       .problem-grid { grid-template-columns: 1fr 1fr; }
@@ -250,7 +255,7 @@
       body { background: #0b1026; color: #c3cbe2; }
       h1, h2, h3, .problem-card h3, .module-title h3, .fit-card h3, .metric b, .exercise b { color: #f2f5ff; }
       .section.white { background: #0e1533; }
-      .metrics, .problem-card, .module, .fit-card, .format-card { background: #121a3a; border-color: #26315c; }
+      .metrics, .problem-card, .module, .fit-card, .format-card, .cert-shot { background: #121a3a; border-color: #26315c; }
       .problem-card p, .metric span, .section-intro, .fit-list li { color: #a3adca; }
       .problem-card::after { border-color: #2f3a6e; }
       .card-index, .module-title small { color: #b39dff; }
@@ -473,6 +478,25 @@
             </ul>
           </div>
         </div>
+      </div>
+    </section>
+
+    <section class="section shell reveal" id="certificate">
+      <div class="cert">
+        <div>
+          <p class="eyebrow">When you finish</p>
+          <h2>A certificate you <span class="gradient-text">earned.</span></h2>
+          <p class="section-intro">Issued when the capstone is done—not for watching videos.</p>
+          <ul class="fit-list">
+            <li>20 learning hours across nine modules</li>
+            <li>Capstone AI System Map completed</li>
+            <li>Unique ID on every certificate</li>
+          </ul>
+        </div>
+        <figure class="cert-shot">
+          <img src="assets/certificate.png" width="1684" height="1190" loading="lazy" decoding="async"
+               alt="ExplAIn certificate of completion: the participant's name, the course title, 20 learning hours, 8 live sessions, capstone completed, the date, Katia Stainfeld Huri's signature and a unique certificate ID.">
+        </figure>
       </div>
     </section>
 
