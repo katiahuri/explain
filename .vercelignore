@@ -1,0 +1,15 @@
+# Instructor material and build tooling: never uploaded to Vercel.
+course/_build/
+course/content/
+course/dist/
+course/certificate/
+course/index.html
+course/README.md
+course/module-*/*.pptx
+course/module-*/*.docx
+
+# Sign-up data from the local server — contains people's email addresses.
+server/data/
+
+node_modules/
+public/

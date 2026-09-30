@@ -1,0 +1,15 @@
+# Course materials: this is the product. Never commit these to a public repo.
+course/module-*/*.pptx
+course/module-*/*.docx
+course/content/
+course/_build/
+course/certificate/
+course/dist/
+
+# People's email addresses.
+server/data/
+
+# Generated and local
+public/
+node_modules/
+.vercel/

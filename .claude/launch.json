@@ -1,0 +1,14 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "explain-site",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [
+        "server/server.js",
+        "--port=8420"
+      ],
+      "port": 8420
+    }
+  ]
+}

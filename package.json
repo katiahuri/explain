@@ -1,0 +1,13 @@
+{
+  "name": "explain-site",
+  "version": "1.0.0",
+  "private": true,
+  "description": "ExplAIn course site and waitlist.",
+  "scripts": {
+    "dev": "node server/server.js --port=8420",
+    "build": "node scripts/build-public.js"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "^0.10.4"
+  }
+}

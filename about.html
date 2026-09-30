@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>About us — ExplAIn</title>
+  <meta name="description" content="ExplAIn is practical AI education by Katia Stainfeld Huri: 15 years across deep learning, inference optimization, data platforms and production ML.">
+  <meta name="theme-color" content="#0B1026">
+  <link rel="icon" type="image/png" href="assets/icon.png">
+  <link rel="apple-touch-icon" href="assets/icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/site.css">
+  <style>
+    .about { display: grid; grid-template-columns: .8fr 1.2fr; gap: 56px; align-items: center; }
+    .portrait { position: relative; min-height: 420px; display: flex; flex-direction: column; justify-content: flex-end; padding: 32px; overflow: hidden; border-radius: 28px; color: #fff;
+      background: radial-gradient(circle at 70% 28%, rgba(59,130,246,.42), transparent 30%), radial-gradient(circle at 28% 62%, rgba(124,58,237,.45), transparent 34%), linear-gradient(150deg, #131d45, #0b1026); }
+    .portrait .initials { font-size: 96px; font-weight: 700; line-height: .85; letter-spacing: -.06em; }
+    .portrait span { margin-top: 16px; color: #c2cae0; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; }
+    .about p + p { margin-top: 16px; }
+    .creds { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
+    .creds span { padding: 8px 13px; border: 1px solid var(--line); border-radius: 999px; color: #525c70; background: #fff; font-size: 12.5px; font-weight: 500; }
+    .belief { padding: 44px; border-radius: 28px; color: #fff; background: var(--grad); }
+    .belief p { font-size: clamp(22px, 2.6vw, 30px); font-weight: 600; line-height: 1.35; letter-spacing: -.02em; }
+    .belief small { display: block; margin-top: 16px; color: #efeaff; font-size: 14px; font-weight: 400; letter-spacing: .04em; }
+    @media (max-width: 1000px) { .about { grid-template-columns: 1fr; gap: 34px; } .portrait { min-height: 300px; } }
+    @media (max-width: 640px) { .belief { padding: 28px 22px; } .portrait { padding: 24px; } .portrait .initials { font-size: 74px; } }
+  </style>
+  <script>document.documentElement.classList.add('js');</script>
+</head>
+<body>
+  <nav class="site-nav" aria-label="Primary">
+    <div class="shell nav-inner">
+      <a class="logo" href="index.html" aria-label="ExplAIn home"><img src="assets/logo-white.png" alt="ExplAIn" width="545" height="201"></a>
+      <div class="nav-links">
+        <a href="digital-course.html">Digital course</a>
+        <a href="syllabus.html">Full course syllabus</a>
+        <a href="articles.html">Articles</a>
+        <a href="about.html" aria-current="page">About us</a>
+        <a class="btn btn-primary btn-sm" href="#join">Join the first cohort</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="page-hero">
+    <div class="shell inner">
+      <p class="eyebrow light">About us</p>
+      <h1>Built from the inside<br>of <span class="grad-text">AI systems.</span></h1>
+      <p class="lead">The gap in AI isn’t access to tools. It’s understanding what happens in between.</p>
+    </div>
+  </header>
+
+  <section class="section white">
+    <div class="shell about reveal">
+      <div class="portrait">
+        <div class="initials">KS</div>
+        <span>Katia Stainfeld Huri · Founder &amp; instructor</span>
+      </div>
+      <div>
+        <p class="eyebrow">The instructor</p>
+        <h2>Katia Stainfeld Huri</h2>
+        <p class="lead" style="margin-top:20px">A computer scientist and data science leader with 15 years across deep learning, inference optimization, data platforms and production ML, and a named inventor on a U.S. patent in neural-network inference optimization.</p>
+        <p class="lead">Her work spans computer vision research, model optimization, and leading data and MLOps teams at scale.</p>
+        <p class="lead">ExplAIn turns that depth into a framework you can use.</p>
+        <div class="creds">
+          <span>15 Years in Industry</span>
+          <span>B.Sc. &amp; M.Sc. Computer Science</span>
+          <span>Deep Learning &amp; Computer Vision</span>
+          <span>AI Inference Optimization</span>
+          <span>Data Science Leadership</span>
+          <span>MLOps &amp; Data Platforms</span>
+          <span>Named Patent Inventor</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell reveal">
+      <div class="section-head">
+        <p class="eyebrow">Why ExplAIn</p>
+        <h2>Everyone uses AI.<br>Few can <span class="grad-text">explain it.</span></h2>
+        <p class="lead">Teams ship AI features, then find nobody can say why the system behaved that way.</p>
+      </div>
+      <div class="grid cols-3">
+        <article class="card"><span class="num">01</span><h3>Depth without the math lecture</h3><p>Enough mechanism to explain real behavior.</p></article>
+        <article class="card"><span class="num">02</span><h3>Decisions, not demos</h3><p>What to verify, retrieve or automate.</p></article>
+        <article class="card"><span class="num">03</span><h3>Knowledge that outlasts tools</h3><p>Vendors change. Mechanisms don’t.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section white">
+    <div class="shell reveal">
+      <div class="belief">
+        <p>Owning it means knowing what the model does, what the system does, and which one to fix.</p>
+        <small>The ExplAIn promise</small>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell reveal">
+      <div class="section-head center">
+        <p class="eyebrow">How we teach</p>
+        <h2>Four principles behind every module.</h2>
+      </div>
+      <div class="grid cols-4">
+        <article class="card"><h3>One idea per module</h3><p>A mental model, not a feature tour.</p></article>
+        <article class="card"><h3>Show the system</h3><p>Diagrams, so the parts stay nameable.</p></article>
+        <article class="card"><h3>End with a decision</h3><p>Exercises that force a trade-off.</p></article>
+        <article class="card"><h3>Stay tool-agnostic</h3><p>Nothing tied to one vendor.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="signup" id="join">
+    <div class="shell reveal">
+      <div class="signup-panel">
+        <div class="signup-copy">
+          <p class="eyebrow light">Work with us</p>
+          <h2>Learn it yourself, or bring it <span class="grad-text">to your team.</span></h2>
+          <p class="lead">Join the list, or ask about the live program for your team.</p>
+          <ul class="check-list">
+            <li>First-cohort dates and early-bird pricing</li>
+            <li>Team proposals and new articles</li>
+          </ul>
+        </div>
+
+        <form class="signup-form signup-card" novalidate>
+          <div class="fields">
+            <h3>Get in touch</h3>
+            <p class="card-sub">We’ll follow up.</p>
+            <div class="field">
+              <label for="su-name">First name <span>(optional)</span></label>
+              <input id="su-name" name="first_name" type="text" autocomplete="given-name">
+            </div>
+            <div class="field">
+              <label for="su-email">Email address</label>
+              <input id="su-email" name="email" type="email" autocomplete="email" placeholder="you@company.com" required>
+            </div>
+            <fieldset class="field">
+              <legend>I’m asking about</legend>
+              <div class="choices">
+                <label><input type="radio" name="interest" value="individual" checked><span>The course</span></label>
+                <label><input type="radio" name="interest" value="team"><span>Team training</span></label>
+              </div>
+            </fieldset>
+            <input type="hidden" name="source" value="about">
+            <div class="hp" aria-hidden="true"><label>Company website <input name="company_website" tabindex="-1" autocomplete="off"></label></div>
+            <button class="btn btn-primary btn-block" type="submit">Send</button>
+            <p class="micro">Unsubscribe anytime.</p>
+          </div>
+          <p class="form-status" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="shell">
+      <div class="footer-top">
+        <div>
+          <img src="assets/logo-white.png" alt="ExplAIn" width="545" height="201">
+          <p>Practical AI education for people who want the system, not only the interface.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Course</h4>
+          <ul>
+            <li><a href="digital-course.html">Digital course</a></li>
+            <li><a href="syllabus.html">Full course syllabus</a></li>
+            <li><a href="module-00.html">Start with Module 00</a></li>
+            <li><a href="#join">Join the first cohort</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>More</h4>
+          <ul>
+            <li><a href="articles.html">Articles</a></li>
+            <li><a href="about.html">About us</a></li>
+            <li><a href="digital-course.html#pricing">For teams</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 ExplAIn · Understand / Apply / Build / Go further</span>
+        <span>Don’t just use AI. <b>Own it.</b></span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/site.js"></script>
+</body>
+</html>

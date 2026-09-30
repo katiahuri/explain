@@ -1,0 +1,79 @@
+{
+  "articles": [
+    {
+      "slug": "what-your-ai-product-actually-is",
+      "title": "Most of what you call the AI is not the model",
+      "dek": "A map of the eight parts around the model, and a five-minute method for drawing it for any product.",
+      "date": "2026-09-27",
+      "minutes": 4,
+      "tag": "Systems",
+      "body": [
+        {"type": "p", "text": "A support assistant starts quoting refund terms that changed three months ago. The team swaps in a newer model. Same wrong terms. Someone rewrites the prompt. Still wrong. Two weeks later a developer notices the policy document in the search index was never reindexed. The model was never the problem."},
+        {"type": "p", "text": "This happens because the word “AI” gets used for the whole product. When something breaks, there is nowhere to point except the model, so that is what gets replaced. A map fixes that. Once you can name the parts, you can name which part failed."},
+        {"type": "p", "text": "The model is narrow: weights behind an endpoint. Text in, predicted text out. No memory between calls. No access to your data. No ability to do anything unless something else runs the action. Everything else a user experiences was built by people, on purpose."},
+        {"type": "quote", "text": "The model generates. The system does."},
+        {"type": "h2", "text": "Four boxes that feed the model"},
+        {"type": "table", "columns": ["Box", "What it decides"], "rows": [["Context", "Everything assembled into this one call: instructions, history, retrieved text"], ["Knowledge", "Facts the model never trained on: your documents, your data, today’s prices"], ["Memory and state", "What survives between calls, and what a half-finished run carries forward"], ["Interface", "What a user can ask, what they see, and how a wrong answer looks to them"]]},
+        {"type": "h2", "text": "Four boxes that decide what happens"},
+        {"type": "table", "columns": ["Box", "What it decides"], "rows": [["Tools and actions", "Which real systems it can read, and which ones it can change"], ["Orchestration", "Which steps run, in what order, and whether code or the model chose"], ["Guardrails", "Permissions, filters, limits and approvals wrapped around the model"], ["Evaluation", "The repeatable tests that tell you the product got better or worse"]]},
+        {"type": "p", "text": "Cost and latency are not a ninth box. Every box adds some. A retrieval step, a second model call, a validation pass, an approval queue: each one buys you something and charges you for it on every request. That trade is easier to argue about when the boxes have names."},
+        {"type": "h2", "text": "Map any product in five minutes"},
+        {"type": "ol", "items": ["Pick one real user request and trace it from the interface to the answer, step by step.", "Mark the model call. Every other step on the list belongs to the system.", "Sort each step into the eight boxes. One step can touch two of them.", "For each empty box ask: missing by design, or missing because nobody decided?", "Circle the box most likely to fail first, and name the person who owns it."]},
+        {"type": "p", "text": "Do this on a whiteboard with the people who built the thing. The argument is the point. Most teams discover that two of them believed different things about what is actually sent to the model on each request."},
+        {"type": "p", "text": "The most common empty box is evaluation. Products ship on the strength of one good demo, and nobody can say whether last week’s prompt change helped. An empty box is not always a bug, but an unnoticed empty box usually is."},
+        {"type": "p", "text": "ExplAIn is built on this map. The first module draws it, and every module after that goes deep into one box: context, knowledge and memory, tools, orchestration, guardrails and evaluation."}
+      ],
+      "takeaway": "Name the box before you fix anything, and rule out context, knowledge and tools before you blame the model."
+    },
+    {
+      "slug": "confident-and-wrong",
+      "title": "Why a confident answer is not a verified one",
+      "dek": "How fluent text goes wrong, what confidence actually measures, and which outputs a product must check in code.",
+      "date": "2026-09-20",
+      "minutes": 4,
+      "tag": "Reliability",
+      "body": [
+        {"type": "p", "text": "A billing assistant tells a customer their late fee is $34.50. The number is wrong. Nothing in the reply looks wrong: the sentence is well formed, the tone is calm, the format matches every correct answer the assistant has ever produced. That is the whole problem in one screenshot."},
+        {"type": "p", "text": "Ask a model the same question three times and you may get three different answers in the same steady voice. The voice never wavers, because the voice is generated the same way the facts are. It is output, not a report on the output."},
+        {"type": "p", "text": "The mechanism explains it. At each step the model scores the possible next tokens, settings reshape those scores, one token is sampled, and the pick joins the context for the next step. An early wrong detail is therefore not corrected. It becomes the ground the rest of the answer stands on."},
+        {"type": "quote", "text": "Confidence is not correctness."},
+        {"type": "h2", "text": "What confidence is and is not"},
+        {"type": "ul", "items": ["A hedge or a firm tone is generated text. It is not a measurement of whether the claim is true.", "Token probabilities are a real signal about the text, not a truth score for the claim it makes.", "Low temperature narrows variety, not error. If the top token is wrong, it is wrong consistently.", "More reasoning improves math, code and planning. It cannot supply a fact nobody gave the model.", "Asking “are you sure?” produces another sample from the same model, drawn from the same gaps."]},
+        {"type": "p", "text": "Fabrication clusters where the training text was thin and the pressure to answer is high: rare facts, exact figures, dates, identifiers, citations. A model trained to be helpful will usually produce something rather than decline. Fluent filler is the most likely continuation, so fluent filler is what you get."},
+        {"type": "h2", "text": "Where a product must verify, not trust"},
+        {"type": "table", "columns": ["Output", "How to check without the model"], "rows": [["A number, price, date or ID", "Fetch it from the system of record and let the model only phrase it"], ["Structured data going into code", "Validate the schema and the values, then reject, retry or fall back"], ["A citation or a source link", "Resolve the reference; if it does not resolve, drop the claim"], ["Generated code", "Compile it and run the tests; a passing suite is not an opinion"], ["Quality after any change", "Rerun a fixed test set, because one good demo is one sample"]]},
+        {"type": "p", "text": "Notice what these have in common: none of them ask the model to grade itself. A check is only a check if it can disagree with the thing it is checking, which means it has to come from code, data, a rule or a person."},
+        {"type": "h2", "text": "Deciding output by output"},
+        {"type": "ol", "items": ["If variety is the point, such as names and first drafts, leave it probabilistic and test with real users.", "If a person reads it beside the source, probabilistic is fine. Show the source next to it.", "If code consumes it, validate structure and values before anything downstream sees it.", "If it states a number, price, date or citation, look the value up instead of generating it.", "If it moves money or triggers an action, code computes and permits it, and a person approves the risky ones."]},
+        {"type": "p", "text": "One warning about the easy answer. “A human reviews it” only counts if that person has the time, the tooling and a realistic volume. A reviewer who approves four hundred items a day is a rubber stamp with a job title, and everyone involved knows it."},
+        {"type": "p", "text": "ExplAIn spends a module on this mechanism and a later one on the checks: what to verify, where the check lives in your system, and how to test that it still works after a model or prompt change."}
+      ],
+      "takeaway": "Treat every output as a likely guess until something outside the model checks it."
+    },
+    {
+      "slug": "workflow-or-agent",
+      "title": "Autonomy is a cost, so decide where you spend it",
+      "dek": "How to choose between a fixed workflow, one model-chosen branch and a full agent loop, and where approval belongs.",
+      "date": "2026-09-13",
+      "minutes": 4,
+      "tag": "Agents",
+      "body": [
+        {"type": "p", "text": "A team is asked to make the weekly sales report “agentic.” The steps have not changed in two years: three queries, a chart, a paragraph of narrative, sent on Monday. The agent version makes eleven model calls, costs far more, and sometimes reorders the sections. The engineering was fine. Nobody asked the design question."},
+        {"type": "p", "text": "That question cuts through every agent pitch and roadmap slide: who decides the next step, your code or the model? That is all an agent is. A loop where the model picks the next action from what it has seen. It observes the goal and the last result, decides, your system runs the action and records it, then checks the limits."},
+        {"type": "quote", "text": "Autonomy is a cost. Pay it only where fixed code can’t cover the cases."},
+        {"type": "h2", "text": "A spectrum, not a switch"},
+        {"type": "table", "columns": ["Design", "Who picks the next step"], "rows": [["Single call", "Your code. One model call fills in one step"], ["Fixed chain", "Your code, in an order you wrote down"], ["Router", "The model picks one branch, then fixed code runs"], ["Bounded agent", "The model, inside step, budget and time limits"], ["Autonomous agent", "The model, including the decision to stop"]]},
+        {"type": "p", "text": "Count the decisions the model makes, not the number of model calls. A pipeline with six calls in a fixed order is still a workflow. And note that the model never acts: it requests, your code executes. A plan is text it wrote and reads back, so nothing holds it to that plan unless you build something that does."},
+        {"type": "h2", "text": "Why a chain of good steps still fails"},
+        {"type": "ul", "items": ["A misread result enters state, and every later step treats it as an established fact.", "An early wrong plan keeps steering the run even as the results disagree with it.", "A failing action gets retried without progress until some limit finally stops it.", "An email sent or a record deleted stays wrong after you fix the underlying bug."]},
+        {"type": "p", "text": "The arithmetic is unforgiving, and worth doing on the back of an envelope. Take steps that each succeed nine times in ten, where one miss ruins the run, and ten of them in a row finish clean about a third of the time. The number is illustrative. The shape is the lesson: fewer uncontrolled steps beats a better model."},
+        {"type": "h2", "text": "Where human approval belongs"},
+        {"type": "table", "columns": ["Action", "Sensible default"], "rows": [["Read, search, summarize, draft", "Runs automatically, with the output shown before use"], ["Reversible changes: labels, notes", "Automatic, logged, and genuinely easy to undo"], ["Anything a customer receives", "A person approves, at least until you have measured it"], ["Money, deletion, permissions", "Always approved, or never exposed as a tool at all"]]},
+        {"type": "p", "text": "Approval follows risk and reversibility, and it has a budget. Every low-stakes confirmation you add spends attention that the high-stakes one will need. Approve few things, show the evidence and the exact diff, and make saying no as easy as saying yes."},
+        {"type": "ol", "items": ["If every input takes the same steps, write a workflow and let the model fill in steps.", "If inputs fall into a few known paths, use a router: one model decision, then fixed code.", "If the path depends on what it finds and the tools are read-only, use a bounded agent with caps.", "If you cannot yet measure whole runs, stay one level less autonomous until you can."]},
+        {"type": "p", "text": "ExplAIn has a module on this: the loop, the spectrum, how errors compound, and how to redesign a real use case at three levels of autonomy so the trade-offs are on the table before anyone builds."}
+      ],
+      "takeaway": "Give the model a decision only where fixed code can’t handle the variety, and keep a person on anything you can’t undo."
+    }
+  ]
+}
