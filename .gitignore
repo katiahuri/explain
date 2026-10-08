@@ -13,3 +13,6 @@ server/data/
 public/
 node_modules/
 .vercel/
+
+.vercel
+.env*
