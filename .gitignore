@@ -1,6 +1,6 @@
 # Course materials: this is the product. Never commit these to a public repo.
-course/module-*/*.pptx
-course/module-*/*.docx
+course/**/*.pptx
+course/**/*.docx
 course/content/
 course/_build/
 course/certificate/
