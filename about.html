@@ -10,7 +10,7 @@
   <link rel="apple-touch-icon" href="assets/icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/site.css">
   <style>
     .about { display: grid; grid-template-columns: .8fr 1.2fr; gap: 56px; align-items: center; }
@@ -19,7 +19,12 @@
     .portrait .initials { font-size: 96px; font-weight: 700; line-height: .85; letter-spacing: -.06em; }
     .portrait span { margin-top: 16px; color: #c2cae0; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; }
     .about p + p { margin-top: 16px; }
-    .bio-hook { margin: 20px 0 0; color: var(--navy); font-size: clamp(20px, 2.2vw, 26px); font-weight: 600; line-height: 1.35; letter-spacing: -.025em; }
+    .letter { margin-top: 22px; font-family: 'Caveat', 'Segoe Script', cursive; font-size: clamp(22px, 2.3vw, 27px); line-height: 1.5; color: #2b3348; }
+    .letter p { margin: 0 0 16px; }
+    .letter .open { color: var(--navy); font-size: 1.16em; font-weight: 600; }
+    .letter strong { color: var(--violet); font-weight: 700; }
+    .signature { display: block; margin-top: 26px; color: var(--navy); font-family: 'Caveat', 'Segoe Script', cursive; font-size: clamp(34px, 3.4vw, 44px); line-height: 1; }
+    .signature small { display: block; margin-top: 10px; color: var(--muted); font-family: 'Poppins', sans-serif; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; }
     .creds { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
     .creds span { padding: 8px 13px; border: 1px solid var(--line); border-radius: 999px; color: #525c70; background: #fff; font-size: 12.5px; font-weight: 500; }
     .belief { padding: 44px; border-radius: 28px; color: #fff; background: var(--grad); }
@@ -27,6 +32,12 @@
     .belief small { display: block; margin-top: 16px; color: #efeaff; font-size: 14px; font-weight: 400; letter-spacing: .04em; }
     @media (max-width: 1000px) { .about { grid-template-columns: 1fr; gap: 34px; } .portrait { min-height: 300px; } }
     @media (max-width: 640px) { .belief { padding: 28px 22px; } .portrait { padding: 24px; } .portrait .initials { font-size: 74px; } }
+
+    /* Dark mode: this page sets its own colours, so they need their own theme. */
+    @media (prefers-color-scheme: dark) {
+      .letter { color: #c3cbe2; }
+      .creds span { color: #c3cbe2; background: #121a3a; border-color: #2f3a6e; }
+    }
   </style>
   <script>document.documentElement.classList.add('js');</script>
 </head>
@@ -59,12 +70,17 @@
         <span>Katia Stainfeld Huri · Founder &amp; instructor</span>
       </div>
       <div>
-        <p class="eyebrow">The instructor</p>
-        <h2>Katia Stainfeld Huri</h2>
-        <p class="bio-hook">Trained, patented and optimized neural networks before it was cool.</p>
-        <p class="lead" style="margin-top:18px">Fifteen years inside AI systems: training deep-learning models, cutting inference down to production budgets, building the data platforms underneath and leading the teams that shipped it. Three patents. Eight engineers in her last role. A startup whose core team was acquired.</p>
-        <p class="lead">Most AI courses teach the interface. Katia teaches the layer underneath—because that’s the layer she has actually worked in.</p>
-        <p class="lead">Everything in ExplAIn comes from systems she built, broke and fixed. That’s why it still holds when the tools change.</p>
+        <p class="eyebrow">A letter from me</p>
+        <h2>Why I built this course.</h2>
+        <div class="letter">
+          <p class="open">I trained, taught, patented and optimized neural networks before it was cool.</p>
+          <p>Fifteen years of it — training models, cutting inference down to production budgets, building the data platforms underneath, leading the teams that shipped it. Three patents. Eight engineers in my last role. A startup acquired for its core team.</p>
+          <p>And the same thing kept happening around me: strong engineers using AI every day, and still guessing. Not because they couldn’t understand it — because nobody ever showed them the layer beneath the interface.</p>
+          <p>So that’s what you get here. You’ll look at any AI product and explain how it actually works. You’ll know why it hallucinated, whether you need retrieval or fine-tuning, what belongs in a prompt and what belongs in code.</p>
+          <p><strong>I won’t teach you prompts. Prompts expire.</strong> I’ll teach you the system underneath, and that doesn’t.</p>
+          <p>Come build the understanding that outlasts the tools.</p>
+          <span class="signature">Katia<small>Founder &amp; instructor</small></span>
+        </div>
         <div class="creds">
           <span>15 Years in Industry</span>
           <span>3 Patents</span>
@@ -104,7 +120,7 @@
   <section class="section">
     <div class="shell reveal">
       <div class="section-head center">
-        <p class="eyebrow">How we teach</p>
+        <p class="eyebrow">How I teach</p>
         <h2>Four principles behind every module.</h2>
       </div>
       <div class="grid cols-4">
@@ -120,7 +136,7 @@
     <div class="shell reveal">
       <div class="signup-panel">
         <div class="signup-copy">
-          <p class="eyebrow light">Work with us</p>
+          <p class="eyebrow light">Work with me</p>
           <h2>Learn it yourself, or bring it <span class="grad-text">to your team.</span></h2>
           <p class="lead">Join the list, or ask about the live program for your team.</p>
           <ul class="check-list">
@@ -132,7 +148,7 @@
         <form class="signup-form signup-card" novalidate>
           <div class="fields">
             <h3>Get in touch</h3>
-            <p class="card-sub">We’ll follow up.</p>
+            <p class="card-sub">I’ll follow up.</p>
             <div class="field">
               <label for="su-name">First name <span>(optional)</span></label>
               <input id="su-name" name="first_name" type="text" autocomplete="given-name">
