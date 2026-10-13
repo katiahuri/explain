@@ -123,6 +123,17 @@ p { margin: 0; }
 .tier .btn { width: 100%; margin-top: auto; }
 .tier-foot { margin-top: 14px; color: var(--muted); font-size: 12.5px; text-align: center; }
 .tier.featured .tier-foot { color: #9aa5c4; }
+.tier.featured .check-list li { color: #d5dbeb; }
+.tier.featured .check-list li::before { color: #fff; background: rgba(124,58,237,.55); }
+.tiers.three { grid-template-columns: repeat(3, 1fr); align-items: stretch; }
+.tiers.three .tier { padding: 32px 28px; }
+.tiers.three .tier h3 { font-size: 24px; }
+.tiers.three .price { font-size: 27px; }
+/* The company program sits on its own band under the individual tiers. */
+.tier-band { display: grid; grid-template-columns: 1.25fr 1fr; gap: 38px; align-items: center; margin-top: 20px; }
+.tier-band .check-list { margin: 22px 0 0; }
+.tier-band .price { margin-top: 0; }
+.tier-band .btn { width: 100%; margin-top: 20px; }
 
 /* Module list */
 .modules { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
@@ -244,7 +255,8 @@ footer { color: #9aa5c0; background: #070b1d; }
 @media (max-width: 1000px) {
   .cols-4 { grid-template-columns: repeat(2, 1fr); }
   .cols-3, .modules, .article-grid, .steps { grid-template-columns: repeat(2, 1fr); }
-  .tiers, .signup-panel, .cert { grid-template-columns: 1fr; }
+  .tiers, .tiers.three, .signup-panel, .cert { grid-template-columns: 1fr; }
+  .tier-band { grid-template-columns: 1fr; gap: 26px; }
   .cert { gap: 34px; }
   .signup-panel { gap: 40px; padding: 48px; }
   .section { padding: 84px 0; }
