@@ -27,6 +27,7 @@ p { margin: 0; }
 .on-dark .eyebrow, .eyebrow.light { color: #b8c2df; }
 .lead { color: var(--muted); font-size: 18px; line-height: 1.75; }
 .on-dark { color: #c9d0e4; }
+.on-dark .lead { color: #b8c2df; }
 .on-dark h2, .on-dark h3 { color: #fff; }
 
 /* Buttons */
@@ -135,6 +136,35 @@ p { margin: 0; }
 .tier-band .price { margin-top: 0; }
 .tier-band .btn { width: 100%; margin-top: 20px; }
 
+/* The system map */
+.sysmap { margin: 0; }
+.sysmap-band { margin: 30px 0 14px; color: var(--violet); font-size: 11px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; }
+.sysmap-band:first-child { margin-top: 0; }
+.sysmap-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.sysmap-row.two { grid-template-columns: repeat(2, 1fr); }
+.sysmap-box { padding: 20px 22px; border: 1px solid var(--line); border-radius: 18px; background: var(--white); }
+.sysmap-box h3 { font-size: 17px; }
+.sysmap-box p { margin-top: 6px; color: var(--muted); font-size: 13.5px; }
+.sysmap-box.wrap { border-style: dashed; background: transparent; }
+.sysmap-model { padding: 26px 22px; border-radius: 18px; text-align: center; background: var(--grad); box-shadow: 0 18px 44px rgba(99, 82, 246, .26); }
+.sysmap-model h3 { color: #fff; font-size: 24px; }
+.sysmap-model p { margin-top: 6px; color: #e4dcff; font-size: 14px; }
+.sysmap-flow { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; height: 32px; }
+.sysmap-flow.one { grid-template-columns: 1fr; }
+.sysmap-flow span { position: relative; justify-self: center; width: 1px; height: 100%; background: var(--lav-line); }
+.sysmap-flow span::after { content: ""; position: absolute; left: 50%; bottom: 0; width: 7px; height: 7px; transform: translate(-50%, 2px) rotate(45deg); border-right: 1px solid var(--lav-line); border-bottom: 1px solid var(--lav-line); }
+
+/* Pricing, in brief — the full tiers live on the course page */
+.price-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+.price-card { display: block; padding: 24px 22px; border: 1px solid var(--line); border-radius: 20px; background: var(--white); text-decoration: none; transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease; }
+.price-card:hover { transform: translateY(-2px); border-color: var(--lav-line); box-shadow: var(--shadow); }
+.price-card h3 { font-size: 17px; }
+.price-card .price { margin: 10px 0 8px; font-size: 26px; }
+.price-card p:last-child { color: var(--muted); font-size: 13.5px; }
+.price-card.featured { border-color: transparent; background: radial-gradient(circle at 100% 0%, rgba(59,130,246,.3), transparent 42%), linear-gradient(145deg, #141d48, #0b1026 68%); box-shadow: 0 24px 60px rgba(46, 63, 146, .22); }
+.price-card.featured h3, .price-card.featured .price { color: #fff; }
+.price-card.featured p:last-child { color: #b9c2db; }
+
 /* Module list */
 .modules { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
 .module { display: flex; flex-direction: column; padding: 22px; border: 1px solid var(--line); border-radius: 20px; background: #fff; text-decoration: none; transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease; }
@@ -143,7 +173,7 @@ p { margin: 0; }
 .module-num { width: 42px; height: 42px; display: grid; place-items: center; border-radius: 12px; color: #fff; background: linear-gradient(145deg, var(--navy-2), var(--navy)); font-size: 14px; font-weight: 600; }
 .module-top small { color: var(--violet); font-size: 10.5px; font-weight: 600; letter-spacing: .17em; text-transform: uppercase; }
 .module h3 { font-size: 18px; line-height: 1.3; }
-.module blockquote { margin: 14px 0 0; padding-top: 12px; border-top: 1px dashed var(--line); color: var(--violet-deep); font-size: 13.5px; font-weight: 500; }
+.module blockquote { margin: 2px 0 0; color: var(--violet-deep); font-size: 15px; line-height: 1.5; font-weight: 500; }
 
 /* Steps */
 .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; counter-reset: step; }
@@ -253,7 +283,7 @@ footer { color: #9aa5c0; background: #070b1d; }
 }
 
 @media (max-width: 1000px) {
-  .cols-4 { grid-template-columns: repeat(2, 1fr); }
+  .cols-4, .price-row { grid-template-columns: repeat(2, 1fr); }
   .cols-3, .modules, .article-grid, .steps { grid-template-columns: repeat(2, 1fr); }
   .tiers, .tiers.three, .signup-panel, .cert { grid-template-columns: 1fr; }
   .tier-band { grid-template-columns: 1fr; gap: 26px; }
@@ -264,6 +294,8 @@ footer { color: #9aa5c0; background: #070b1d; }
 }
 @media (max-width: 760px) {
   .nav-links a:not(.btn) { display: none; }
+  .sysmap-row, .sysmap-row.two, .sysmap-flow, .price-row { grid-template-columns: 1fr; }
+  .sysmap-flow span:nth-child(n+2) { display: none; }
 }
 @media (max-width: 640px) {
   .shell, .narrow { width: calc(100% - 32px); }
@@ -296,8 +328,7 @@ footer { color: #9aa5c0; background: #070b1d; }
   .module { padding: 16px; }
   .module-top { margin-bottom: 10px; }
   .module-num { width: 34px; height: 34px; font-size: 12px; }
-  .module h3 { font-size: 15px; }
-  .module blockquote { display: none; }
+  .module blockquote { font-size: 14px; }
   .steps { grid-template-columns: 1fr; }
 }
 

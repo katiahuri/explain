@@ -26,7 +26,7 @@
         <a href="syllabus.html">Full course syllabus</a>
         <a href="articles.html">Articles</a>
         <a href="about.html">About</a>
-        <a class="btn btn-primary btn-sm" href="#join">Join the first cohort</a>
+        <a class="btn btn-primary btn-sm" href="#join">Join the waitlist</a>
       </div>
     </div>
   </nav>
@@ -37,7 +37,7 @@
       <h1>Understand AI.<br>Apply it. <span class="grad-text">Own it.</span></h1>
       <p class="hero-lead">Most courses teach the tool. ExplAIn teaches the system underneath.</p>
       <div class="hero-actions">
-        <a class="btn btn-primary" href="#join">Join the first cohort <span aria-hidden="true">→</span></a>
+        <a class="btn btn-primary" href="#join">Join the waitlist <span aria-hidden="true">→</span></a>
         <a class="btn btn-ghost" href="digital-course.html">See what’s inside</a>
       </div>
       <p class="hero-note">Opens soon. Join the list and the founding price is yours.</p>
@@ -49,83 +49,44 @@
     </div>
   </header>
 
-  <section class="section white">
-    <div class="shell reveal">
-      <div class="section-head">
-        <p class="eyebrow">The gap</p>
-        <h2>You already use AI.<br>But can you <span class="grad-text">explain it?</span></h2>
-        <p class="lead">When an AI product fails, the question is which part failed. You can learn to answer that.</p>
-      </div>
-      <div class="grid cols-3">
-        <article class="card"><span class="num">01</span><h3>The buzzwords blur together</h3><p>You need the map that connects them.</p></article>
-        <article class="card"><span class="num">02</span><h3>It feels smart—until it fails</h3><p>See where probability becomes risk.</p></article>
-        <article class="card"><span class="num">03</span><h3>A demo is not a system</h3><p>Architecture, controls and evaluation.</p></article>
-      </div>
-    </div>
-  </section>
-
-  <section class="section">
+      <section class="section white" id="system-map">
     <div class="shell reveal">
       <div class="section-head center">
-        <p class="eyebrow">What you get</p>
-        <h2>Everything you need to think clearly about AI.</h2>
-      </div>
-      <div class="grid cols-4">
-        <article class="card">
-          <div class="card-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5.5c2.5-1 5.5-1 9 1 3.5-2 6.5-2 9-1v13c-2.5-1-5.5-1-9 1-3.5-2-6.5-2-9-1z"/><path d="M12 6.5v13"/></svg></div>
-          <h3>9 modules</h3><p>One mental model and one decision each.</p>
-        </article>
-        <article class="card">
-          <div class="card-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h10v18H7z"/><path d="M10 8h4M10 12h4M10 16h3"/></svg></div>
-          <h3>A working workbook</h3><p>Every exercise, building into your own product’s map.</p>
-        </article>
-        <article class="card">
-          <div class="card-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4z"/><path d="M8 9h8M8 13h5"/></svg></div>
-          <h3>9 cheat sheets</h3><p>Questions, rules of thumb and a tool per module.</p>
-        </article>
-        <article class="card">
-          <div class="card-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="9" r="5"/><path d="M8.5 13.5 7 21l5-2.5L17 21l-1.5-7.5"/></svg></div>
-          <h3>Capstone &amp; certificate</h3><p>Map a real product. Finish with proof.</p>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <section class="section white">
-    <div class="shell reveal">
-      <div class="section-head">
         <p class="eyebrow">The system map</p>
         <h2>The model generates. <span class="grad-text">The system does.</span></h2>
-        <p class="lead">Eight boxes decide whether AI works. You’ll learn all of them, and how they fail.</p>
+        <p class="lead">Nine parts decide whether AI works. You will learn all of them, and how each one fails.</p>
       </div>
-      <div class="grid cols-3">
-        <div class="card"><h3>Context</h3><p>What the model sees right now</p></div>
-        <div class="card"><h3>Knowledge</h3><p>Documents and retrieval</p></div>
-        <div class="card"><h3>Memory and state</h3><p>What persists between turns</p></div>
-        <div class="card"><h3>Tools and actions</h3><p>What it can do in the world</p></div>
-        <div class="card dark"><h3>Model</h3><p>Generates the next tokens</p></div>
-        <div class="card"><h3>Orchestration</h3><p>Steps and loops around calls</p></div>
-        <div class="card"><h3>Guardrails</h3><p>What it may see and do</p></div>
-        <div class="card"><h3>Evaluation</h3><p>How we know it works</p></div>
-        <div class="card"><h3>Interface</h3><p>Where people meet it</p></div>
-      </div>
+      <figure class="sysmap">
+        <p class="sysmap-band">What it sees</p>
+        <div class="sysmap-row">
+        <div class="sysmap-box"><h3>Context</h3><p>What the model sees right now</p></div>
+        <div class="sysmap-box"><h3>Knowledge</h3><p>Documents and retrieval</p></div>
+        <div class="sysmap-box"><h3>Memory and state</h3><p>What persists between turns</p></div>
+        </div>
+        <div class="sysmap-flow" aria-hidden="true"><span></span><span></span><span></span></div>
+        <div class="sysmap-model"><h3>Model</h3><p>Generates the next tokens</p></div>
+        <div class="sysmap-flow one" aria-hidden="true"><span></span></div>
+        <p class="sysmap-band">What it does</p>
+        <div class="sysmap-row">
+        <div class="sysmap-box"><h3>Orchestration</h3><p>Steps and loops around calls</p></div>
+        <div class="sysmap-box"><h3>Tools and actions</h3><p>What it can do in the world</p></div>
+        <div class="sysmap-box"><h3>Interface</h3><p>Where people meet it</p></div>
+        </div>
+        <p class="sysmap-band">Around all of it</p>
+        <div class="sysmap-row two">
+        <div class="sysmap-box wrap"><h3>Guardrails</h3><p>What it may see and do</p></div>
+        <div class="sysmap-box wrap"><h3>Evaluation</h3><p>How we know it works</p></div>
+        </div>
+      </figure>
     </div>
   </section>
 
   <section class="section dark on-dark" id="outcomes">
     <div class="shell reveal">
-      <div class="section-head">
+      <div class="section-head center" style="margin-bottom:0">
         <p class="eyebrow light">The transformation</p>
         <h2>From AI builder to <span class="grad-text">AI owner.</span></h2>
-        <p class="lead">Builders make AI work. Owners know why it works and where it breaks.</p>
-      </div>
-      <div class="grid cols-3">
-        <div class="card dark"><h3>Explain what the model is doing</h3></div>
-        <div class="card dark"><h3>See the complete system</h3></div>
-        <div class="card dark"><h3>Choose the right mechanism</h3></div>
-        <div class="card dark"><h3>Use agents intentionally</h3></div>
-        <div class="card dark"><h3>Design for reliability</h3></div>
-        <div class="card dark"><h3>Evaluate beyond the demo</h3></div>
+        <p class="lead">Builders make AI work. Owners know why it works, and where it breaks.</p>
       </div>
     </div>
   </section>
@@ -137,15 +98,15 @@
         <h2>Nine mental models.<br>One complete map.</h2>
       </div>
       <div class="modules">
-        <a class="module" href="module-00.html"><div class="module-top"><span class="module-num">00</span><small>The map</small></div><h3>What is an AI system?</h3><blockquote>“The model generates. The system does.”</blockquote></a>
-        <a class="module" href="module-01.html"><div class="module-top"><span class="module-num">01</span><small>Inside the model</small></div><h3>How a model sees the world</h3><blockquote>“Context is the model’s working reality.”</blockquote></a>
-        <a class="module" href="module-02.html"><div class="module-top"><span class="module-num">02</span><small>Learning</small></div><h3>How models learn</h3><blockquote>“Training changes the model. Inference uses it.”</blockquote></a>
-        <a class="module" href="module-03.html"><div class="module-top"><span class="module-num">03</span><small>Probability</small></div><h3>Reasoning, sampling and hallucination</h3><blockquote>“Fluency is not the same as truth.”</blockquote></a>
-        <a class="module" href="module-04.html"><div class="module-top"><span class="module-num">04</span><small>Context</small></div><h3>Context engineering</h3><blockquote>“Construct the world the model reasons inside.”</blockquote></a>
-        <a class="module" href="module-05.html"><div class="module-top"><span class="module-num">05</span><small>Knowledge</small></div><h3>Retrieval, memory and fine-tuning</h3><blockquote>“Information, state and behavior are different problems.”</blockquote></a>
-        <a class="module" href="module-06.html"><div class="module-top"><span class="module-num">06</span><small>Tools</small></div><h3>How models interact with the real world</h3><blockquote>“The model requests. Another system acts.”</blockquote></a>
-        <a class="module" href="module-07.html"><div class="module-top"><span class="module-num">07</span><small>Agents</small></div><h3>Agents without the mythology</h3><blockquote>“An agent is a loop with model-selected decisions.”</blockquote></a>
-        <a class="module" href="module-08.html"><div class="module-top"><span class="module-num">08</span><small>Evals</small></div><h3>Building AI you can trust</h3><blockquote>“A demo is not a system.”</blockquote></a>
+        <a class="module" href="module-00.html"><div class="module-top"><span class="module-num">00</span><small>The map</small></div><blockquote>“The model generates. The system does.”</blockquote></a>
+        <a class="module" href="module-01.html"><div class="module-top"><span class="module-num">01</span><small>Inside the model</small></div><blockquote>“Context is the model’s working reality.”</blockquote></a>
+        <a class="module" href="module-02.html"><div class="module-top"><span class="module-num">02</span><small>Learning</small></div><blockquote>“Training changes the model. Inference uses it.”</blockquote></a>
+        <a class="module" href="module-03.html"><div class="module-top"><span class="module-num">03</span><small>Probability</small></div><blockquote>“Fluency is not the same as truth.”</blockquote></a>
+        <a class="module" href="module-04.html"><div class="module-top"><span class="module-num">04</span><small>Context</small></div><blockquote>“Construct the world the model reasons inside.”</blockquote></a>
+        <a class="module" href="module-05.html"><div class="module-top"><span class="module-num">05</span><small>Knowledge</small></div><blockquote>“Information, state and behavior are different problems.”</blockquote></a>
+        <a class="module" href="module-06.html"><div class="module-top"><span class="module-num">06</span><small>Tools</small></div><blockquote>“The model requests. Another system acts.”</blockquote></a>
+        <a class="module" href="module-07.html"><div class="module-top"><span class="module-num">07</span><small>Agents</small></div><blockquote>“An agent is a loop with model-selected decisions.”</blockquote></a>
+        <a class="module" href="module-08.html"><div class="module-top"><span class="module-num">08</span><small>Evals</small></div><blockquote>“A demo is not a system.”</blockquote></a>
       </div>
       <div style="margin-top:30px"><a class="text-link" href="syllabus.html">Read the full course syllabus <span aria-hidden="true">→</span></a></div>
     </div>
@@ -156,94 +117,35 @@
       <div class="section-head center">
         <p class="eyebrow">Pricing</p>
         <h2>Four ways in. One map.</h2>
-        <p class="lead">Every tier teaches the same nine mental models. What changes is the format—and how much of me is in it.</p>
+        <p class="lead">Same nine mental models in every one. What changes is the format.</p>
       </div>
-      <div class="tiers three">
-        <article class="tier">
-          <span class="tag">Read it</span>
+      <div class="price-row">
+        <a class="price-card" href="digital-course.html#pricing">
           <h3>The Book</h3>
-          <p>All nine chapters, written out in full. Yours to keep.</p>
           <p class="price">$79</p>
-          <p class="price-note">One payment. Lifetime access and updates.</p>
-          <ul class="check-list">
-            <li>Nine chapters as one thorough PDF</li>
-            <li>The workbook, as one working form</li>
-            <li>Nine printable cheat sheets</li>
-            <li>Capstone brief and certificate</li>
-          </ul>
-          <a class="btn btn-outline" href="#join" data-interest="individual">Join the first cohort</a>
-          <p class="tier-foot">Opens when the chapters are done.</p>
-        </article>
-        <article class="tier featured">
-          <span class="tag">Most complete</span>
+          <p>Nine chapters, written in full.</p>
+        </a>
+        <a class="price-card featured" href="digital-course.html#pricing">
           <h3>The Book + Audio</h3>
-          <p>Everything written, plus the nine podcast editions.</p>
           <p class="price">$99</p>
-          <p class="price-note">$20 over The Book—and credited in full against consulting.</p>
-          <ul class="check-list">
-            <li>Everything in The Book</li>
-            <li>Nine audio editions, one per chapter</li>
-            <li>The concepts that survive without a screen</li>
-            <li>$99 credit toward 1:1 consulting</li>
-          </ul>
-          <a class="btn btn-primary" href="#join" data-interest="individual">Join the first cohort</a>
-          <p class="tier-foot">Opens when the chapters are done.</p>
-        </article>
-        <article class="tier">
-          <span class="tag">With Katia</span>
+          <p>Plus the nine podcast editions.</p>
+        </a>
+        <a class="price-card" href="digital-course.html#pricing">
           <h3>Consulting</h3>
-          <p>Your own AI system, mapped together. Scope set with you.</p>
-          <p class="price">from $649</p>
-          <p class="price-note">Scoped per product. A few places each month.</p>
-          <ul class="check-list">
-            <li>Everything in The Book + Audio</li>
-            <li>1:1 on the product you actually ship</li>
-            <li>Scope and length agreed up front</li>
-            <li>Your $99 comes off the price</li>
-          </ul>
-          <a class="btn btn-outline" href="#join" data-interest="individual">Ask about consulting</a>
-          <p class="tier-foot">Reply within two business days.</p>
-        </article>
+          <p class="price">Scoped with you</p>
+          <p>Your product, mapped together.</p>
+        </a>
+        <a class="price-card" href="digital-course.html#pricing">
+          <h3>For teams</h3>
+          <p class="price">Per team</p>
+          <p>Eight live sessions, in house.</p>
+        </a>
       </div>
-      <article class="tier featured tier-band">
-        <div>
-          <span class="tag">For teams &amp; companies</span>
-          <h3>The Company Program</h3>
-          <p>Eight live sessions. One shared language for your team.</p>
-          <ul class="check-list">
-            <li>Eight weekly live sessions, two hours each</li>
-            <li>Examples from your own products</li>
-            <li>Capstone on a real internal use case</li>
-            <li>Workbook, cheat sheets and certificates</li>
-          </ul>
-        </div>
-        <div>
-          <p class="price">Priced per cohort</p>
-          <p class="price-note">Scoped to your team. Ask for a proposal.</p>
-          <a class="btn btn-primary" href="#join" data-interest="team">Ask about team training</a>
-          <p class="tier-foot">Reply within two business days.</p>
-        </div>
-      </article>
-      <p class="micro">Waitlist members get a single-use founding code at launch—35% off The Book and The Book + Audio. All sales are final, so <a href="module-00.html">read a full chapter free</a> before you buy.</p>
+      <p class="micro">Waitlist members get a single-use founding code at launch. <a href="digital-course.html#pricing">See what each one includes →</a></p>
     </div>
   </section>
 
-  <section class="section white">
-    <div class="shell reveal">
-      <div class="section-head center">
-        <p class="eyebrow">Questions</p>
-        <h2>Before you join.</h2>
-      </div>
-      <div class="faq narrow" style="width:min(820px, 100%)">
-        <details open><summary>Do I need a machine-learning background?</summary><p>No. You need to think about systems and trade-offs. No advanced math.</p></details>
-        <details><summary>Will this be outdated in six months?</summary><p>It teaches mechanisms, not this month’s features. Those hold across vendors and versions.</p></details>
-        <details><summary>What do I actually walk away with?</summary><p>A map of a real product, a filled workbook, nine cheat sheets, and better questions.</p></details>
-        <details><summary>When does it open?</summary><p>When the nine chapters are finished. Join the list and you’ll get the date, the prices and a single-use founding code before it’s public.</p></details>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" id="articles-teaser">
+    <section class="section" id="articles-teaser">
     <div class="shell reveal">
       <div class="section-head">
         <p class="eyebrow">From the blog</p>
@@ -258,11 +160,11 @@
     <div class="shell reveal">
       <div class="signup-panel">
         <div class="signup-copy">
-          <p class="eyebrow light">Join the first cohort</p>
+          <p class="eyebrow light">Join the waitlist</p>
           <h2>Be first in, at the <span class="grad-text">founding price.</span></h2>
           <p class="lead">Get the date, the prices and your founding code before it’s public.</p>
           <ul class="check-list">
-            <li>First-cohort dates and a single-use founding code</li>
+            <li>Launch dates and a single-use founding code</li>
             <li>Team proposals and new articles</li>
           </ul>
         </div>
@@ -288,7 +190,7 @@
             </fieldset>
             <input type="hidden" name="source" value="home">
             <div class="hp" aria-hidden="true"><label>Company website <input name="company_website" tabindex="-1" autocomplete="off"></label></div>
-            <button class="btn btn-primary btn-block" type="submit">Join the first cohort</button>
+            <button class="btn btn-primary btn-block" type="submit">Join the waitlist</button>
             <p class="micro">Unsubscribe anytime.</p>
           </div>
           <p class="form-status" role="status" aria-live="polite"></p>
@@ -310,7 +212,7 @@
             <li><a href="digital-course.html">Digital course</a></li>
             <li><a href="syllabus.html">Full course syllabus</a></li>
             <li><a href="module-00.html">Start with Module 00</a></li>
-            <li><a href="#join">Join the first cohort</a></li>
+            <li><a href="#join">Join the waitlist</a></li>
           </ul>
         </div>
         <div class="footer-col">
