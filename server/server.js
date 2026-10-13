@@ -23,15 +23,15 @@ const ADMIN_TOKEN = process.env.ADMIN_TOKEN || '';
 // the certificate generator) is deliberately absent.
 const PUBLIC_FILES = new Set([
   'index.html', 'digital-course.html', 'articles.html', 'about.html', 'syllabus.html',
-  'content/articles.js', 'course/workbook.html', 'course/module-00/worksheet.html',
+  'privacy.html', 'terms.html', 'content/articles.js', 'course/module-00/worksheet.html', 'course/module-00/deck.html',
 ]);
-const PUBLIC_PREFIXES = ['assets/', 'course/cheatsheets/'];
-const PUBLIC_PATTERNS = [/^module-\d\d\.html$/, /^article-[a-z0-9-]+\.html$/];
+const PUBLIC_PREFIXES = ['assets/'];
+const PUBLIC_PATTERNS = [/^module-\d\d(-part-\d)?\.html$/, /^article-[a-z0-9-]+\.html$/];
 
 const TYPES = {
   '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8',
   '.json': 'application/json; charset=utf-8', '.png': 'image/png', '.jpg': 'image/jpeg', '.svg': 'image/svg+xml',
-  '.pdf': 'application/pdf', '.ico': 'image/x-icon', '.woff2': 'font/woff2',
+  '.pdf': 'application/pdf', '.mp3': 'audio/mpeg', '.ico': 'image/x-icon', '.woff2': 'font/woff2',
 };
 
 const isPublic = (rel) => PUBLIC_FILES.has(rel) || PUBLIC_PREFIXES.some((p) => rel.startsWith(p)) || PUBLIC_PATTERNS.some((re) => re.test(rel));
@@ -138,11 +138,29 @@ const server = http.createServer((req, res) => {
   }
 
   const ext = path.extname(file).toLowerCase();
-  res.writeHead(200, {
+  const size = fs.statSync(file).size;
+  const headers = {
     'Content-Type': TYPES[ext] || 'application/octet-stream',
     'Cache-Control': ['.html', '.css', '.js'].includes(ext) ? 'no-cache' : 'public, max-age=3600',
     'X-Content-Type-Options': 'nosniff',
-  });
+    'Accept-Ranges': 'bytes',
+  };
+
+  // Audio needs byte ranges: without them a player cannot read the duration or
+  // seek, so a 16MB episode shows 0:00 until it has downloaded in full.
+  const asked = /^bytes=(\d*)-(\d*)$/.exec(req.headers.range || '');
+  if (asked) {
+    const start = asked[1] ? parseInt(asked[1], 10) : 0;
+    const end = asked[2] ? Math.min(parseInt(asked[2], 10), size - 1) : size - 1;
+    if (start >= size || start > end) {
+      return res.writeHead(416, { 'Content-Range': `bytes */${size}` }).end();
+    }
+    res.writeHead(206, { ...headers, 'Content-Range': `bytes ${start}-${end}/${size}`, 'Content-Length': end - start + 1 });
+    if (req.method === 'HEAD') return res.end();
+    return fs.createReadStream(file, { start, end }).pipe(res);
+  }
+
+  res.writeHead(200, { ...headers, 'Content-Length': size });
   if (req.method === 'HEAD') return res.end();
   fs.createReadStream(file).pipe(res);
 });

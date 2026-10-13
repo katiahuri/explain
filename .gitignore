@@ -7,6 +7,9 @@ course/_build/
 course/certificate/
 course/dist/
 
+# Podcast: raw scripts, episode dialogue and rendered audio. Generated, and big.
+course/podcast/
+
 # People's email addresses.
 server/data/
 
@@ -20,3 +23,6 @@ node_modules/
 
 # Generated: run `npm run pdf` to rebuild
 ExplAIn-Syllabus.pdf
+
+# Email drafts are generated from content/newsletter.json; never deployed.
+email-drafts/

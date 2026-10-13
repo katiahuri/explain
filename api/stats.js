@@ -58,6 +58,21 @@ module.exports = async function handler(req, res) {
       GROUP BY source, medium ORDER BY landings DESC LIMIT 25
     `;
 
+    // Which channels bring people who actually join the list.
+    const sourcePerformance = await db`
+      SELECT p.source, p.medium,
+             COUNT(*)::int AS landings,
+             COUNT(*) FILTER (WHERE v.converted)::int AS signups
+      FROM pageviews p
+      LEFT JOIN (
+        SELECT pv.visit_id,
+               EXISTS (SELECT 1 FROM events e WHERE e.visit_id = pv.visit_id AND e.name = 'signup') AS converted
+        FROM pageviews pv WHERE pv.visit_id <> '' GROUP BY pv.visit_id
+      ) v ON v.visit_id = p.visit_id
+      WHERE p.is_landing AND p.at > NOW() - ${window}::interval
+      GROUP BY p.source, p.medium ORDER BY landings DESC LIMIT 25
+    `;
+
     const referrers = await db`
       SELECT referrer_host, COUNT(*)::int AS landings
       FROM pageviews WHERE is_landing AND referrer_host <> '' AND at > NOW() - ${window}::interval
@@ -125,7 +140,11 @@ module.exports = async function handler(req, res) {
         signup_rate: rate(row.signups, row.landings),
       })),
       pages,
-      sources,
+      sources: sources.map((row) => {
+        const performance = sourcePerformance.find((p) => p.source === row.source && p.medium === row.medium);
+        const signups = performance ? performance.signups : 0;
+        return { ...row, signups, signup_rate: rate(signups, row.landings) };
+      }),
       referrers,
       campaigns,
       devices,

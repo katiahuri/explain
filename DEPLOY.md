@@ -44,12 +44,14 @@ Add an environment variable in the project settings:
 - **Name:** `ADMIN_TOKEN`
 - **Value:** a long random string you keep private
 
-Redeploy, then `https://your-site.vercel.app/api/signups?token=YOUR_TOKEN`
+Redeploy, then `https://explaincourse.com/api/signups?token=YOUR_TOKEN`
 downloads every sign-up as CSV. Without `ADMIN_TOKEN` the export stays off, so
 nobody can pull your list.
 
-Optionally add `IP_SALT` (any random string) to salt the hashed IPs used for
-rate limiting.
+Add `IP_SALT` (any random string) too: it salts the hashed IPs used for rate
+limiting and for counting visitors. The same `ADMIN_TOKEN` opens
+`/api/stats?token=…`, which is where the site's traffic numbers come from — see
+[ANALYTICS.md](ANALYTICS.md).
 
 ## What is deployed
 
@@ -60,8 +62,12 @@ rate limiting.
 | `/article-…` | The articles |
 | `/course/workbook.html` | The participant workbook |
 | `/course/cheatsheets/` | Cheat sheets, web and PDF |
+| `/newsletter` `/newsletter-…` | The Dispatch and its issues |
+| `/robots.txt` `/sitemap.xml` `/feed.xml` | Generated at build time |
 | `/api/signup` | Receives the form (POST) |
 | `/api/signups?token=` | CSV export, token required |
+| `/api/track` | Receives pageviews from the beacon (POST) |
+| `/api/stats?token=` | The numbers, as JSON, token required |
 | `/api/health` | Says whether the database is reachable |
 
 ## Working locally
@@ -70,7 +76,25 @@ rate limiting.
 sign-ups in `server/data/`. It does not need the database. Use it for editing;
 use Vercel for the live site.
 
-## A custom domain
+## The domain
 
-Project → **Settings** → **Domains** → add your domain and follow the DNS
-instructions. Vercel issues the certificate.
+The site lives at **https://explaincourse.com**. Both `explaincourse.com` and
+`www.explaincourse.com` are attached to the Vercel project; `vercel.json`
+redirects www to the bare domain so there is only ever one address in search
+results. Vercel issues and renews the certificate.
+
+The domain is registered at Namecheap, which still answers DNS for it. The
+records it needs:
+
+| Type | Host | Value |
+| --- | --- | --- |
+| A | `@` | `216.150.1.1` |
+| A | `@` | `216.150.16.1` |
+| CNAME | `www` | `c62e4e660c4e5940.vercel-dns-016.com.` |
+
+`vercel domains verify explaincourse.com` says whether Vercel can see them yet.
+
+`SITE_ORIGIN` is set to `https://explaincourse.com` in the project's production
+environment, and the build puts it in every canonical URL, the sitemap, the feed
+and the social cards. If the domain ever changes, change that one variable and
+redeploy.
