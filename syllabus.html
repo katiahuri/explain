@@ -310,7 +310,100 @@
       .cert-shot img { max-height: 150mm; object-fit: contain; }
       a[href]::after { content: none !important; }
     }
-  </style>
+  
+    /* Start here, free */
+    .startfree { display: grid; grid-template-columns: 180px 1fr; gap: 34px; align-items: center; margin: 44px auto 8px; padding: 32px 36px; border: 1px solid var(--line); border-radius: 26px; background: #fff; box-shadow: 0 20px 50px rgba(11,16,38,.07); }
+    .sf-art img { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; border-radius: 50%; }
+    .sf-tag { color: var(--violet); font-size: 11.5px; font-weight: 700; letter-spacing: .17em; text-transform: uppercase; }
+    .startfree h2 { margin: 8px 0 10px; font-size: clamp(26px,3vw,34px); }
+    .sf-line { max-width: 620px; color: var(--muted); font-size: 15.5px; line-height: 1.6; }
+    .sf-audio { width: 100%; max-width: 440px; margin-top: 18px; }
+    .sf-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+    .sf-btn { display: inline-flex; align-items: center; min-height: 46px; padding: 0 22px; border: 0; border-radius: 999px; color: #fff; background: linear-gradient(115deg,#5b21b6,#1d4ed8); font: inherit; font-size: 15px; font-weight: 600; text-decoration: none; cursor: pointer; }
+    .sf-btn.ghost { color: var(--navy); border: 1px solid var(--line); background: #fff; }
+    .sf-btn.ghost:hover { border-color: var(--violet); }
+
+    /* The three acts */
+    .path-wrap { margin-top: 10px; }
+    .act { position: relative; padding-left: 34px; }
+    .act::before { content: ""; position: absolute; left: 9px; top: 6px; bottom: -30px; width: 2px; background: var(--line); }
+    .act:last-of-type::before { bottom: 18px; }
+    .act-head { position: relative; margin: 34px 0 18px; }
+    .act-head::before { content: ""; position: absolute; left: -34px; top: 5px; width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--violet); background: #fff; }
+    .act-n { color: var(--violet); font-size: 11px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; }
+    .act-head h3 { margin: 6px 0 4px; font-size: 23px; }
+    .act-head p { color: var(--muted); font-size: 14.5px; }
+    .act-modules { display: grid; gap: 10px; }
+
+    .m { border: 1px solid var(--line); border-radius: 18px; background: #fff; overflow: hidden; }
+    .m[open] { border-color: var(--lav-line, #ddd6fe); }
+    .m.is-free { border-color: transparent; box-shadow: 0 0 0 2px var(--violet); }
+    .m summary { display: grid; grid-template-columns: 46px 1fr 22px; gap: 16px; align-items: start; padding: 18px 22px; cursor: pointer; list-style: none; }
+    .m summary::-webkit-details-marker { display: none; }
+    .m-num { display: grid; place-items: center; width: 42px; height: 42px; border-radius: 13px; color: #fff; background: linear-gradient(145deg,#1b2452,#0b1026); font-size: 13.5px; font-weight: 700; }
+    .m.is-free .m-num { background: linear-gradient(115deg,#5b21b6,#1d4ed8); }
+    .m-head small { display: block; color: var(--violet); font-size: 10.5px; font-weight: 700; letter-spacing: .17em; text-transform: uppercase; }
+    .m-quote { display: block; margin: 6px 0 3px; color: var(--navy); font-size: 17px; font-weight: 600; line-height: 1.35; letter-spacing: -.01em; }
+    .m-title { display: block; color: var(--muted); font-size: 13.5px; }
+    .m-plus { position: relative; width: 20px; height: 20px; margin-top: 11px; }
+    .m-plus::before, .m-plus::after { content: ""; position: absolute; left: 50%; top: 50%; width: 13px; height: 2px; border-radius: 2px; background: var(--muted); transform: translate(-50%,-50%); transition: transform .2s ease; }
+    .m-plus::after { transform: translate(-50%,-50%) rotate(90deg); }
+    .m[open] .m-plus::after { transform: translate(-50%,-50%) rotate(0deg); }
+    .m-body { padding: 0 22px 22px 84px; }
+    .m-body > p { color: var(--muted); font-size: 14.5px; line-height: 1.6; }
+    .m-topics { display: flex; flex-wrap: wrap; gap: 7px; margin: 14px 0 0; }
+    .m-topics span { padding: 5px 11px; border-radius: 999px; background: var(--lavender); color: #4c1d95; font-size: 12px; font-weight: 500; }
+    .m-topics .more { background: transparent; color: var(--muted); }
+    .m-ex { margin-top: 14px; color: var(--muted); font-size: 14px; line-height: 1.6; }
+    .m-ex b { display: block; color: var(--navy); font-size: 11px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+    .m-free { margin-top: 12px; color: var(--violet); font-size: 13px; font-weight: 600; }
+    .m-cta { display: inline-block; margin-top: 16px; color: var(--violet); font-size: 14.5px; font-weight: 700; text-decoration: none; }
+    .m-cta:hover { text-decoration: underline; }
+
+    .finish { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 30px 0 0 34px; }
+    .finish div { padding: 18px 22px; border: 1px dashed var(--line); border-radius: 18px; }
+    .finish b { display: block; color: var(--navy); font-size: 16px; }
+    .finish span { display: block; margin-top: 4px; color: var(--muted); font-size: 13.5px; }
+
+    @media (max-width: 760px) {
+      .startfree { grid-template-columns: 1fr; gap: 22px; padding: 26px 22px; }
+      .sf-art { width: 130px; }
+      .finish { grid-template-columns: 1fr; }
+      .m-body { padding-left: 22px; }
+    }
+
+    /* Printing: everything open, nothing interactive */
+    @media print {
+      .startfree, .sf-actions, .m-plus { display: none !important; }
+      .m { break-inside: avoid; border-color: #ccc; box-shadow: none; }
+      .m[open], .m { border-color: #ccc; }
+      details.m > .m-body { display: block !important; }
+      .m-cta { display: none; }
+      .act::before, .act-head::before { display: none; }
+      .act { padding-left: 0; }
+      .finish { margin-left: 0; }
+    }
+
+    /* Dark mode for the new syllabus blocks. The page redefines --navy to a near
+       white, so anything painted #fff here has to be repainted explicitly. */
+    @media (prefers-color-scheme: dark) {
+      .startfree, .m, .sf-btn.ghost { background: #121a3a; border-color: #26315c; }
+      .startfree { box-shadow: 0 20px 50px rgba(0,0,0,.4); }
+      .startfree h2, .m-quote, .m-ex b, .finish b { color: #f2f5ff; }
+      .sf-line, .m-title, .m-body > p, .m-ex, .finish span, .act-head p { color: #a3adca; }
+      .sf-tag, .act-n, .m-head small, .m-cta, .m-free { color: #c8b9ff; }
+      .sf-btn.ghost { color: #f2f5ff; }
+      .sf-btn.ghost:hover { border-color: #a78bfa; }
+      .m-topics span { background: #1e2550; color: #e4dcff; }
+      .m-topics .more { background: transparent; color: #98a3c0; }
+      .m.is-free { box-shadow: 0 0 0 2px #a78bfa; }
+      .act::before { background: #26315c; }
+      .act-head::before { background: #0b1026; border-color: #a78bfa; }
+      .m-plus::before, .m-plus::after { background: #98a3c0; }
+      .finish div { border-color: #2f3a6e; }
+      .m[open] { border-color: #2f3a6e; }
+    }
+</style>
 </head>
 <body>
   <header class="hero">
@@ -328,7 +421,7 @@
     <div class="hero-grid shell" id="top">
       <div class="hero-copy">
         <p class="eyebrow">Full course syllabus</p>
-        <h1>Every module, <span class="gradient-text">in full.</span></h1>
+        <h1>Every module, <span class="gradient-text">in full</span></h1>
         <p class="hero-lead">Stop collecting prompt tricks. Build the mental models to understand how AI actually works—then design, evaluate and use AI systems with confidence.</p>
         <div class="hero-actions">
           <a class="button primary" href="#curriculum">Explore the syllabus <span>↓</span></a>
@@ -356,12 +449,29 @@
   <div class="metric-band shell reveal">
     <div class="metrics">
       <div class="metric"><b>9</b><span>durable mental models</span></div>
-      <div class="metric"><b>5–6h</b><span>focused core learning</span></div>
+      <div class="metric"><b>20h</b><span>including the exercises</span></div>
       <div class="metric"><b>9</b><span>applied exercises</span></div>
       <div class="metric"><b>1</b><span>AI system capstone</span></div>
     </div>
   </div>
 
+
+  <div class="startfree shell reveal">
+    <div class="sf-art">
+      <img src="assets/guests/simone-vale.jpg" width="240" height="240" loading="lazy" decoding="async" alt="Simone Vale, guest on episode 00">
+    </div>
+    <div class="sf-body">
+      <p class="sf-tag">Start here · free</p>
+      <h2>Module 00 is open</h2>
+      <p class="sf-line">The first episode and the full slide deck, free. No sign-up, nothing to pay — start and see whether the way this is taught works for you.</p>
+      <audio class="sf-audio" controls preload="metadata" src="assets/podcast/00-how-we-got-here.mp3"></audio>
+      <div class="sf-actions">
+        <a class="sf-btn" href="module-00.html">Open module 00 &rarr;</a>
+        <a class="sf-btn ghost" href="module-00.html#deck">Read the slides</a>
+        <button class="sf-btn ghost" type="button" onclick="window.print()">Export the syllabus</button>
+      </div>
+    </div>
+  </div>
   <main>
     <section class="section shell reveal">
       <div class="section-head">
@@ -374,17 +484,17 @@
       <div class="problem-grid">
         <article class="problem-card">
           <span class="card-index">01 / THE BUZZWORDS</span>
-          <h3>RAG, agents, memory and context blur together.</h3>
+          <h3>RAG, agents, memory and context blur together</h3>
           <p>You know the words. You need the map that connects them.</p>
         </article>
         <article class="problem-card">
           <span class="card-index">02 / THE BLACK BOX</span>
-          <h3>The model feels intelligent—until it fails.</h3>
+          <h3>The model feels intelligent—until it fails</h3>
           <p>You need to predict where probability helps and where it creates risk.</p>
         </article>
         <article class="problem-card">
           <span class="card-index">03 / THE DEMO TRAP</span>
-          <h3>A clever prototype is not a reliable system.</h3>
+          <h3>A clever prototype is not a reliable system</h3>
           <p>You need the language of architecture, controls, evaluation and trade-offs.</p>
         </article>
       </div>
@@ -395,7 +505,7 @@
         <div class="section-head">
           <div>
             <p class="eyebrow">The transformation</p>
-            <h2>From AI builder to <span class="gradient-text">AI owner.</span></h2>
+            <h2>From AI builder to <span class="gradient-text">AI owner</span></h2>
           </div>
           <p class="section-intro">By the end, you won’t just know more terminology. You’ll be able to reason about AI systems, challenge architecture decisions and make better ones yourself.</p>
         </div>
@@ -414,55 +524,224 @@
       <div class="curriculum-head reveal">
         <div>
           <p class="eyebrow">The core syllabus</p>
-          <h2>Nine models.<br>One complete map.</h2>
+          <h2>Ten modules.<br>One complete map</h2>
         </div>
         <p class="section-intro">Each module answers one essential question, introduces one durable mental model and ends with an applied decision—not a memory test. Open any module to explore it.</p>
       </div>
 
-      <div class="modules reveal">
-        <details class="module" open>
-          <summary><div class="module-num">00</div><div class="module-title"><small>The map</small><h3>What is an AI system?</h3></div><span class="toggle">+</span></summary>
-          <div class="module-body"><p class="mental-model">“The model generates. The system does.”</p><div class="module-detail"><p>Build the full map before diving into the individual parts.</p><div class="topics"><span>AI vs ML vs GenAI</span><span>LLMs</span><span>Model vs product</span><span>Training vs inference</span><span>APIs & databases</span></div><div class="exercise"><b>Applied exercise:</b> Dissect ChatGPT, a coding assistant and a support bot into model, context, tools, state and external systems.<p style="margin-top:16px"><a href="module-00.html" style="color:#7c3aed;font-weight:700;text-decoration:none">Open the full module →</a></p></div></div></div>
-        </details>
-        <details class="module">
-          <summary><div class="module-num">01</div><div class="module-title"><small>Inside the model</small><h3>How a model sees the world</h3></div><span class="toggle">+</span></summary>
-          <div class="module-body"><p class="mental-model">“Context is the model’s working reality.”</p><div class="module-detail"><p>Learn enough transformer architecture to explain real model behavior—without turning this into a math lecture.</p><div class="topics"><span>Tokens</span><span>Embeddings</span><span>Transformers</span><span>Attention</span><span>Context windows</span><span>Context dilution</span><span>Token cost</span></div><div class="exercise"><b>Applied exercise:</b> Predict which of three differently structured contexts will produce the strongest answer—and explain why.<p style="margin-top:16px"><a href="module-01.html" style="color:#7c3aed;font-weight:700;text-decoration:none">Open the full module →</a></p></div></div></div>
-        </details>
-        <details class="module">
-          <summary><div class="module-num">02</div><div class="module-title"><small>Learning</small><h3>How models learn</h3></div><span class="toggle">+</span></summary>
-          <div class="module-body"><p class="mental-model">“Training changes the model. Inference uses it.”</p><div class="module-detail"><p>Replace the “giant database” misconception with a useful model of training, behavior and knowledge.</p><div class="topics"><span>Pretraining</span><span>Next-token prediction</span><span>Parameters</span><span>Generalization</span><span>Fine-tuning</span><span>Post-training</span><span>Knowledge cutoffs</span></div><div class="exercise"><b>Applied exercise:</b> Classify which actions change model parameters, context, memory or application state.<p style="margin-top:16px"><a href="module-02.html" style="color:#7c3aed;font-weight:700;text-decoration:none">Open the full module →</a></p></div></div></div>
-        </details>
-        <details class="module">
-          <summary><div class="module-num">03</div><div class="module-title"><small>Probability</small><h3>Reasoning, sampling and hallucination</h3></div><span class="toggle">+</span></summary>
-          <div class="module-body"><p class="mental-model">“Fluency is not the same as truth.”</p><div class="module-detail"><p>Understand why models can be impressive and wrong at exactly the same time.</p><div class="topics"><span>Token probabilities</span><span>Sampling</span><span>Temperature</span><span>Non-determinism</span><span>Hallucination</span><span>Reasoning models</span><span>Test-time compute</span></div><div class="exercise"><b>Applied exercise:</b> Decide where probability is acceptable in six product scenarios and where verification must be deterministic.<p style="margin-top:16px"><a href="module-03.html" style="color:#7c3aed;font-weight:700;text-decoration:none">Open the full module →</a></p></div></div></div>
-        </details>
-        <details class="module">
-          <summary><div class="module-num">04</div><div class="module-title"><small>Context</small><h3>Context engineering</h3></div><span class="toggle">+</span></summary>
-          <div class="module-body"><p class="mental-model">“Construct the world the model reasons inside.”</p><div class="module-detail"><p>Move beyond prompt tricks into deliberate construction of the model’s working environment.</p><div class="topics"><span>System instructions</span><span>User instructions</span><span>History</span><span>Few-shot examples</span><span>Structured outputs</span><span>Context ordering</span><span>Prompt injection</span></div><div class="exercise"><b>Applied exercise:</b> Redesign an overloaded assistant context with conflicting instructions, irrelevant history and poor retrieval.<p style="margin-top:16px"><a href="module-04.html" style="color:#7c3aed;font-weight:700;text-decoration:none">Open the full module →</a></p></div></div></div>
-        </details>
-        <details class="module">
-          <summary><div class="module-num">05</div><div class="module-title"><small>Knowledge</small><h3>Retrieval, memory and fine-tuning</h3></div><span class="toggle">+</span></summary>
-          <div class="module-body"><p class="mental-model">“Information, state and behavior are different problems.”</p><div class="module-detail"><p>Untangle the concepts that are most often mixed together.</p><div class="topics"><span>Semantic search</span><span>Vector similarity</span><span>Chunking</span><span>RAG</span><span>Grounding</span><span>Application memory</span><span>Fine-tuning decisions</span></div><div class="exercise"><b>Applied exercise:</b> Choose prompt, retrieval, memory, database, fine-tuning—or a combination—for five product scenarios.<p style="margin-top:16px"><a href="module-05.html" style="color:#7c3aed;font-weight:700;text-decoration:none">Open the full module →</a></p></div></div></div>
-        </details>
-        <details class="module">
-          <summary><div class="module-num">06</div><div class="module-title"><small>Tools</small><h3>How models interact with the real world</h3></div><span class="toggle">+</span></summary>
-          <div class="module-body"><p class="mental-model">“The model requests. Another system acts.”</p><div class="module-detail"><p>Understand tool use without treating APIs, function calling or MCP as magic.</p><div class="topics"><span>Function calling</span><span>Structured tools</span><span>APIs</span><span>Web search</span><span>Code execution</span><span>Databases</span><span>Permissions</span><span>MCP</span></div><div class="exercise"><b>Applied exercise:</b> Design the tool surface of a travel assistant and decide which capabilities should never be exposed directly.<p style="margin-top:16px"><a href="module-06.html" style="color:#7c3aed;font-weight:700;text-decoration:none">Open the full module →</a></p></div></div></div>
-        </details>
-        <details class="module">
-          <summary><div class="module-num">07</div><div class="module-title"><small>Agents</small><h3>Agents without the mythology</h3></div><span class="toggle">+</span></summary>
-          <div class="module-body"><p class="mental-model">“An agent is a loop with model-selected decisions.”</p><div class="module-detail"><p>Separate workflows from autonomy—and learn why more agentic is not automatically better.</p><div class="topics"><span>Workflow vs agent</span><span>Planning</span><span>Observation & action</span><span>State</span><span>Agent loops</span><span>Human approval</span><span>Multi-agent systems</span><span>Failure propagation</span></div><div class="exercise"><b>Applied exercise:</b> Redesign four use cases as workflows, partially agentic systems and autonomous agents, then compare risk.<p style="margin-top:16px"><a href="module-07.html" style="color:#7c3aed;font-weight:700;text-decoration:none">Open the full module →</a></p></div></div></div>
-        </details>
-        <details class="module">
-          <summary><div class="module-num">08</div><div class="module-title"><small>Evals</small><h3>Building AI you can trust</h3></div><span class="toggle">+</span></summary>
-          <div class="module-body"><p class="mental-model">“A demo is not a system.”</p><div class="module-detail"><p>Move from “it worked for me” to measurable production thinking.</p><div class="topics"><span>Evaluation datasets</span><span>Golden sets</span><span>Human evaluation</span><span>LLM-as-a-judge</span><span>Deterministic checks</span><span>Failure taxonomy</span><span>Regression testing</span><span>Cost & latency</span></div><div class="exercise"><b>Applied exercise:</b> Compare two architectures where one performs better but is substantially slower and more expensive. Decide what belongs in production.<p style="margin-top:16px"><a href="module-08.html" style="color:#7c3aed;font-weight:700;text-decoration:none">Open the full module →</a></p></div></div></div>
-        </details>
+      <div class="path-wrap reveal">
+        <div class="acts">
+        <section class="act">
+          <header class="act-head">
+            <span class="act-n">Act 1</span>
+            <h3>Understand</h3>
+            <p>What the thing actually is</p>
+          </header>
+          <div class="act-modules">
+            <details class="m is-free" open>
+              <summary>
+                <span class="m-num">00</span>
+                <span class="m-head">
+                  <small>Part 1 · The history</small>
+                  <b class="m-quote">“Almost none of the maths is new”</b>
+                  <span class="m-title">How we got here</span>
+                </span>
+                <span class="m-plus" aria-hidden="true"></span>
+              </summary>
+              <div class="m-body">
+                <p>The history of AI as cause and effect: how old the underlying mathematics really is, why the field stalled twice, and what actually changed to make today’s models work.</p>
+                <div class="m-topics"><span>How old the maths is</span><span>Why it took so long</span><span>The two AI winters</span><span class="more">+1 more</span></div>
+                <p class="m-free">Free · podcast episode and slides</p>
+                <a class="m-cta" href="module-00.html">Start module 00 &rarr;</a>
+              </div>
+            </details>
+            <details class="m">
+              <summary>
+                <span class="m-num">00</span>
+                <span class="m-head">
+                  <small>Part 2 · The map</small>
+                  <b class="m-quote">“The model generates. The system does”</b>
+                  <span class="m-title">What is an AI system?</span>
+                </span>
+                <span class="m-plus" aria-hidden="true"></span>
+              </summary>
+              <div class="m-body">
+                <p>Build the full map before diving into the individual parts.</p>
+                <div class="m-topics"><span>AI vs ML vs GenAI</span><span>LLMs</span><span>Model vs product</span><span class="more">+2 more</span></div>
+                
+                <a class="m-cta" href="module-00-part-2.html">Preview the module &rarr;</a>
+              </div>
+            </details>
+            <details class="m">
+              <summary>
+                <span class="m-num">01</span>
+                <span class="m-head">
+                  <small>Inside the model</small>
+                  <b class="m-quote">“Context is the model’s working reality”</b>
+                  <span class="m-title">How a model sees the world</span>
+                </span>
+                <span class="m-plus" aria-hidden="true"></span>
+              </summary>
+              <div class="m-body">
+                <p>Learn enough transformer architecture to explain real model behavior—without turning this into a math lecture.</p>
+                <div class="m-topics"><span>Tokens</span><span>Embeddings</span><span>Transformers</span><span class="more">+4 more</span></div>
+                
+                <a class="m-cta" href="module-01.html">Preview the module &rarr;</a>
+              </div>
+            </details>
+            <details class="m">
+              <summary>
+                <span class="m-num">02</span>
+                <span class="m-head">
+                  <small>Learning</small>
+                  <b class="m-quote">“Training changes the model. Inference uses it”</b>
+                  <span class="m-title">How models learn</span>
+                </span>
+                <span class="m-plus" aria-hidden="true"></span>
+              </summary>
+              <div class="m-body">
+                <p>Replace the “giant database” misconception with a useful model of training, behavior and knowledge.</p>
+                <div class="m-topics"><span>Pretraining</span><span>Next-token prediction</span><span>Parameters</span><span class="more">+4 more</span></div>
+                
+                <a class="m-cta" href="module-02.html">Preview the module &rarr;</a>
+              </div>
+            </details>
+          </div>
+        </section>
+        <section class="act">
+          <header class="act-head">
+            <span class="act-n">Act 2</span>
+            <h3>Apply</h3>
+            <p>Where it goes wrong, and what you do about it</p>
+          </header>
+          <div class="act-modules">
+            <details class="m">
+              <summary>
+                <span class="m-num">03</span>
+                <span class="m-head">
+                  <small>Probability</small>
+                  <b class="m-quote">“Fluency is not the same as truth”</b>
+                  <span class="m-title">Reasoning, sampling and hallucination</span>
+                </span>
+                <span class="m-plus" aria-hidden="true"></span>
+              </summary>
+              <div class="m-body">
+                <p>Understand why models can be impressive and wrong at exactly the same time.</p>
+                <div class="m-topics"><span>Token probabilities</span><span>Sampling</span><span>Temperature</span><span class="more">+4 more</span></div>
+                
+                <a class="m-cta" href="module-03.html">Preview the module &rarr;</a>
+              </div>
+            </details>
+            <details class="m">
+              <summary>
+                <span class="m-num">04</span>
+                <span class="m-head">
+                  <small>Context</small>
+                  <b class="m-quote">“Construct the world the model reasons inside”</b>
+                  <span class="m-title">Context engineering</span>
+                </span>
+                <span class="m-plus" aria-hidden="true"></span>
+              </summary>
+              <div class="m-body">
+                <p>Move beyond prompt tricks into deliberate construction of the model’s working environment.</p>
+                <div class="m-topics"><span>System instructions</span><span>User instructions</span><span>History</span><span class="more">+4 more</span></div>
+                
+                <a class="m-cta" href="module-04.html">Preview the module &rarr;</a>
+              </div>
+            </details>
+            <details class="m">
+              <summary>
+                <span class="m-num">05</span>
+                <span class="m-head">
+                  <small>Knowledge</small>
+                  <b class="m-quote">“Information, state and behavior are different problems”</b>
+                  <span class="m-title">Retrieval, memory and fine-tuning</span>
+                </span>
+                <span class="m-plus" aria-hidden="true"></span>
+              </summary>
+              <div class="m-body">
+                <p>Untangle the concepts that are most often mixed together.</p>
+                <div class="m-topics"><span>Semantic search</span><span>Vector similarity</span><span>Chunking</span><span class="more">+4 more</span></div>
+                
+                <a class="m-cta" href="module-05.html">Preview the module &rarr;</a>
+              </div>
+            </details>
+          </div>
+        </section>
+        <section class="act">
+          <header class="act-head">
+            <span class="act-n">Act 3</span>
+            <h3>Build</h3>
+            <p>Making it act, and proving it works</p>
+          </header>
+          <div class="act-modules">
+            <details class="m">
+              <summary>
+                <span class="m-num">06</span>
+                <span class="m-head">
+                  <small>Tools</small>
+                  <b class="m-quote">“The model requests. Another system acts”</b>
+                  <span class="m-title">How models interact with the real world</span>
+                </span>
+                <span class="m-plus" aria-hidden="true"></span>
+              </summary>
+              <div class="m-body">
+                <p>Understand tool use without treating APIs, function calling or MCP as magic.</p>
+                <div class="m-topics"><span>Function calling</span><span>Structured tools</span><span>APIs</span><span class="more">+5 more</span></div>
+                
+                <a class="m-cta" href="module-06.html">Preview the module &rarr;</a>
+              </div>
+            </details>
+            <details class="m">
+              <summary>
+                <span class="m-num">07</span>
+                <span class="m-head">
+                  <small>Agents</small>
+                  <b class="m-quote">“An agent is a loop with model-selected decisions”</b>
+                  <span class="m-title">Agents without the mythology</span>
+                </span>
+                <span class="m-plus" aria-hidden="true"></span>
+              </summary>
+              <div class="m-body">
+                <p>Separate workflows from autonomy—and learn why more agentic is not automatically better.</p>
+                <div class="m-topics"><span>Workflow vs agent</span><span>Planning</span><span>Observation &amp; action</span><span class="more">+5 more</span></div>
+                
+                <a class="m-cta" href="module-07.html">Preview the module &rarr;</a>
+              </div>
+            </details>
+            <details class="m">
+              <summary>
+                <span class="m-num">08</span>
+                <span class="m-head">
+                  <small>Evals</small>
+                  <b class="m-quote">“A demo is not a system”</b>
+                  <span class="m-title">Building AI you can trust</span>
+                </span>
+                <span class="m-plus" aria-hidden="true"></span>
+              </summary>
+              <div class="m-body">
+                <p>Move from “it worked for me” to measurable production thinking.</p>
+                <div class="m-topics"><span>Evaluation datasets</span><span>Golden sets</span><span>Human evaluation</span><span class="more">+5 more</span></div>
+                
+                <a class="m-cta" href="module-08.html">Preview the module &rarr;</a>
+              </div>
+            </details>
+          </div>
+        </section>
+        </div>
+        <div class="finish">
+          <div><b>Capstone</b><span>Map a product you actually use</span></div>
+          <div><b>Certificate</b><span>Issued when the capstone is done</span></div>
+        </div>
+      </div>
+        </div>
       </div>
     </section>
 
     <section class="section promise">
       <div class="shell reveal">
         <div class="section-head">
-          <div><p class="eyebrow">How you’ll learn</p><h2>Built for clarity.<br>Designed to <span class="gradient-text">stick.</span></h2></div>
+          <div><p class="eyebrow">How you’ll learn</p><h2>Built for clarity.<br>Designed to <span class="gradient-text">stick</span></h2></div>
           <p class="section-intro">Written, visual and applied. Every format earns its place: diagrams for systems, audio for durable concepts and exercises for the decisions you’ll face in real work.</p>
         </div>
         <div class="learning-stack">
@@ -478,7 +757,7 @@
       <div class="capstone">
         <div>
           <p class="eyebrow">The capstone</p>
-          <h2>Dissect a real AI product.</h2>
+          <h2>Dissect a real AI product</h2>
           <p>Create an AI System Map that explains the architecture clearly enough to expose trade-offs, risks and failure points. You won’t just finish with knowledge—you’ll finish with a way of thinking.</p>
         </div>
         <div class="map-grid">
@@ -497,7 +776,7 @@
     <section class="section white">
       <div class="shell reveal">
         <div class="section-head">
-          <div><p class="eyebrow">Is it for you?</p><h2>Technical depth.<br>Human language.</h2></div>
+          <div><p class="eyebrow">Is it for you?</p><h2>Technical depth.<br>Human language</h2></div>
           <p class="section-intro">ExplAIn sits between superficial tool tutorials and academic machine-learning courses. It’s designed for people who need a strong conceptual foundation they can actually use.</p>
         </div>
         <div class="audience-grid">
@@ -527,10 +806,10 @@
       <div class="cert">
         <div>
           <p class="eyebrow">When you finish</p>
-          <h2>A certificate you <span class="gradient-text">earned.</span></h2>
+          <h2>A certificate you <span class="gradient-text">earned</span></h2>
           <p class="section-intro">Issued when the capstone is done—not for reading to the end.</p>
           <ul class="fit-list">
-            <li>20 learning hours across nine modules</li>
+            <li>20 hours in total, exercises included</li>
             <li>Capstone AI System Map completed</li>
             <li>Unique ID on every certificate</li>
           </ul>
@@ -548,7 +827,8 @@
     <div class="footer-inner shell">
       <a class="wordmark" href="#top"><img src="assets/logo-white.png" alt="ExplAIn" width="545" height="201"></a>
       <span>UNDERSTAND &nbsp;/&nbsp; APPLY &nbsp;/&nbsp; BUILD &nbsp;/&nbsp; GO FURTHER</span>
-      <span>DON’T JUST USE AI. <b style="color:#8d72ff">OWN IT.</b></span>
+      <span class="footer-legal"><a href="privacy.html">PRIVACY</a> &nbsp;/&nbsp; <a href="terms.html">TERMS</a></span>
+        <span>DON’T JUST USE AI. <b style="color:#8d72ff">OWN IT.</b></span>
     </div>
   </footer>
 
@@ -576,6 +856,23 @@
         });
       });
     });
+  </script>
+
+  <script>
+    // Printing should show the whole syllabus, not just what the reader opened.
+    (function () {
+      var opened = [];
+      window.addEventListener('beforeprint', function () {
+        opened = [];
+        document.querySelectorAll('details.m').forEach(function (d) {
+          if (!d.open) { opened.push(d); d.open = true; }
+        });
+      });
+      window.addEventListener('afterprint', function () {
+        opened.forEach(function (d) { d.open = false; });
+        opened = [];
+      });
+    })();
   </script>
 </body>
 </html>

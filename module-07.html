@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Agents without the mythology — ExplAIn Module 07</title>
-  <meta name="description" content="ExplAIn Module 07: Takes the mythology out of agents: a loop where the model picks the next step. Learn when that autonomy helps, where it adds risk, and how errors spread across steps.">
+  <meta name="description" content="ExplAIn Module 07: Takes the mythology out of agents: a loop where the model picks the next step. Learn when that autonomy helps, where it adds risk, and…">
   <meta name="theme-color" content="#0B1026">
   <link rel="icon" type="image/png" href="assets/icon.png">
   <link rel="apple-touch-icon" href="assets/icon.png">
@@ -165,6 +165,49 @@
       .map-note { color: #98a3c0; }
     }
 
+
+    .guest { display: grid; grid-template-columns: 200px 1fr; gap: 40px; align-items: center; padding: 36px 40px; border: 1px solid var(--line); border-radius: 28px; background: #fff; }
+    .guest-face { margin: 0; }
+    .guest-art { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; border-radius: 50%; box-shadow: 0 16px 38px rgba(11, 16, 38, .16); }
+    .guest-epithet { color: var(--violet); font-size: 12px; font-weight: 600; letter-spacing: .17em; text-transform: uppercase; }
+    .guest-body h2 { margin: 8px 0 12px; font-size: clamp(30px, 3.6vw, 40px); }
+    .guest-line { color: var(--muted); font-size: 17px; line-height: 1.6; }
+    .guest-ep { margin-top: 22px; color: var(--navy); font-size: 14px; font-weight: 600; }
+    .guest-audio { width: 100%; max-width: 460px; margin-top: 10px; }
+    .transcript { margin-top: 14px; max-width: 560px; }
+    .transcript summary { display: inline-flex; align-items: center; gap: 8px; color: var(--violet); font-size: 14px; font-weight: 600; cursor: pointer; }
+    .transcript summary::marker { content: ""; }
+    .transcript summary::before { content: "▸"; transition: transform .2s ease; }
+    .transcript[open] summary::before { transform: rotate(90deg); }
+    .transcript-body { max-height: 520px; margin-top: 14px; padding: 18px 20px; overflow-y: auto; border: 1px solid var(--line); border-radius: 16px; background: var(--off-white); }
+    .transcript-body p { margin: 0 0 14px; color: var(--muted); font-size: 14px; line-height: 1.65; }
+    .transcript-body p:last-child { margin-bottom: 0; }
+    .transcript-body b { display: block; color: var(--navy); font-size: 12px; font-weight: 600; letter-spacing: .04em; }
+    .guest-links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+    .guest-link { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 46px; padding: 0 22px; border: 1px solid var(--line); border-radius: 999px; background: #fff; color: var(--navy); font: inherit; font-size: 15px; font-weight: 600; cursor: pointer; }
+    .guest-link:not([disabled]):hover { border-color: var(--violet); }
+    .guest-link[disabled] { opacity: .45; cursor: not-allowed; }
+    .guest-link-icon { padding: 0 14px; }
+    .guest-link svg { width: 19px; height: 19px; fill: currentColor; }
+    .guest-note { margin-top: 12px; color: var(--muted); font-size: 12.5px; }
+    @media (max-width: 760px) {
+      .guest { grid-template-columns: 1fr; gap: 24px; padding: 28px 24px; text-align: center; }
+      .guest-face { width: 148px; margin-inline: auto; }
+      .guest-links { justify-content: center; }
+    }
+    @media (prefers-color-scheme: dark) {
+      .guest, .guest-link { background: #121a3a; border-color: #26315c; }
+      .guest-body h2 { color: #f2f5ff; }
+      .guest-line, .guest-note { color: #a3adca; }
+      .guest-ep { color: #f2f5ff; }
+      .transcript summary { color: #c8b9ff; }
+      .transcript-body { background: #0e1533; border-color: #26315c; }
+      .transcript-body p { color: #a3adca; }
+      .transcript-body b { color: #e7ebfa; }
+      .guest-epithet { color: #c8b9ff; }
+      .guest-link { color: #f2f5ff; border-color: #2f3a6e; }
+    }
+
   </style>
 </head>
 <body>
@@ -176,7 +219,7 @@
         <a href="syllabus.html">Full course syllabus</a>
         <a href="articles.html">Articles</a>
         <a href="about.html">About</a>
-        <a class="btn btn-primary" href="digital-course.html#join">Join the first cohort</a>
+        <a class="btn btn-primary" href="digital-course.html#join">Join the waitlist</a>
       </div>
     </div>
   </nav>
@@ -191,9 +234,10 @@
   </header>
 
   <main>
+
     <section class="section">
       <div class="shell">
-        <div class="section-head"><p class="eyebrow">What you’ll learn</p><h2>Four ideas, one module.</h2></div>
+        <div class="section-head"><p class="eyebrow">What you’ll learn</p><h2>Four ideas, one module</h2></div>
         <div class="learn">
           <article><span>01</span><h3>Workflow vs agent</h3><p>Who decides the next step: your code or the model.</p></article>
           <article><span>02</span><h3>The agent loop</h3><p>Observe, decide, act, update state. Repeat until done or stopped.</p></article>
@@ -210,7 +254,7 @@
             <p class="eyebrow">Applied exercise</p>
             <h2>Redesign four use cases</h2>
             <p>Redesign four use cases as workflows, partially agentic systems and autonomous agents, then compare risk.</p>
-            <div class="actions"><a class="btn btn-primary" href="course/workbook.html#m07">Open in your workbook <span aria-hidden="true">→</span></a></div>
+            <div class="actions"><a class="btn btn-primary" href="digital-course.html#pricing">Get the workbook <span aria-hidden="true">→</span></a></div>
           </div>
           <ul class="products"><li>Customer refund requests</li><li>Weekly sales report</li><li>Competitor research brief</li><li>Night-time incident response</li></ul>
         </div>
@@ -220,21 +264,14 @@
 
     <section class="section white" id="cheat-sheet">
       <div class="shell">
-        <div class="section-head"><p class="eyebrow">Cheat sheet · for your projects</p><h2>Autonomy is a cost: give the model a decision only where code can’t cover the cases.</h2></div>
-        <div class="cheat">
-          <div class="cheat-col dark"><h3>Ask on every project</h3><ol><li>Who decides the next step here: our code, or the model?</li><li>Are the steps the same for every input, or do they depend on what it finds?</li><li>What stops the loop: a step limit, a budget, a timeout or a human?</li><li>If step 3 is wrong, which later step or person notices it, and when?</li><li>If a run fails halfway, what state do we need to resume it or undo it?</li></ol></div>
-          <div class="cheat-col"><h3>Rules of thumb</h3><ul><li>Make known steps fixed code; keep model decisions for the parts that truly vary.</li><li>Set step, budget and time limits in code, and decide what happens when one is hit.</li><li>Check key results before they enter state; later steps will treat them as facts.</li><li>Put approval on few, high-risk actions, and show the approver the evidence.</li></ul></div>
-        </div>
-        <div class="tool">
-          <div><small>Decision guide</small><h3>How much autonomy?</h3></div>
-          <ul class="tool-decision"><li><span>If the steps are the same for every input</span><b>→ fixed workflow; the model only fills in steps</b></li><li><span>If inputs fall into a few known paths</span><b>→ router: one model decision, then fixed code</b></li><li><span>If the path depends on what it finds and tools are read-only</span><b>→ bounded agent with caps</b></li><li><span>If an action sends, spends, deletes or changes production</span><b>→ a human approves it first</b></li><li><span>If an action can’t be undone and approval isn’t practical</span><b>→ don’t expose it as a tool</b></li><li><span>If you can’t yet measure whole runs</span><b>→ stay one level less autonomous until you can</b></li></ul>
-        </div>
-        <div class="actions" style="margin-top:22px"><a class="btn btn-primary" href="course/cheatsheets/module-07.pdf">Download the one-page cheat sheet (PDF)</a></div>
+        <div class="section-head"><p class="eyebrow">Cheat sheet</p><h2>Autonomy is a cost: give the model a decision only where code can’t cover the cases</h2></div>
+        <p style="max-width:640px;color:var(--muted);font-size:17px;line-height:1.65">One page you keep: the questions to ask on every project, the rules of thumb, and a decision guide you can use on your own product. All nine come with The Book.</p>
+        <div class="actions" style="margin-top:22px"><a class="btn btn-primary" href="digital-course.html#pricing">Get the cheat sheets</a></div>
       </div>
     </section>
     <section class="section">
       <div class="shell">
-        <div class="section-head"><p class="eyebrow">Leave at the door</p><h2>Five myths this module breaks.</h2></div>
+        <div class="section-head"><p class="eyebrow">Leave at the door</p><h2>Five myths this module breaks</h2></div>
         <table class="myths">
           <tr><th scope="col">Myth</th><th scope="col">What’s actually true</th></tr>
           <tr><td>“More agentic is always better.”</td><td>More autonomy adds variance, cost and risk too.</td></tr>
@@ -243,6 +280,28 @@
           <tr><td>“More agents give better answers.”</td><td>Each hand-off adds cost and a chance to fail.</td></tr>
           <tr><td>“A human in the loop makes it safe.”</td><td>Only if they see the evidence and can say no.</td></tr>
         </table>
+      </div>
+    </section>
+
+
+    <section class="section white" id="episode">
+      <div class="shell">
+        <article class="guest">
+          <figure class="guest-face"><img class="guest-art" src="assets/guests/cleo-maren.jpg" width="320" height="320"
+              loading="lazy" decoding="async" alt="Portrait of Cleo Maren"></figure>
+          <div class="guest-body">
+            <p class="guest-epithet">The Autonomy Engineer</p>
+            <h2>Cleo Maren</h2>
+            <p class="guest-line">builds and breaks agent workflows to discover when independent AI becomes useful and when it becomes chaos.</p>
+            
+            
+            <div class="guest-links">
+              <button class="guest-link" type="button" disabled>Let’s chat</button>
+              <button class="guest-link guest-link-icon" type="button" disabled aria-label="Message Cleo Maren on Telegram"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22.1 3.2 2.6 10.8c-1.1.4-1.1 2 .1 2.3l4.9 1.5 1.9 5.6c.3.9 1.5 1.1 2.1.3l2.6-2.9 5 3.7c.8.6 1.9.1 2.1-.8l3-16c.2-1-.9-1.8-1.8-1.3ZM9.6 14.6l9-6.4-7.3 7.8-.3 3.6Z"/></svg></button>
+            </div>
+            <p class="guest-note">Coming soon · an AI character from the show, not a real researcher.</p>
+          </div>
+        </article>
       </div>
     </section>
 
@@ -263,8 +322,10 @@
     <div class="shell footer-inner">
       <a href="index.html" aria-label="ExplAIn home"><img src="assets/logo-white.png" alt="ExplAIn" width="545" height="201"></a>
       <span>Know more. Build better. Go further.</span>
+      <span class="footer-legal"><a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a></span>
       <span>Don’t just use AI. <b>Own it.</b></span>
     </div>
   </footer>
+
 </body>
 </html>

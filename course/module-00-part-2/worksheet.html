@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ExplAIn — Module 00 System Map Worksheet</title>
+  <link rel="icon" type="image/png" href="../../assets/icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root { --navy: #0b1026; --violet: #7c3aed; --blue: #3b82f6; --lavender: #ede9fe; --muted: #5d6679; --line: #d9deea; }
+    :root { color-scheme: light; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #eef0f6; color: var(--navy); font-family: Poppins, Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+    .toolbar { display: flex; justify-content: center; gap: 12px; padding: 20px 16px 0; }
+    .toolbar button { min-height: 44px; padding: 0 22px; border: 0; border-radius: 999px; color: #fff; background: linear-gradient(115deg, var(--violet), var(--blue)); font: 600 14px Poppins, Arial, sans-serif; cursor: pointer; }
+    .sheet { width: min(210mm, calc(100% - 32px)); min-height: 297mm; margin: 20px auto 40px; padding: 14mm 13mm 12mm; background: #fff; box-shadow: 0 20px 50px rgba(11, 16, 38, .12); display: flex; flex-direction: column; gap: 7mm; }
+
+    header { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+    header img { height: 40px; width: auto; display: block; }
+    .kicker { margin: 0; color: var(--violet); font-size: 10px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; text-align: right; }
+    h1 { margin: 2px 0 0; font-size: 22px; letter-spacing: -.02em; text-align: right; }
+
+    .fields { display: grid; grid-template-columns: 1.4fr 1fr; gap: 6mm; }
+    .field { display: flex; align-items: flex-end; gap: 10px; font-size: 12px; font-weight: 600; }
+    .field span { flex: 1; border-bottom: 1.5px solid var(--navy); height: 22px; }
+
+    .intro { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.55; }
+    .intro b { color: var(--navy); }
+
+    .map { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4mm; flex: 1; }
+    .box { display: flex; flex-direction: column; min-height: 50mm; padding: 4mm; border: 1.5px solid var(--line); border-radius: 12px; }
+    .box h2 { margin: 0; font-size: 14px; }
+    .box p { margin: 2px 0 0; color: var(--muted); font-size: 10.5px; line-height: 1.4; }
+    .box .write { flex: 1; margin-top: 3mm; background-image: repeating-linear-gradient(to bottom, transparent 0, transparent 6.4mm, #e6e9f1 6.4mm, #e6e9f1 6.7mm); }
+    .box.model { border: 0; color: #fff; background: linear-gradient(135deg, var(--violet), var(--blue)); -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .box.model p { color: #efeaff; }
+    .box.model .write { background-image: repeating-linear-gradient(to bottom, transparent 0, transparent 6.4mm, rgba(255,255,255,.35) 6.4mm, rgba(255,255,255,.35) 6.7mm); }
+
+    .reflect { display: grid; grid-template-columns: 1fr 1fr; gap: 5mm; }
+    .reflect div { padding: 4mm; border-radius: 12px; background: var(--lavender); -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .reflect h3 { margin: 0 0 2mm; font-size: 12px; color: #4c1d95; }
+    .reflect .write { height: 17mm; background-image: repeating-linear-gradient(to bottom, transparent 0, transparent 6.4mm, #c9bdf5 6.4mm, #c9bdf5 6.7mm); }
+
+    footer { display: flex; justify-content: space-between; color: #8a93a6; font-size: 9.5px; letter-spacing: .12em; text-transform: uppercase; }
+    footer b { color: var(--violet); }
+
+    @page { size: A4; margin: 0; }
+    @media print {
+      body { background: #fff; }
+      .toolbar { display: none; }
+      .sheet { width: 210mm; height: 297mm; margin: 0; box-shadow: none; }
+    }
+    @media (max-width: 640px) {
+      .sheet { min-height: 0; padding: 20px 16px; gap: 18px; }
+      header { flex-direction: column; align-items: flex-start; }
+      .kicker, h1 { text-align: left; }
+      .fields, .reflect { grid-template-columns: 1fr; }
+      .map { grid-template-columns: 1fr 1fr; }
+      .box { min-height: 150px; }
+      .box.model { grid-column: span 2; order: -1; min-height: 110px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="toolbar"><button type="button" onclick="window.print()">Print worksheet</button></div>
+
+  <main class="sheet">
+    <header>
+      <img src="../../assets/logo.png" alt="ExplAIn" width="545" height="201">
+      <div>
+        <p class="kicker">Module 00 · Applied exercise</p>
+        <h1>System map worksheet</h1>
+      </div>
+    </header>
+
+    <div class="fields">
+      <div class="field">Product <span></span></div>
+      <div class="field">Group <span></span></div>
+    </div>
+
+    <p class="intro"><b>The model generates. The system does.</b> Fill every box for your product. If you can’t tell where something lives, write it down with a question mark and bring it to the discussion.</p>
+
+    <section class="map" aria-label="System map">
+      <div class="box"><h2>Context</h2><p>What does the model see on each call?</p><div class="write"></div></div>
+      <div class="box"><h2>Knowledge</h2><p>Where do facts and documents come from?</p><div class="write"></div></div>
+      <div class="box"><h2>Memory and state</h2><p>What persists between turns or sessions?</p><div class="write"></div></div>
+      <div class="box"><h2>Tools and actions</h2><p>What can it do in the world? Who executes it?</p><div class="write"></div></div>
+      <div class="box model"><h2>Model</h2><p>What does the model itself do here, and nothing more?</p><div class="write"></div></div>
+      <div class="box"><h2>Orchestration</h2><p>What steps or loops happen around model calls?</p><div class="write"></div></div>
+      <div class="box"><h2>Guardrails</h2><p>What may it see and do? What stops it?</p><div class="write"></div></div>
+      <div class="box"><h2>Evaluation</h2><p>How would anyone know it got worse?</p><div class="write"></div></div>
+      <div class="box"><h2>Interface</h2><p>Where do people meet it?</p><div class="write"></div></div>
+    </section>
+
+    <section class="reflect">
+      <div><h3>Which box surprised your group?</h3><div class="write"></div></div>
+      <div><h3>One thing people blame on “the AI” that is really the system</h3><div class="write"></div></div>
+    </section>
+
+    <footer><span>ExplAIn · What is an AI system?</span><span>Don’t just use AI. <b>Own it.</b></span></footer>
+  </main>
+</body>
+</html>

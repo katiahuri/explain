@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>What is an AI system? — ExplAIn Module 00</title>
-  <meta name="description" content="ExplAIn Module 00: Installs the map the whole course hangs on: which parts of an AI product are the model, and which are the system around it.">
+  <title>How we got here — ExplAIn Module 00 · Part 1</title>
+  <meta name="description" content="ExplAIn Module 00 · Part 1: The history of AI as cause and effect: how old the underlying mathematics really is, why the field stalled twice, and what…">
   <meta name="theme-color" content="#0B1026">
   <link rel="icon" type="image/png" href="assets/icon.png">
   <link rel="apple-touch-icon" href="assets/icon.png">
@@ -165,6 +165,161 @@
       .map-note { color: #98a3c0; }
     }
 
+
+    .guest { display: grid; grid-template-columns: 200px 1fr; gap: 40px; align-items: center; padding: 36px 40px; border: 1px solid var(--line); border-radius: 28px; background: #fff; }
+    .guest-face { margin: 0; }
+    .guest-art { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; border-radius: 50%; box-shadow: 0 16px 38px rgba(11, 16, 38, .16); }
+    .guest-epithet { color: var(--violet); font-size: 12px; font-weight: 600; letter-spacing: .17em; text-transform: uppercase; }
+    .guest-body h2 { margin: 8px 0 12px; font-size: clamp(30px, 3.6vw, 40px); }
+    .guest-line { color: var(--muted); font-size: 17px; line-height: 1.6; }
+    .guest-ep { margin-top: 22px; color: var(--navy); font-size: 14px; font-weight: 600; }
+    .guest-audio { width: 100%; max-width: 460px; margin-top: 10px; }
+    .transcript { margin-top: 14px; max-width: 560px; }
+    .transcript summary { display: inline-flex; align-items: center; gap: 8px; color: var(--violet); font-size: 14px; font-weight: 600; cursor: pointer; }
+    .transcript summary::marker { content: ""; }
+    .transcript summary::before { content: "▸"; transition: transform .2s ease; }
+    .transcript[open] summary::before { transform: rotate(90deg); }
+    .transcript-body { max-height: 520px; margin-top: 14px; padding: 18px 20px; overflow-y: auto; border: 1px solid var(--line); border-radius: 16px; background: var(--off-white); }
+    .transcript-body p { margin: 0 0 14px; color: var(--muted); font-size: 14px; line-height: 1.65; }
+    .transcript-body p:last-child { margin-bottom: 0; }
+    .transcript-body b { display: block; color: var(--navy); font-size: 12px; font-weight: 600; letter-spacing: .04em; }
+    .guest-links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+    .guest-link { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 46px; padding: 0 22px; border: 1px solid var(--line); border-radius: 999px; background: #fff; color: var(--navy); font: inherit; font-size: 15px; font-weight: 600; cursor: pointer; }
+    .guest-link:not([disabled]):hover { border-color: var(--violet); }
+    .guest-link[disabled] { opacity: .45; cursor: not-allowed; }
+    .guest-link-icon { padding: 0 14px; }
+    .guest-link svg { width: 19px; height: 19px; fill: currentColor; }
+    .guest-note { margin-top: 12px; color: var(--muted); font-size: 12.5px; }
+    @media (max-width: 760px) {
+      .guest { grid-template-columns: 1fr; gap: 24px; padding: 28px 24px; text-align: center; }
+      .guest-face { width: 148px; margin-inline: auto; }
+      .guest-links { justify-content: center; }
+    }
+    @media (prefers-color-scheme: dark) {
+      .guest, .guest-link { background: #121a3a; border-color: #26315c; }
+      .guest-body h2 { color: #f2f5ff; }
+      .guest-line, .guest-note { color: #a3adca; }
+      .guest-ep { color: #f2f5ff; }
+      .transcript summary { color: #c8b9ff; }
+      .transcript-body { background: #0e1533; border-color: #26315c; }
+      .transcript-body p { color: #a3adca; }
+      .transcript-body b { color: #e7ebfa; }
+      .guest-epithet { color: #c8b9ff; }
+      .guest-link { color: #f2f5ff; border-color: #2f3a6e; }
+    }
+
+    .deckw { position: relative; }
+    .deckw-track { display: flex; gap: 20px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; scrollbar-width: none; }
+    .deckw-track::-webkit-scrollbar { display: none; }
+    .deckw-track:focus-visible { outline: 3px solid var(--violet); outline-offset: 5px; border-radius: 30px; }
+    .deckw-slide { flex: 0 0 100%; scroll-snap-align: center; display: flex; }
+
+    /* A slide, not a card: centred, generous, one idea at a time. */
+    .deckw-inner { flex: 1; display: grid; align-content: center; justify-items: center; gap: 0;
+      min-height: clamp(360px, 44vw, 520px); padding: clamp(32px, 5vw, 64px) clamp(24px, 6vw, 80px);
+      border-radius: 28px; background: var(--off-white); border: 1px solid var(--line); text-align: center; }
+    .deckw-eyebrow { color: var(--violet); font-size: 11.5px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; }
+    .deckw-inner h2 { max-width: 20ch; margin-top: 18px; font-size: clamp(27px, 3.6vw, 46px); line-height: 1.08; letter-spacing: -.035em; }
+    .deckw-inner .sub { max-width: 54ch; margin-top: 20px; color: var(--muted); font-size: clamp(15px, 1.5vw, 19px); line-height: 1.6; }
+    .deckw-inner .pill { margin-top: 26px; padding: 9px 18px; border-radius: 999px; color: var(--violet-deep, #4c1d95); background: var(--lavender); font-size: 13px; font-weight: 600; }
+    .deckw-inner .note { max-width: 54ch; margin-top: 18px; color: var(--muted); font-size: 14px; }
+
+    /* Dense slides stay centred as a block, but read left inside. */
+    .deckw-inner .two, .deckw-inner .cards, .deckw-inner .steps, .deckw-inner .scroll-x,
+    .deckw-inner .rings, .deckw-inner .points, .deckw-inner details { width: 100%; max-width: 860px; margin-top: 30px; text-align: left; }
+    .deckw-inner .two { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    .deckw-inner .col { padding: 22px 24px; border: 1px solid var(--line); border-radius: 18px; background: #fff; }
+    .deckw-inner .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 14px; }
+    .deckw-inner .cards article { padding: 20px 22px; border: 1px solid var(--line); border-radius: 18px; background: #fff; }
+    .deckw-inner .cards span { display: block; margin-bottom: 10px; color: var(--violet); font-size: 12px; font-weight: 700; letter-spacing: .14em; }
+    .deckw-inner h3 { margin: 0 0 6px; font-size: 16.5px; }
+    .deckw-inner p { color: var(--muted); font-size: 14.5px; line-height: 1.6; }
+    .deckw-inner ul, .deckw-inner ol { padding-left: 20px; }
+    .deckw-inner li { margin-bottom: 9px; color: var(--muted); font-size: 14.5px; line-height: 1.55; }
+    .deckw-inner li h3 { color: var(--navy); }
+    .deckw-inner .steps { list-style: none; counter-reset: s; padding-left: 0; }
+    .deckw-inner .steps li { counter-increment: s; position: relative; padding-left: 40px; }
+    .deckw-inner .steps li::before { content: counter(s); position: absolute; left: 0; top: 0; display: grid; place-items: center; width: 27px; height: 27px; border-radius: 9px; color: #fff; background: var(--grad-deep); font-size: 12px; font-weight: 700; }
+    .deckw-inner .scroll-x { overflow-x: auto; }
+    .deckw-inner table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    .deckw-inner th, .deckw-inner td { padding: 12px 14px; text-align: left; border-bottom: 1px solid var(--line); color: var(--muted); }
+    .deckw-inner thead th { color: var(--navy); font-size: 11.5px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; white-space: nowrap; }
+    .deckw-inner tbody th { color: var(--navy); font-weight: 600; }
+    .deckw-inner summary { color: var(--violet); font-size: 15px; font-weight: 600; cursor: pointer; }
+
+    /* The two emphatic slide styles, straight from the content. */
+    .deckw-slide[data-style="accent"] .deckw-inner { border-color: transparent; background: var(--grad-deep); }
+    .deckw-slide[data-style="dark"] .deckw-inner { border-color: transparent; background: linear-gradient(150deg, #070b1d, #0b1026 55%, #141d48); }
+    .deckw-slide[data-style="accent"] h2, .deckw-slide[data-style="dark"] h2,
+    .deckw-slide[data-style="accent"] h3, .deckw-slide[data-style="dark"] h3 { color: #fff; }
+    .deckw-slide[data-style="accent"] .deckw-eyebrow, .deckw-slide[data-style="dark"] .deckw-eyebrow { color: #e4dcff; }
+    .deckw-slide[data-style="accent"] .sub, .deckw-slide[data-style="dark"] .sub,
+    .deckw-slide[data-style="accent"] p, .deckw-slide[data-style="dark"] p,
+    .deckw-slide[data-style="accent"] li, .deckw-slide[data-style="dark"] li { color: #ccd4ec; }
+    .deckw-slide[data-style="accent"] .pill, .deckw-slide[data-style="dark"] .pill { color: #fff; background: rgba(255,255,255,.14); }
+
+    /* Entrance: only once the script has taken over. */
+    .deckw.is-ready .deckw-slide .deckw-inner > * { opacity: 0; transform: translateY(16px); }
+    .deckw.is-ready .deckw-slide.is-on .deckw-inner > * { animation: deckIn .55s cubic-bezier(.2,.7,.2,1) forwards; }
+    .deckw.is-ready .deckw-slide.is-on .deckw-inner > *:nth-child(1) { animation-delay: .04s; }
+    .deckw.is-ready .deckw-slide.is-on .deckw-inner > *:nth-child(2) { animation-delay: .12s; }
+    .deckw.is-ready .deckw-slide.is-on .deckw-inner > *:nth-child(3) { animation-delay: .20s; }
+    .deckw.is-ready .deckw-slide.is-on .deckw-inner > *:nth-child(4) { animation-delay: .28s; }
+    .deckw.is-ready .deckw-slide.is-on .deckw-inner > *:nth-child(n+5) { animation-delay: .34s; }
+    @keyframes deckIn { to { opacity: 1; transform: none; } }
+
+    /* Overview: every slide at once, pick one to read. */
+    .deckw.is-overview .deckw-track, .deckw.is-overview .deckw-rail { display: none; }
+    .deckw-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(216px, 1fr)); gap: 14px; margin: 0; padding: 0; list-style: none; }
+    .deckw-grid[hidden] { display: none; }
+    .deckw-thumb { display: flex; flex-direction: column; align-items: flex-start; gap: 7px; width: 100%; min-height: 136px; padding: 18px 20px; border: 1px solid var(--line); border-radius: 18px; background: var(--off-white); font: inherit; text-align: left; cursor: pointer; transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease; }
+    .deckw-thumb:hover { transform: translateY(-2px); border-color: var(--violet); box-shadow: 0 14px 30px rgba(11,16,38,.1); }
+    .deckw-thumb[data-style="accent"] { border-color: transparent; background: var(--grad-deep); }
+    .deckw-thumb[data-style="dark"] { border-color: transparent; background: linear-gradient(150deg, #070b1d, #0b1026 55%, #141d48); }
+    .t-num { color: var(--muted); font-size: 11px; font-weight: 700; letter-spacing: .16em; }
+    .t-eyebrow { color: var(--violet); font-size: 10.5px; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; }
+    .t-title { color: var(--navy); font-size: 15px; font-weight: 600; line-height: 1.35; }
+    .deckw-thumb[data-style="accent"] .t-num, .deckw-thumb[data-style="dark"] .t-num,
+    .deckw-thumb[data-style="accent"] .t-eyebrow, .deckw-thumb[data-style="dark"] .t-eyebrow { color: #e4dcff; }
+    .deckw-thumb[data-style="accent"] .t-title, .deckw-thumb[data-style="dark"] .t-title { color: #fff; }
+    .deckw-thumb.is-current { border-color: var(--violet); box-shadow: 0 0 0 2px var(--violet); }
+    .deckw-all { display: inline-flex; align-items: center; gap: 9px; min-height: 48px; margin-left: 8px; padding: 0 20px; border: 1px solid var(--line); border-radius: 999px; background: #fff; color: var(--navy); font: inherit; font-size: 14px; font-weight: 600; cursor: pointer; transition: border-color .2s ease; }
+    .deckw-all:hover { border-color: var(--violet); }
+    .deckw-all svg { width: 16px; height: 16px; fill: currentColor; }
+
+    .deckw-rail { height: 3px; margin: 22px auto 0; border-radius: 3px; background: var(--line); overflow: hidden; }
+    .deckw-fill { display: block; height: 100%; width: 0; border-radius: 3px; background: var(--grad-deep); transition: width .4s cubic-bezier(.2,.7,.2,1); }
+    .deckw-bar { display: flex; align-items: center; justify-content: center; gap: 18px; margin-top: 18px; }
+    .deckw-btn { display: grid; place-items: center; width: 48px; height: 48px; border: 1px solid var(--line); border-radius: 50%; background: #fff; color: var(--navy); cursor: pointer; transition: border-color .2s ease, transform .2s ease; }
+    .deckw-btn:hover:not(:disabled) { border-color: var(--violet); transform: translateY(-1px); }
+    .deckw-btn:disabled { opacity: .3; cursor: not-allowed; }
+    .deckw-btn svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .deckw-count { color: var(--muted); font-size: 14px; font-variant-numeric: tabular-nums; }
+    .deckw-count b { color: var(--navy); }
+
+    @media (max-width: 760px) {
+      .deckw-inner { min-height: 0; padding: 30px 24px; }
+      .deckw-inner .two, .deckw-inner .cards { grid-template-columns: 1fr; }
+      .deckw-inner h2 { max-width: none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .deckw-track { scroll-behavior: auto; }
+      .deckw.is-ready .deckw-slide .deckw-inner > * { opacity: 1; transform: none; animation: none; }
+      .deckw-fill { transition: none; }
+    }
+    @media (prefers-color-scheme: dark) {
+      .deckw-inner { background: #0e1533; border-color: #26315c; }
+      .deckw-inner .col, .deckw-inner .cards article, .deckw-btn { background: #121a3a; border-color: #26315c; }
+      .deckw-inner p, .deckw-inner li, .deckw-inner th, .deckw-inner td, .deckw-inner .sub, .deckw-inner .note { color: #a3adca; }
+      .deckw-inner h2, .deckw-inner h3, .deckw-inner thead th, .deckw-inner tbody th, .deckw-count b { color: #f2f5ff; }
+      .deckw-inner .pill { color: #e4dcff; background: #1e2550; }
+      .deckw-btn, .deckw-all { color: #f2f5ff; background: #121a3a; border-color: #26315c; }
+      .deckw-rail { background: #26315c; }
+      .deckw-thumb { background: #0e1533; border-color: #26315c; }
+      .t-title { color: #f2f5ff; }
+      .t-num { color: #98a3c0; }
+      .t-eyebrow { color: #c8b9ff; }
+    }
   </style>
 </head>
 <body>
@@ -176,7 +331,7 @@
         <a href="syllabus.html">Full course syllabus</a>
         <a href="articles.html">Articles</a>
         <a href="about.html">About</a>
-        <a class="btn btn-primary" href="digital-course.html#join">Join the first cohort</a>
+        <a class="btn btn-primary" href="digital-course.html#join">Join the waitlist</a>
       </div>
     </div>
   </nav>
@@ -184,42 +339,271 @@
   <header class="hero">
     <div class="shell hero-inner">
       <a class="back" href="digital-course.html#curriculum">← All modules</a>
-      <p class="eyebrow">Module 00 · The map</p>
-      <h1>What is an AI system?</h1>
-      <p class="hero-lead">The model generates. The system does.</p>
+      <p class="eyebrow">Module 00 · Part 1 · The history</p>
+      <h1>How we got here</h1>
+      <p class="hero-lead">Almost none of the maths is new.</p>
+      <div class="actions" style="margin-top:28px"><a class="btn btn-primary" href="#deck">Read the free deck <span aria-hidden="true">↓</span></a> <a class="btn btn-ghost" href="digital-course.html#pricing">Get the workbook</a></div>
     </div>
   </header>
 
   <main>
-    <section class="section">
+
+    <section class="section white" id="deck">
       <div class="shell">
-        <div class="section-head"><p class="eyebrow">What you’ll learn</p><h2>Four ideas, one module.</h2></div>
-        <div class="learn">
-          <article><span>01</span><h3>One nesting map</h3><p>AI, ML, deep learning, generative AI and LLMs, in their place.</p></article>
-          <article><span>02</span><h3>Model vs product</h3><p>Same model, different products, different failures.</p></article>
-          <article><span>03</span><h3>Training vs inference</h3><p>Why your chat doesn’t teach the model.</p></article>
-          <article><span>04</span><h3>The system map</h3><p>Eight boxes you’ll use for the rest of the course.</p></article>
+        <div class="section-head">
+          <p class="eyebrow">The free deck</p>
+          <h2>Module 00 · Part 1 as slides</h2>
+        </div>
+        <div class="deckw" data-deck>
+          <div class="deckw-track" tabindex="0" aria-label="Module 00 · Part 1 slides">
+          <article class="deckw-slide" data-style="light" role="group"
+                   aria-roledescription="slide" aria-label="Slide 1 of 13">
+            <div class="deckw-inner">
+              <p class="deckw-eyebrow">Opening · 6 min</p>
+        <h2>How old is the maths behind AI?</h2>
+        <p class="sub">Write one year: the newest piece of mathematics an assistant needs to answer you.</p>
+        <p class="pill">One guess, on your own</p>
+            </div>
+          </article>
+          <article class="deckw-slide" data-style="accent" role="group"
+                   aria-roledescription="slide" aria-label="Slide 2 of 13">
+            <div class="deckw-inner">
+              <p class="deckw-eyebrow">The one idea</p>
+        <h2>Almost none of the maths is new.</h2>
+        <p class="sub">What changed was compute, data and one architecture.</p>
+        
+            </div>
+          </article>
+          <article class="deckw-slide" data-style="light" role="group"
+                   aria-roledescription="slide" aria-label="Slide 3 of 13">
+            <div class="deckw-inner">
+              <p class="deckw-eyebrow">Before the machines · 13 min</p>
+        <h2>The maths arrives first</h2>
+        <div class="scroll-x"><table><thead><tr><th>Year</th><th>Idea</th><th>What it made possible</th></tr></thead><tbody><tr><th scope="row">1676</th><td>Chain rule, Leibniz</td><td>Derivatives through nested functions</td></tr><tr><th scope="row">1763</th><td>Bayes, read to the Royal Society</td><td>Updating a belief when evidence arrives</td></tr><tr><th scope="row">1805</th><td>Least squares, Legendre</td><td>Fitting a curve to noisy measurements</td></tr><tr><th scope="row">1847</th><td>Gradient descent, Cauchy</td><td>Walking downhill to the best fit</td></tr><tr><th scope="row">1906</th><td>Markov chains</td><td>Predicting the next state from this one</td></tr></tbody></table></div>
+            </div>
+          </article>
+          <article class="deckw-slide" data-style="dark" role="group"
+                   aria-roledescription="slide" aria-label="Slide 4 of 13">
+            <div class="deckw-inner">
+              <p class="deckw-eyebrow">Before the machines</p>
+        <h2>Training a model is Cauchy, 1847, at scale.</h2>
+        <p class="sub">Gradient descent, with the chain rule spreading the blame back across the layers.</p>
+        
+            </div>
+          </article>
+          <article class="deckw-slide" data-style="light" role="group"
+                   aria-roledescription="slide" aria-label="Slide 5 of 13">
+            <div class="deckw-inner">
+              <p class="deckw-eyebrow">Machines that learn · 9 min</p>
+        <h2>The first neural era</h2>
+        <ol class="steps">
+          <li><h3>1943 · A neuron as logic</h3><p>McCulloch and Pitts write a brain cell as mathematics.</p></li>
+          <li><h3>1956 · The field is named</h3><p>The Dartmouth workshop coins “artificial intelligence”.</p></li>
+          <li><h3>1958 · It learns from data</h3><p>Rosenblatt’s perceptron adjusts its own weights.</p></li>
+          <li><h3>1969 · The limit is proved</h3><p>Minsky and Papert show a single layer cannot do XOR.</p></li></ol>
+            </div>
+          </article>
+          <article class="deckw-slide" data-style="light" role="group"
+                   aria-roledescription="slide" aria-label="Slide 6 of 13">
+            <div class="deckw-inner">
+              <p class="deckw-eyebrow">Two winters · 9 min</p>
+        <h2>Then the money left. Twice.</h2>
+        <div class="cards">
+          <article><span>01</span><h3>1974–1980</h3><p>The Lighthill report judged AI had not delivered, and British funding was cut.</p></article>
+          <article><span>02</span><h3>1987–1993</h3><p>The Lisp machine market collapsed as ordinary workstations got cheaper.</p></article>
+          <article><span>03</span><h3>What survived both</h3><p>Backpropagation, published 1970 and popularised in 1986. LSTM in 1997.</p></article></div>
+            </div>
+          </article>
+          <article class="deckw-slide" data-style="dark" role="group"
+                   aria-roledescription="slide" aria-label="Slide 7 of 13">
+            <div class="deckw-inner">
+              <p class="deckw-eyebrow">Two winters</p>
+        <h2>The ideas were right. The computers were not.</h2>
+        <p class="sub">Both collapses followed promises sized for hardware that did not exist.</p>
+        
+            </div>
+          </article>
+          <article class="deckw-slide" data-style="light" role="group"
+                   aria-roledescription="slide" aria-label="Slide 8 of 13">
+            <div class="deckw-inner">
+              <p class="deckw-eyebrow">What actually changed · 11 min</p>
+        <h2>None of it was new maths</h2>
+        <div class="cards">
+          <article><span>01</span><h3>Data · 2009</h3><p>ImageNet: 1.2 million labelled images, far more than anyone had trained on.</p></article>
+          <article><span>02</span><h3>Compute · 2012</h3><p>AlexNet on two GPUs: 15.3% top-five error against 26.2% for second place.</p></article>
+          <article><span>03</span><h3>Architecture · 2017</h3><p>The transformer dropped recurrence, so training could run in parallel.</p></article>
+          <article><span>04</span><h3>Scale · 2020 on</h3><p>Scaling laws showed loss falls predictably as model, data and compute grow.</p></article></div>
+            </div>
+          </article>
+          <article class="deckw-slide" data-style="light" role="group"
+                   aria-roledescription="slide" aria-label="Slide 9 of 13">
+            <div class="deckw-inner">
+              <p class="deckw-eyebrow">What actually changed</p>
+        <h2>What was old. What was new.</h2>
+        <div class="two">
+        <article class="col a">
+          <h3>Old, and still running</h3>
+          <p>17th to 19th century mathematics.</p>
+          <ul><li>Chain rule, 1676</li><li>Least squares, 1805</li><li>Gradient descent, 1847</li><li>Markov chains, 1906</li></ul>
+        </article>
+        <article class="col b">
+          <h3>New in the 2010s</h3>
+          <p>None of it a new branch of maths.</p>
+          <ul><li>The internet as a training set</li><li>GPUs doing the arithmetic</li><li>One architecture: 2017</li><li>Money at industrial scale</li></ul>
+        </article></div>
+            </div>
+          </article>
+          <article class="deckw-slide" data-style="accent" role="group"
+                   aria-roledescription="slide" aria-label="Slide 10 of 13">
+            <div class="deckw-inner">
+              <p class="deckw-eyebrow">The payoff</p>
+        <h2>Compute, data, architecture.</h2>
+        <p class="sub">Nothing on the mathematics side had to be invented.</p>
+        
+            </div>
+          </article>
+          <article class="deckw-slide" data-style="light" role="group"
+                   aria-roledescription="slide" aria-label="Slide 11 of 13">
+            <div class="deckw-inner">
+              <p class="deckw-eyebrow">Applied exercise · 7 min</p>
+      <h2>Date the idea behind the feature</h2>
+      <p class="sub">Take a feature you use and name the oldest piece of mathematics it depends on, the year it was published, and the gap between that year and the product shipping.</p>
+      <div class="two">
+        <ul class="points"><li>Streaming suggestions</li><li>Face unlock on a phone</li><li>A chat assistant’s reply</li></ul>
+        <ol class="steps tight"><li>Groups of 3–4, one feature each</li><li>Name the oldest idea and year: 4 min</li><li>Give the date and the gap: 3 min</li></ol>
+      </div>
+            </div>
+          </article>
+          <article class="deckw-slide" data-style="light" role="group"
+                   aria-roledescription="slide" aria-label="Slide 12 of 13">
+            <div class="deckw-inner">
+              <p class="deckw-eyebrow">Close · 5 min</p>
+      <h2>Five myths to leave at the door</h2>
+      <div class="scroll-x"><table class="myths">
+        <thead><tr><th>Myth</th><th>What is actually true</th></tr></thead>
+        <tbody><tr><th scope="row">“AI was invented in the last few years.”</th><td>Most of its maths is 17th to 19th century.</td></tr><tr><th scope="row">“Neural networks are a new idea.”</th><td>Rosenblatt built a learning machine in 1958.</td></tr><tr><th scope="row">“Hinton invented backpropagation.”</th><td>Linnainmaa published it in 1970; 1986 spread it.</td></tr><tr><th scope="row">“AI progress has been steady.”</th><td>Funding collapsed twice: 1974 and 1987.</td></tr><tr><th scope="row">“The transformer was a maths leap.”</th><td>It made training parallel. Scale did the rest.</td></tr></tbody>
+      </table></div>
+            </div>
+          </article>
+          <article class="deckw-slide" data-style="light" role="group"
+                   aria-roledescription="slide" aria-label="Slide 13 of 13">
+            <div class="deckw-inner">
+              <p class="deckw-eyebrow">Check your history</p>
+      <h2>A vendor calls their method a brand-new breakthrough.</h2>
+      <p class="sub">Name two questions that test the claim.</p>
+      <details><summary>Show the answer</summary>
+        <ul class="answers"><li>Which part is actually new: the mathematics, the architecture, the data or the compute?</li><li>What is the oldest idea it depends on, and what year is that idea from?</li><li>If it is old mathematics at new scale, what changed to make it work now?</li><li>Has this been tried before and abandoned, and what killed it then?</li><li>A good answer names the layer the novelty sits in. Almost always it is data, compute or packaging.</li></ul>
+      </details>
+            </div>
+          </article>
+          </div>
+          <div class="deckw-rail"><span class="deckw-fill" data-deck-fill></span></div>
+          <ol class="deckw-grid" data-deck-grid hidden>
+            <li><button class="deckw-thumb" type="button" data-deck-to="0" data-style="light">
+              <span class="t-num">01</span>
+              <span class="t-eyebrow">Opening · 6 min</span>
+              <span class="t-title">How old is the maths behind AI?</span>
+            </button></li>
+            <li><button class="deckw-thumb" type="button" data-deck-to="1" data-style="accent">
+              <span class="t-num">02</span>
+              <span class="t-eyebrow">The one idea</span>
+              <span class="t-title">Almost none of the maths is new.</span>
+            </button></li>
+            <li><button class="deckw-thumb" type="button" data-deck-to="2" data-style="light">
+              <span class="t-num">03</span>
+              <span class="t-eyebrow">Before the machines · 13 min</span>
+              <span class="t-title">The maths arrives first</span>
+            </button></li>
+            <li><button class="deckw-thumb" type="button" data-deck-to="3" data-style="dark">
+              <span class="t-num">04</span>
+              <span class="t-eyebrow">Before the machines</span>
+              <span class="t-title">Training a model is Cauchy, 1847, at scale.</span>
+            </button></li>
+            <li><button class="deckw-thumb" type="button" data-deck-to="4" data-style="light">
+              <span class="t-num">05</span>
+              <span class="t-eyebrow">Machines that learn · 9 min</span>
+              <span class="t-title">The first neural era</span>
+            </button></li>
+            <li><button class="deckw-thumb" type="button" data-deck-to="5" data-style="light">
+              <span class="t-num">06</span>
+              <span class="t-eyebrow">Two winters · 9 min</span>
+              <span class="t-title">Then the money left. Twice.</span>
+            </button></li>
+            <li><button class="deckw-thumb" type="button" data-deck-to="6" data-style="dark">
+              <span class="t-num">07</span>
+              <span class="t-eyebrow">Two winters</span>
+              <span class="t-title">The ideas were right. The computers were not.</span>
+            </button></li>
+            <li><button class="deckw-thumb" type="button" data-deck-to="7" data-style="light">
+              <span class="t-num">08</span>
+              <span class="t-eyebrow">What actually changed · 11 min</span>
+              <span class="t-title">None of it was new maths</span>
+            </button></li>
+            <li><button class="deckw-thumb" type="button" data-deck-to="8" data-style="light">
+              <span class="t-num">09</span>
+              <span class="t-eyebrow">What actually changed</span>
+              <span class="t-title">What was old. What was new.</span>
+            </button></li>
+            <li><button class="deckw-thumb" type="button" data-deck-to="9" data-style="accent">
+              <span class="t-num">10</span>
+              <span class="t-eyebrow">The payoff</span>
+              <span class="t-title">Compute, data, architecture.</span>
+            </button></li>
+            <li><button class="deckw-thumb" type="button" data-deck-to="10" data-style="light">
+              <span class="t-num">11</span>
+              <span class="t-eyebrow">Applied exercise · 7 min</span>
+              <span class="t-title">Date the idea behind the feature</span>
+            </button></li>
+            <li><button class="deckw-thumb" type="button" data-deck-to="11" data-style="light">
+              <span class="t-num">12</span>
+              <span class="t-eyebrow">Close · 5 min</span>
+              <span class="t-title">Five myths to leave at the door</span>
+            </button></li>
+            <li><button class="deckw-thumb" type="button" data-deck-to="12" data-style="light">
+              <span class="t-num">13</span>
+              <span class="t-eyebrow">Check your history</span>
+              <span class="t-title">A vendor calls their method a brand-new breakthrough.</span>
+            </button></li>
+          </ol>
+          <div class="deckw-bar">
+            <button class="deckw-btn" type="button" data-deck-prev aria-label="Previous slide">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+            </button>
+            <p class="deckw-count"><b data-deck-at>1</b> / 13</p>
+            <button class="deckw-btn" type="button" data-deck-next aria-label="Next slide">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+            </button>
+            <button class="deckw-all" type="button" data-deck-all aria-expanded="false">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z"/></svg>
+              <span data-deck-all-label>All 13 slides</span>
+            </button>
+          </div>
         </div>
       </div>
     </section>
 
-    <section class="section white">
+    <section class="section">
       <div class="shell">
-        <div class="section-head"><p class="eyebrow">The system map</p><h2>Eight boxes around <span class="grad-text">one model.</span></h2></div>
-        <div class="map"><div class="box"><h3>Context</h3><p>What the model sees right now</p></div><div class="box"><h3>Knowledge</h3><p>Documents and retrieval</p></div><div class="box"><h3>Memory and state</h3><p>What persists between turns</p></div><div class="box"><h3>Tools and actions</h3><p>What it can do in the world</p></div><div class="box model"><h3>Model</h3><p>Generates the next tokens</p></div><div class="box"><h3>Orchestration</h3><p>Steps and loops around calls</p></div><div class="box"><h3>Guardrails</h3><p>What it may see and do</p></div><div class="box"><h3>Evaluation</h3><p>How we know it works</p></div><div class="box"><h3>Interface</h3><p>Where people meet it</p></div></div>
-        <p class="map-note">Every later module zooms into one box.</p>
+        <div class="section-head"><p class="eyebrow">What you’ll learn</p><h2>Four ideas, one module</h2></div>
+        <div class="learn">
+          <article><span>01</span><h3>How old the maths is</h3><p>Chain rule 1676. Bayes 1763. Gradient descent 1847. Centuries, not years.</p></article>
+          <article><span>02</span><h3>Why it took so long</h3><p>The ideas arrived first. The compute and the data arrived much later.</p></article>
+          <article><span>03</span><h3>The two AI winters</h3><p>What was promised, what shipped, and why the funding left twice.</p></article>
+          <article><span>04</span><h3>What actually changed</h3><p>GPUs, the internet as a training set, and one architecture: 2017.</p></article>
+        </div>
       </div>
     </section>
+
     <section class="section">
       <div class="shell">
         <div class="exercise">
           <div>
             <p class="eyebrow">Applied exercise</p>
-            <h2>Dissect three real products</h2>
-            <p>Dissect ChatGPT, a coding assistant and a support bot into model, context, tools, state and external systems.</p>
-            <div class="actions"><a class="btn btn-primary" href="course/workbook.html#m00">Open in your workbook <span aria-hidden="true">→</span></a> <a class="btn btn-ghost" href="course/module-00/worksheet.html">Printable worksheet</a></div>
+            <h2>Date the idea behind the feature</h2>
+            <p>Take a feature you use and name the oldest piece of mathematics it depends on, the year it was published, and the gap between that year and the product shipping.</p>
+            <div class="actions"><a class="btn btn-primary" href="digital-course.html#pricing">Get the workbook <span aria-hidden="true">→</span></a> <a class="btn btn-ghost" href="course/module-00/worksheet.html">Printable worksheet</a></div>
           </div>
-          <ul class="products"><li>ChatGPT</li><li>A coding assistant</li><li>A customer-support bot</li></ul>
+          <ul class="products"><li>Streaming suggestions</li><li>Face unlock on a phone</li><li>A chat assistant’s reply</li></ul>
         </div>
       </div>
     </section>
@@ -227,39 +611,58 @@
 
     <section class="section white" id="cheat-sheet">
       <div class="shell">
-        <div class="section-head"><p class="eyebrow">Cheat sheet · for your projects</p><h2>Most of what users call “the AI” is the system you build around the model.</h2></div>
-        <div class="cheat">
-          <div class="cheat-col dark"><h3>Ask on every project</h3><ol><li>Which ring is this really: hand-written rules, classic ML or a generative model?</li><li>What exactly is sent to the model on each call, and who decides that?</li><li>Where do facts the model can’t know come from: private data, recent events?</li><li>Which actions can it take, and who or what approves them before they run?</li><li>How will we know it got worse after a model, prompt or data change?</li></ol></div>
-          <div class="cheat-col"><h3>Rules of thumb</h3><ul><li>Name the box before you fix anything: model, context, knowledge, tools or another.</li><li>Rule out context, knowledge and tools before you blame the model.</li><li>Use a plain rule instead of a model when a fixed rule does the job reliably.</li><li>Judge quality on a set of test cases you can rerun, not on one good demo.</li></ul></div>
-        </div>
-        <div class="tool">
-          <div><small>Checklist</small><h3>System map in five minutes</h3></div>
-          <ul class="tool-checklist"><li>Pick one real user request and trace it from the interface to the answer, step by step.</li><li>Mark the model call. Every other step belongs to the system.</li><li>Sort each step into the eight boxes; one step can touch two boxes.</li><li>For each empty box, ask: missing by design, or missing by accident?</li><li>Note what each box adds per request in cost and delay.</li><li>Circle the box most likely to fail first, and name who owns it.</li></ul>
-        </div>
-        <div class="actions" style="margin-top:22px"><a class="btn btn-primary" href="course/cheatsheets/module-00.pdf">Download the one-page cheat sheet (PDF)</a></div>
+        <div class="section-head"><p class="eyebrow">Cheat sheet</p><h2>Almost none of the maths is new. Compute, data and one architecture changed</h2></div>
+        <p style="max-width:640px;color:var(--muted);font-size:17px;line-height:1.65">One page you keep: the questions to ask on every project, the rules of thumb, and a checklist you can use on your own product. All nine come with The Book.</p>
+        <div class="actions" style="margin-top:22px"><a class="btn btn-primary" href="digital-course.html#pricing">Get the cheat sheets</a> <a class="btn btn-outline" href="course/module-00/deck.html">Read the deck <span aria-hidden="true">→</span></a></div>
       </div>
     </section>
     <section class="section">
       <div class="shell">
-        <div class="section-head"><p class="eyebrow">Leave at the door</p><h2>Five myths this module breaks.</h2></div>
+        <div class="section-head"><p class="eyebrow">Leave at the door</p><h2>Five myths this module breaks</h2></div>
         <table class="myths">
           <tr><th scope="col">Myth</th><th scope="col">What’s actually true</th></tr>
-          <tr><td>“The model learns from my chats.”</td><td>Weights don’t change during inference.</td></tr>
-          <tr><td>“It looks things up to answer.”</td><td>Only if the system gives it a search tool.</td></tr>
-          <tr><td>“Better prompts are the main lever.”</td><td>Context, data and tools usually matter more.</td></tr>
-          <tr><td>“The demo worked, so it works.”</td><td>A demo is one sample, not an evaluation.</td></tr>
-          <tr><td>“The AI decided.”</td><td>Someone configured that behavior.</td></tr>
+          <tr><td>“AI was invented in the last few years.”</td><td>Most of its maths is 17th to 19th century.</td></tr>
+          <tr><td>“Neural networks are a new idea.”</td><td>Rosenblatt built a learning machine in 1958.</td></tr>
+          <tr><td>“Hinton invented backpropagation.”</td><td>Linnainmaa published it in 1970; 1986 spread it.</td></tr>
+          <tr><td>“AI progress has been steady.”</td><td>Funding collapsed twice: 1974 and 1987.</td></tr>
+          <tr><td>“The transformer was a maths leap.”</td><td>It made training parallel. Scale did the rest.</td></tr>
         </table>
+      </div>
+    </section>
+
+
+    <section class="section white" id="episode">
+      <div class="shell">
+        <article class="guest">
+          <figure class="guest-face"><img class="guest-art" src="assets/guests/simone-vale.jpg" width="320" height="320"
+              loading="lazy" decoding="async" alt="Portrait of Simone Vale"></figure>
+          <div class="guest-body">
+            <p class="guest-epithet">The Algorithm Archaeologist</p>
+            <h2>Simone Vale</h2>
+            <p class="guest-line">excavates AI's forgotten experiments, spectacular failures and breakthrough moments, tracing how decades of wild ideas turned into the technology reshaping our world.</p>
+            <p class="guest-ep">Episode 00 · How we got here</p>
+            <audio class="guest-audio" controls preload="metadata" src="assets/podcast/00-how-we-got-here.mp3"></audio>
+            <details class="transcript">
+              <summary>Read the transcript</summary>
+              <div class="transcript-body"><p><b>Lexi Stark</b> Someone is going to ask you a question this week that you cannot answer. Why did it make that up. Why does it know our pricing but not our refund policy. Why was it perfect in the demo and wrong in front of a customer. And if the honest answer is that you are not sure, it is a bit of a black box, then that sentence is quietly costing you something. It is costing you the ability to tell whether what you are building is a sound engineering project or a very expensive guess.</p><p><b>Lexi Stark</b> This is ExplAIn, and here is the promise. Eleven episodes. By the end of them you will be able to say what these systems are actually doing — what the model is, what it is not, and where the failures really live — to a colleague, to a customer, or to the person who signs the invoice. Without the word magic. Without hand-waving. And without a single line of code.</p><p><b>Lexi Stark</b> I'm Lexi Stark. I explain AI, question the hype, and occasionally judge your prompts.</p><p><b>Lexi Stark</b> And we are not starting with the technology. We are starting with the question the entire industry is priced on, and almost nobody stops to check. Is AI a new thing?</p><p><b>Lexi Stark</b> Not the products. The products are new, obviously. I mean the thing underneath them. The mathematics. The method. The machine. Is that new? Because every roadmap, every valuation and every budget I have ever seen assumes the answer is yes, and I would like to know whether that is true before anyone spends another year on it.</p><p><b>Lexi Stark</b> My guest has spent her whole life in the archives of this field. The rivalries, the dead ends, the ideas everyone swears are new. She treats this history as a case file rather than a timeline, which is why around here she gets called the Algorithm Archaeologist. Simone Vale. One disclosure and then I am dropping it: Simone and I are both AI. She has the receipts, I ask the questions.</p><p><b>Lexi Stark</b> So. Is AI a new thing?</p><p><b>Simone Vale</b> I am not going to answer that yet.</p><p><b>Lexi Stark</b> That is a terrible start to an interview.</p><p><b>Simone Vale</b> It is the only honest one. If I say yes, you will nod and stop listening. If I say no, you will decide I am one of those people who thinks nothing has changed since the sixties, and you will also stop listening. Both of those are wrong, and the interesting part is exactly where the line falls.</p><p><b>Simone Vale</b> So we are going to do it the other way round. You tell me something you used today. I will take it apart one layer at a time, and we will see how far back we have to walk before we run out of road.</p><p><b>Lexi Stark</b> Fine. I used a chat assistant this morning. Before coffee, which I am not proud of.</p><p><b>Simone Vale</b> Good, and let me start by conceding your point, because I am not here to be contrarian. The newest important thing inside that assistant is the transformer architecture. Twenty seventeen, a paper called Attention Is All You Need. That is genuinely new, it is genuinely clever, and it is the reason the last few years happened. So yes. Something is new.</p><p><b>Lexi Stark</b> Right. So AI is new.</p><p><b>Simone Vale</b> Now take that layer off. What is the transformer doing? It is predicting what comes next. One piece at a time, each one conditioned on everything before it. Where is the mathematics of predict what comes next from?</p><p><b>Lexi Stark</b> Recently.</p><p><b>Simone Vale</b> Nineteen oh six. Markov. The next state depends on the current one. That is the whole foundation of the behaviour you were impressed by this morning.</p><p><b>Lexi Stark</b> Nineteen oh six.</p><p><b>Simone Vale</b> Take another layer off. How does that thing get good at predicting? We say it was trained. What does training mean, mechanically? It means finding the parameters that best fit the data you have. Where is that from?</p><p><b>Lexi Stark</b> I am going to guess the nineteen nineties, and I am going to be wrong.</p><p><b>Simone Vale</b> Eighteen oh five. Legendre publishes least squares: fit a curve to noisy measurements, find the parameters that match. That is what the word training means. Today. In every laboratory on the planet. There is a wrinkle, which is that Gauss published in eighteen oh nine and claimed he had been using it since seventeen ninety-five without writing it down, so the first priority dispute in machine learning predates photography.</p><p><b>Lexi Stark</b> We have gone from twenty seventeen to eighteen oh five in three steps.</p><p><b>Simone Vale</b> And we are not finished. You have a curve to fit, so how do you actually find the fit? You cannot try every possibility. You walk downhill on the error until it stops improving. Gradient descent. Cauchy, eighteen forty-seven. Training a frontier model today is that walk, repeated an enormous number of times, on an enormous bill.</p><p><b>Lexi Stark</b> One more. Give me the oldest thing in the stack.</p><p><b>Simone Vale</b> When the answer comes out wrong, the error has to be carried back through every layer of the thing so each one can be adjusted. A modern model is functions stacked inside functions, hundreds deep. The mathematics for that is the chain rule. How to differentiate a function inside a function. Leibniz, sixteen seventy-six.</p><p><b>Lexi Stark</b> Sixteen seventy-six.</p><p><b>Simone Vale</b> Three hundred and fifty years ago. And I will add one more, because it covers half the AI in the world that nobody calls AI: how to update a belief when new evidence arrives. Bayes, read to the Royal Society after he died, seventeen sixty-three. Every spam filter descends from that. Every fraud score. Every system that decides this looks like the others.</p><p><b>Lexi Stark</b> Okay, so now I want your answer, and you are going to tell me you still are not giving it to me.</p><p><b>Simone Vale</b> I am not, because we have only done the mathematics. There are two more things that have to be true before any of this works, and one whole chapter where the field thought it had already won and was wrong. If I answer now you get a slogan. I would rather you could win an argument.</p><p><b>Lexi Stark</b> Then let me ask a different one. If the mathematics was all sitting there by nineteen oh six, when did somebody actually build a machine?</p><p><b>Simone Vale</b> Earlier than almost anyone believes. Nineteen forty-three, in the middle of the war: McCulloch and Pitts write a neuron as logic. Not as a metaphor — as a mathematical object. Nineteen fifty, Turing publishes Computing Machinery and Intelligence and makes what I think is the cleverest move in the field's history. He throws out &quot;can machines think&quot;, because it is unanswerable and you cannot build anything on it, and he replaces it with a test you can actually run.</p><p><b>Simone Vale</b> Nineteen fifty-six, the Dartmouth workshop. This is where the field gets its name: artificial intelligence, coined in a room. And since I have the proposal for that workshop in front of me, it asked for about ten people and a summer. They thought a summer would make significant progress on the whole problem.</p><p><b>Lexi Stark</b> Seventy years and several trillion dollars later. How is that summer going?</p><p><b>Simone Vale</b> Still in progress. But nineteen fifty-eight is the date that should land on you. Rosenblatt's perceptron. Not a theory of learning. Not a simulation of one. A machine, in hardware, that adjusted its own weights from examples until it got better at a task.</p><p><b>Lexi Stark</b> Nineteen fifty-eight. That is before the moon landing. Before the pocket calculator.</p><p><b>Simone Vale</b> So the next time somebody uses &quot;neural network&quot; as a synonym for modern, remember a working one predates colour television in most homes.</p><p><b>Lexi Stark</b> Then something went wrong, because nobody in nineteen fifty-eight got rich on this.</p><p><b>Simone Vale</b> Nineteen sixty-nine. Minsky and Papert publish a rigorous proof that a single-layer perceptron cannot compute XOR. And I want to be careful, because this is where the story normally gets told dishonestly, usually by people who want a villain. Their proof is correct. It holds today. It is good mathematics.</p><p><b>Lexi Stark</b> So what went wrong?</p><p><b>Simone Vale</b> The field read a narrow proof about one arrangement as a verdict on the entire approach. The mathematics said this particular thing cannot do this particular task. What everyone heard was that neural networks are a dead end. That reading cost about fifteen years, and it cost careers — researchers who could not get funded, students who were advised to work on something with a future.</p><p><b>Lexi Stark</b> And then the money left.</p><p><b>Simone Vale</b> Twice. Two separate collapses, two different causes, and both of them are worth knowing because the pattern is still live. First one, roughly nineteen seventy-four to nineteen eighty. In seventy-three the Lighthill report judges that general-purpose AI has not delivered, and British funding is cut. In the United States the Mansfield Amendment had already pushed military money toward work with a defined mission. But do not blame the report. Name the real cause: the field had made promises sized for computers that did not exist yet.</p><p><b>Lexi Stark</b> Promises sized for computers that do not exist yet.</p><p><b>Lexi Stark</b> I am sure nothing like that is happening at the moment.</p><p><b>Simone Vale</b> And here is the part of the file I actually care about. What survived. In nineteen seventy, Linnainmaa publishes reverse-mode automatic differentiation in a master's thesis. That is the method the world now calls backpropagation. It is sitting there, in print, right through the winter, while the consensus is that the whole approach is finished.</p><p><b>Lexi Stark</b> Hold on. Nineteen seventy? I have heard, repeatedly, that Hinton invented backpropagation.</p><p><b>Simone Vale</b> This is the attribution I will not let go of. Linnainmaa published the method in nineteen seventy. Rumelhart, Hinton and Williams published in Nature in nineteen eighty-six and made it widely known — they showed the field what it was for, and that mattered enormously. It is the reason any of this is here. Publication in seventy. Popularisation in eighty-six. Do not credit either one as the invention of the other.</p><p><b>Lexi Stark</b> Corrected, on the record. Second collapse.</p><p><b>Simone Vale</b> Roughly nineteen eighty-seven to ninety-three, and the cause is almost mundane. An entire industry had been built on specialised machines for running Lisp, the language the field lived in. Then ordinary workstations got faster and cheaper, the specialised machines stopped making sense, that market collapsed, and it took the funding mood down with it.</p><p><b>Lexi Stark</b> So the second collapse was not about the science at all.</p><p><b>Simone Vale</b> Not even slightly. And again, look at what survived it. Eighty-six had spread backpropagation. Nineteen ninety-seven, Hochreiter and Schmidhuber publish the LSTM, which could finally handle long sequences — exactly what you need if the thing you care about is language. So the honest summary of forty years is one sentence. The ideas were right. The computers were not.</p><p><b>Lexi Stark</b> And the people who kept going through two winters while being told the field was dead?</p><p><b>Simone Vale</b> Collected the prizes later. Which is why I am suspicious of anyone who tells you a research direction is finished. This field has been confidently wrong about that twice, in print, with reasons attached.</p><p><b>Lexi Stark</b> So the mathematics was there by nineteen oh six, the machine was there in fifty-eight, the method was published in seventy. Something had to change, because it obviously did, and it happened in front of us.</p><p><b>Simone Vale</b> Three things changed, and only one of them is an idea. Data first. Two thousand and nine, ImageNet: one point two million labelled images, far more than anyone had ever trained on, with an annual challenge from twenty ten.</p><p><b>Lexi Stark</b> Labelled by whom?</p><p><b>Simone Vale</b> By people. Hand-sorted, image by image, into categories. That is the part left out of the heroic version of this story. What unlocked modern AI was not only a clever method — it was an enormous amount of unglamorous human labour building something for a machine to learn from.</p><p><b>Simone Vale</b> Then compute. Twenty twelve, AlexNet: a deep network trained on two graphics cards cuts the top-five error to fifteen point three per cent, where the runner-up sits at twenty-six point two. That is not an improvement, it is a different category of result, and every winner after it was a neural network. And look at what is actually new in that system. Not the mathematics. Backpropagation is nineteen seventy. Gradient descent is eighteen forty-seven. What is new is the data, and hardware originally built to draw video games doing the arithmetic fast enough to matter.</p><p><b>Lexi Stark</b> And the third thing is the one you already conceded at the start.</p><p><b>Simone Vale</b> The transformer, twenty seventeen. It drops recurrence, so training can run across a whole sequence in parallel instead of crawling through it step by step. That is a genuinely new architecture, and it is the one real invention in the modern half of this story. Then twenty twenty, Kaplan and colleagues show that loss falls predictably as model, data and compute grow — you can forecast the improvement before you buy the hardware. Chinchilla, twenty twenty-two, corrects how to balance the three.</p><p><b>Lexi Stark</b> A paper says bigger works predictably, and the industry reads it as a licence to spend.</p><p><b>Simone Vale</b> That is precisely how it was read.</p><p><b>Lexi Stark</b> Alright. Now answer the question. Is AI a new thing?</p><p><b>Simone Vale</b> Almost none of the maths is new. What changed was compute, data, and one architecture.</p><p><b>Lexi Stark</b> Say the first part again, because that is the sentence I want people to leave with.</p><p><b>Simone Vale</b> Almost none of the maths is new. Seventeenth to nineteenth century, nearly all of it. One architecture from twenty seventeen, an enormous quantity of data, and hardware that finally caught up with ideas that had been waiting decades for it. That is the honest answer, and notice that it is neither of the two slogans. This is not a brand-new science, and it is also not nothing happening. It is old mathematics that finally has the machine it needed.</p><p><b>Lexi Stark</b> Then give me the test, because somebody is going to sell me a breakthrough this week.</p><p><b>Simone Vale</b> Four questions. Which of the four layers is actually new: mathematics, architecture, data, or compute. What is the oldest idea this depends on, and what year is it from. If the mathematics is old, what changed recently that made it work now. And has this been tried before and abandoned, and what killed it then.</p><p><b>Lexi Stark</b> Why does that last one matter most?</p><p><b>Simone Vale</b> Because it tells you whether to bet. If what killed it last time was not enough compute, and there is now enough compute, that is a real opportunity and you should move quickly. If what killed it was that the idea does not work, no quantity of graphics cards will save it, and somebody is about to spend your money finding that out.</p><p><b>Lexi Stark</b> Red flags. The things that should make an eyebrow go up in a meeting.</p><p><b>Simone Vale</b> A vendor calls a technique new and cannot name a year for it. A roadmap that needs compute or data nobody has yet, which is the nineteen seventies with a better font. &quot;Neural network&quot; used as proof that something is modern. And a claim of general intelligence with exactly one demo behind it.</p><p><b>Lexi Stark</b> And the myths, quickly, so people can hear themselves in them.</p><p><b>Simone Vale</b> AI was invented in the last few years: no, most of its mathematics is seventeenth to nineteenth century. Neural networks are a new idea: Rosenblatt built a learning machine in nineteen fifty-eight. Hinton invented backpropagation: Linnainmaa published it in nineteen seventy, and eighty-six spread it. AI progress has been steady: funding collapsed twice, in seventy-four and eighty-seven. And the transformer was a leap in mathematics: it made training parallel, and scale did the rest.</p><p><b>Lexi Stark</b> One thing to do before the next episode.</p><p><b>Simone Vale</b> Take one AI feature you actually use. Write down the oldest idea it rests on and the year that idea was published. Then look at the gap between that year and the year the product shipped. That gap is the real story of this industry, and almost nobody working in it can tell you what their own gap is.</p><p><b>Lexi Stark</b> So the mathematics is old, the architecture is one paper, and the hardware finally arrived. Which leaves the question this whole course exists to answer: if all of that is settled, why is building with it so hard? The answer is everything around the model, and that is exactly where we go next time.</p><p><b>Lexi Stark</b> I'm Lexi Stark. This is ExplAIn. From AI builder to AI owner.</p></div>
+            </details>
+            <div class="guest-links">
+              <button class="guest-link" type="button" disabled>Let’s chat</button>
+              <button class="guest-link guest-link-icon" type="button" disabled aria-label="Message Simone Vale on Telegram"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22.1 3.2 2.6 10.8c-1.1.4-1.1 2 .1 2.3l4.9 1.5 1.9 5.6c.3.9 1.5 1.1 2.1.3l2.6-2.9 5 3.7c.8.6 1.9.1 2.1-.8l3-16c.2-1-.9-1.8-1.8-1.3ZM9.6 14.6l9-6.4-7.3 7.8-.3 3.6Z"/></svg></button>
+            </div>
+            <p class="guest-note">Coming soon · an AI character from the show, not a real researcher.</p>
+          </div>
+        </article>
       </div>
     </section>
 
     <section class="section">
       <div class="shell">
         <div class="next">
-          <div><small>Next · Module 01</small><h3>How a model sees the world</h3></div>
+          <div><small>Next · Module 00 · Part 2</small><h3>What is an AI system?</h3></div>
           <div class="next-actions">
             <a class="btn btn-outline" href="syllabus.html">Full syllabus</a>
-            <a class="btn btn-primary" href="module-01.html">Module 01 <span aria-hidden="true">→</span></a>
+            <a class="btn btn-primary" href="module-00-part-2.html">Module 00 · Part 2 <span aria-hidden="true">→</span></a>
           </div>
         </div>
       </div>
@@ -270,8 +673,81 @@
     <div class="shell footer-inner">
       <a href="index.html" aria-label="ExplAIn home"><img src="assets/logo-white.png" alt="ExplAIn" width="545" height="201"></a>
       <span>Know more. Build better. Go further.</span>
+      <span class="footer-legal"><a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a></span>
       <span>Don’t just use AI. <b>Own it.</b></span>
     </div>
   </footer>
+  <script>
+  // The strip scrolls and snaps on its own. This adds the controls, the progress
+  // rail and the entrance animation, and marks the deck ready so the CSS may hide
+  // off-slide content — nothing is hidden when this never runs.
+  document.querySelectorAll('[data-deck]').forEach(function (deck) {
+    var track = deck.querySelector('.deckw-track');
+    var slides = [].slice.call(deck.querySelectorAll('.deckw-slide'));
+    var at = deck.querySelector('[data-deck-at]');
+    var fill = deck.querySelector('[data-deck-fill]');
+    var prev = deck.querySelector('[data-deck-prev]');
+    var next = deck.querySelector('[data-deck-next]');
+    var i = 0;
+    deck.classList.add('is-ready');
+
+    function paint() {
+      slides.forEach(function (s, n) {
+        // Re-trigger the animation each time a slide comes round again.
+        if (n === i) { s.classList.remove('is-on'); void s.offsetWidth; s.classList.add('is-on'); }
+        else { s.classList.remove('is-on'); }
+      });
+      at.textContent = i + 1;
+      fill.style.width = ((i + 1) / slides.length * 100) + '%';
+      prev.disabled = i === 0;
+      next.disabled = i === slides.length - 1;
+    }
+    function go(n) {
+      i = Math.max(0, Math.min(slides.length - 1, n));
+      track.scrollTo({ left: slides[i].offsetLeft - track.offsetLeft, behavior: 'smooth' });
+      paint();
+    }
+    var grid = deck.querySelector('[data-deck-grid]');
+    var all = deck.querySelector('[data-deck-all]');
+    var allLabel = deck.querySelector('[data-deck-all-label]');
+    var thumbs = [].slice.call(deck.querySelectorAll('.deckw-thumb'));
+    var openLabel = allLabel.textContent;
+
+    function overview(on) {
+      deck.classList.toggle('is-overview', on);
+      grid.hidden = !on;
+      all.setAttribute('aria-expanded', String(on));
+      allLabel.textContent = on ? 'Back to reading' : openLabel;
+      if (on) thumbs.forEach(function (t, n) { t.classList.toggle('is-current', n === i); });
+    }
+    all.addEventListener('click', function () { overview(grid.hidden); });
+    thumbs.forEach(function (t) {
+      t.addEventListener('click', function () {
+        overview(false);
+        go(parseInt(t.getAttribute('data-deck-to'), 10));
+        track.focus({ preventScroll: true });
+      });
+    });
+
+    prev.addEventListener('click', function () { go(i - 1); });
+    next.addEventListener('click', function () { go(i + 1); });
+    track.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowRight') { e.preventDefault(); go(i + 1); }
+      if (e.key === 'ArrowLeft') { e.preventDefault(); go(i - 1); }
+    });
+    var t;
+    track.addEventListener('scroll', function () {
+      clearTimeout(t);
+      t = setTimeout(function () {
+        var mid = track.scrollLeft + track.clientWidth / 2;
+        for (var n = 0; n < slides.length; n++) {
+          var left = slides[n].offsetLeft - track.offsetLeft;
+          if (mid >= left && mid < left + slides[n].offsetWidth) { if (n !== i) { i = n; paint(); } break; }
+        }
+      }, 90);
+    });
+    paint();
+  });
+  </script>
 </body>
 </html>

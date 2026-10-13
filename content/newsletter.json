@@ -1,0 +1,49 @@
+{
+  "name": "The ExplAIn Dispatch",
+  "promise": "One mechanism, one decision, one thing to try this week.",
+  "issues": [
+    {
+      "slug": "retrieval-or-the-model",
+      "number": 1,
+      "slug_keywords": "rag retrieval debugging, is it the model or the retrieval",
+      "title": "Your RAG answer is wrong: retrieval or the model?",
+      "dek": "A three-minute test that tells you which half of a retrieval system failed, before anyone changes a prompt or swaps a model.",
+      "date": "2026-10-13",
+      "minutes": 5,
+      "tag": "Issue 01",
+      "body": [
+        {"type": "p", "text": "A team ships a documentation assistant. In week one it answers a question about the refund window with a figure nobody recognises. The fix that gets tried first is almost always the same: a stronger model, then a longer prompt, then a plea to the vendor. Weeks go by. The answer stays wrong."},
+        {"type": "p", "text": "The uncomfortable part is that none of those steps were diagnostic. They were guesses about which half of the system failed, made without looking. And a retrieval system only has two halves worth separating: what got fetched, and what the model did with it."},
+        {"type": "quote", "text": "Look at the retrieved text before you touch the prompt."},
+        {"type": "h2", "text": "The three-minute test"},
+        {"type": "ol", "items": [
+          "Take the failing question and log the exact chunks that were retrieved for it, in the order they were passed.",
+          "Read them yourself. Does the correct answer appear anywhere in that text, in plain words?",
+          "If it does not appear, the retrieval half failed and no prompt will fix it.",
+          "If it does appear, paste the same chunks into a fresh chat with the same question. If the model now answers correctly, your assembly is at fault: order, truncation or a conflicting instruction. If it still answers wrongly, the model half failed.",
+          "Write down which half it was, next to the question, and keep the note. Five of those notes is a pattern."
+        ]},
+        {"type": "p", "text": "Most teams who run this honestly for a week find the split lands somewhere near two thirds retrieval, one third everything else. That is not a law of nature, but it is common enough to be worth expecting: the model is usually doing a reasonable job on text that never should have been handed to it."},
+        {"type": "h2", "text": "What each half actually breaks on"},
+        {"type": "table", "columns": ["Half", "How it usually fails", "Where to look first"], "rows": [
+          ["Retrieval", "The right passage was never fetched", "Chunk size, the index's freshness, and whether the query is embedded the same way as the documents"],
+          ["Retrieval", "The right passage was fetched and then cut off", "Token budget and truncation order: the useful chunk is often last"],
+          ["Assembly", "The passage is present but contradicted", "A system prompt, an older summary, or a memory note that disagrees with it"],
+          ["Model", "The passage is present, clear, and ignored", "Instruction conflict, or asking for a format the content cannot fill"],
+          ["Model", "The passage is absent and an answer appears anyway", "No instruction to decline, and no check that the claim is grounded"]
+        ]},
+        {"type": "h2", "text": "The decision this leads to"},
+        {"type": "p", "text": "Once you know which half fails, the engineering choice is no longer a matter of taste. A retrieval failure is a data and indexing problem: reindex on a schedule, chunk on headings rather than character counts, and store the document date so stale text can be filtered out instead of out-argued. A model failure is a design problem: supply the fact rather than ask for it, require a quotation from the source, and allow the answer “not in the documents” to be a success rather than a defect."},
+        {"type": "p", "text": "There is also a third outcome worth naming. Sometimes the retrieved text is correct, the model's answer is correct, and the user still calls it wrong — because the document itself is out of date. That is not an AI failure at all. It is a content problem that the assistant has made visible, and the honest response is to fix the document."},
+        {"type": "h2", "text": "Try this week"},
+        {"type": "ul", "items": [
+          "Pick the three complaints you have heard most about your assistant and run the three-minute test on each.",
+          "Log the retrieved chunks for every answer from now on. A system you cannot inspect is a system you can only guess about.",
+          "Add one test to your evaluation set per confirmed failure, with the question and the answer you expect, so the next change has to keep passing it."
+        ]},
+        {"type": "p", "text": "The point is not the test itself. It is the habit of naming the failing part before changing anything — the same habit the ExplAIn course builds across all eight parts of an AI system, starting with the map in Module 00."}
+      ],
+      "takeaway": "Read the retrieved text before you blame the model: if the answer was never fetched, no prompt can save it."
+    }
+  ]
+}
