@@ -182,6 +182,60 @@ p { margin: 0; }
 .loop-node { fill: var(--white); stroke: var(--violet); stroke-width: 2.5; }
 .loop-label { fill: var(--navy); font-size: 14px; font-weight: 600; }
 
+/* The free episode, on the landing page */
+.freeep { display: grid; grid-template-columns: 150px 1fr; gap: 34px; align-items: center; padding: 34px 38px; border: 1px solid var(--line); border-radius: 28px; background: var(--white); }
+.freeep-face { margin: 0; }
+.freeep-face img { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; border-radius: 50%; box-shadow: 0 16px 38px rgba(11, 16, 38, .16); }
+.freeep-tag { color: var(--violet); font-size: 11.5px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; }
+.freeep-body h3 { margin: 8px 0 10px; font-size: 27px; letter-spacing: -.02em; }
+.freeep-line { color: var(--muted); font-size: 15.5px; line-height: 1.6; }
+.freeep-audio { width: 100%; max-width: 480px; margin-top: 20px; }
+.freeep-cta { margin-top: 16px; color: var(--muted); font-size: 14.5px; }
+.freeep-cta a { color: var(--violet); font-weight: 600; text-decoration: none; }
+.freeep-cta a:hover { text-decoration: underline; }
+@media (max-width: 760px) {
+  .freeep { grid-template-columns: 1fr; gap: 22px; padding: 26px 24px; text-align: center; }
+  .freeep-face { width: 132px; margin-inline: auto; }
+}
+
+/* Article diagrams */
+.quad-grid { position: relative; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.quad-axis-x { grid-column: 1 / -1; margin: 0 0 2px; color: var(--violet); font-size: 11px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; text-align: center; }
+.quad-cell { padding: 20px 22px; border: 1px solid var(--line); border-radius: 18px; background: var(--white); }
+.quad-cell span { display: block; margin-bottom: 7px; color: var(--navy); font-size: 14px; font-weight: 600; }
+.quad-cell p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.55; }
+.quad-cell.danger { border-color: transparent; background: var(--grad-deep); }
+.quad-cell.danger span { color: #fff; }
+.quad-cell.danger p { color: #ddd6fe; }
+.quad figcaption, .spectrum figcaption { margin-top: 16px; color: var(--muted); font-size: 13.5px; line-height: 1.6; }
+.spectrum-track { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 0; padding: 0; list-style: none; counter-reset: none; }
+.spectrum-track li { padding: 20px 20px 22px; border: 1px solid var(--line); border-radius: 18px; background: var(--white); }
+.spectrum-dot { display: grid; place-items: center; width: 32px; height: 32px; margin-bottom: 14px; border-radius: 10px; color: #fff; background: var(--grad-deep); font-size: 13px; font-weight: 600; }
+.spectrum-track strong { display: block; color: var(--navy); font-size: 15.5px; }
+.spectrum-track p { margin: 6px 0 0; color: var(--muted); font-size: 13.5px; line-height: 1.55; }
+.spectrum-scale { display: flex; justify-content: space-between; gap: 14px; margin-top: 12px; padding-top: 12px; border-top: 2px solid var(--line); color: var(--muted); font-size: 12.5px; }
+@media (max-width: 760px) {
+  .quad-grid, .spectrum-track { grid-template-columns: 1fr; }
+  .spectrum-scale { flex-direction: column; gap: 4px; }
+}
+
+/* The course path — nine modules, then the capstone */
+.path { margin-top: 6px; }
+.path-track { display: flex; gap: 0; margin: 0; padding: 0 0 6px; list-style: none; overflow-x: auto; scrollbar-width: thin; }
+.path-step { position: relative; flex: 1 0 106px; text-align: center; }
+.path-step::before { content: ""; position: absolute; top: 23px; left: 0; right: 0; height: 2px; background: var(--line); }
+.path-step:first-child::before { left: 50%; }
+.path-step:last-child::before { right: 50%; }
+.path-step a { position: relative; display: block; padding: 0 6px; text-decoration: none; }
+.path-num { position: relative; display: grid; place-items: center; width: 46px; height: 46px; margin: 0 auto 12px; border-radius: 14px; color: #fff; background: var(--grad-deep); font-size: 14px; font-weight: 600; }
+.path-label { display: block; color: var(--muted); font-size: 13px; line-height: 1.35; }
+.path-step a:hover .path-label { color: var(--navy); }
+.path-end { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 30px; }
+.path-end div { padding: 20px 22px; border: 1px dashed var(--line); border-radius: 18px; }
+.path-end strong { display: block; color: var(--navy); font-size: 17px; }
+.path-end span { display: block; margin-top: 5px; color: var(--muted); font-size: 13.5px; }
+@media (max-width: 640px) { .path-end { grid-template-columns: 1fr; } }
+
 /* Pricing, in brief — the full tiers live on the course page */
 .price-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
 .price-card { display: block; padding: 24px 22px; border: 1px solid var(--line); border-radius: 20px; background: var(--white); text-decoration: none; transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease; }
@@ -411,3 +465,14 @@ footer { color: #9aa5c0; background: #070b1d; }
 @media (max-width: 430px) {
   .grid.cols-3, .grid.cols-4, .modules, .article-grid { grid-template-columns: 1fr; }
 }
+
+/* Legal pages */
+.legal-note { padding: 18px 22px; border-left: 3px solid var(--violet); border-radius: 0 14px 14px 0; background: var(--lavender); color: var(--violet-deep); font-size: 14.5px; line-height: 1.6; }
+.legal-note code { padding: 1px 6px; border-radius: 5px; background: rgba(255,255,255,.6); font-size: 13px; }
+@media (prefers-color-scheme: dark) {
+  .legal-note { background: #1e2550; color: #e4dcff; }
+  .legal-note code { background: rgba(0,0,0,.3); }
+}
+
+.footer-legal a { color: inherit; text-decoration: none; opacity: .85; }
+.footer-legal a:hover { opacity: 1; text-decoration: underline; }
