@@ -74,8 +74,6 @@ const FOOTER = `
             <li><a href="articles.html">Articles</a></li>
             <li><a href="newsletter.html">Newsletter</a></li>
             <li><a href="about.html">About</a></li>
-            <li><a href="privacy.html">Privacy</a></li>
-            <li><a href="terms.html">Terms</a></li>
             <li><a href="https://www.linkedin.com/in/katia-stainfeld-huri-6a268478" target="_blank" rel="noopener">LinkedIn</a></li>
           </ul>
         </div>
