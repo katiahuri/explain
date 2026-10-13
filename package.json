@@ -5,7 +5,8 @@
   "description": "ExplAIn course site and waitlist.",
   "scripts": {
     "dev": "node server/server.js --port=8420",
-    "build": "node scripts/build-public.js"
+    "build": "node scripts/build-public.js",
+    "pdf": "node scripts/make-syllabus-pdf.js"
   },
   "dependencies": {
     "@neondatabase/serverless": "^0.10.4"

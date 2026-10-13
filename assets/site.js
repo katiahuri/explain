@@ -46,9 +46,12 @@ document.querySelectorAll('.signup-form').forEach((form) => {
         headers: { Accept: 'application/json', 'Content-Type': 'application/x-www-form-urlencoded' },
       });
       if (!response.ok) throw new Error(`Sign-up failed with status ${response.status}`);
+      const source = form.querySelector('input[name="source"]');
       form.reset();
       form.classList.add('is-done');
       setStatus('You’re on the list. We’ll email you when the first cohort opens.', 'success');
+      // assets/track.js counts this as a conversion.
+      window.dispatchEvent(new CustomEvent('explain:signup', { detail: { source: source ? source.value : '' } }));
     } catch (error) {
       console.error(error);
       setStatus('Something went wrong. Please try again in a moment.', 'error');

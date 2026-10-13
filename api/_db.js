@@ -29,11 +29,43 @@ function connect() {
       ip_hash TEXT NOT NULL,
       at      TIMESTAMPTZ NOT NULL DEFAULT NOW()
     )
-  `).catch((error) => { ready = null; throw error; });
+  `).then(() => db`
+    CREATE TABLE IF NOT EXISTS pageviews (
+      id            BIGSERIAL PRIMARY KEY,
+      at            TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+      path          TEXT NOT NULL,
+      visit_id      TEXT NOT NULL DEFAULT '',
+      is_landing    BOOLEAN NOT NULL DEFAULT FALSE,
+      referrer_host TEXT NOT NULL DEFAULT '',
+      source        TEXT NOT NULL DEFAULT '',
+      medium        TEXT NOT NULL DEFAULT '',
+      campaign      TEXT NOT NULL DEFAULT '',
+      device        TEXT NOT NULL DEFAULT '',
+      country       TEXT NOT NULL DEFAULT '',
+      visitor_hash  TEXT NOT NULL DEFAULT ''
+    )
+  `).then(() => db`
+    CREATE TABLE IF NOT EXISTS events (
+      id       BIGSERIAL PRIMARY KEY,
+      at       TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+      name     TEXT NOT NULL,
+      path     TEXT NOT NULL DEFAULT '',
+      visit_id TEXT NOT NULL DEFAULT '',
+      detail   TEXT NOT NULL DEFAULT ''
+    )
+  `).then(() => db`CREATE INDEX IF NOT EXISTS pageviews_at_idx ON pageviews (at)`)
+    .then(() => db`CREATE INDEX IF NOT EXISTS pageviews_landing_idx ON pageviews (is_landing, at)`)
+    .then(() => db`CREATE INDEX IF NOT EXISTS events_at_idx ON events (at)`)
+    .catch((error) => { ready = null; throw error; });
   return ready.then(() => db);
 }
 
 // Visitors' IP addresses are only ever stored as a salted hash, for rate limiting.
 const hashIp = (ip) => crypto.createHash('sha256').update(`${ip}${process.env.IP_SALT || 'explain'}`).digest('hex').slice(0, 32);
 
-module.exports = { connect, hashIp };
+// Analytics counts people without identifying them: the hash includes the date,
+// so it cannot be used to follow anyone from one day to the next.
+const hashVisitor = (ip, agent, day) =>
+  crypto.createHash('sha256').update(`${ip}|${agent}|${day}|${process.env.IP_SALT || 'explain'}`).digest('hex').slice(0, 32);
+
+module.exports = { connect, hashIp, hashVisitor };

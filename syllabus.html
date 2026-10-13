@@ -11,6 +11,12 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <script>document.documentElement.classList.add('js');</script>
+  <script>
+    // A printed syllabus should show every module, not just the open one.
+    const expandModules = () => document.querySelectorAll('details.module').forEach((d) => { d.open = true; });
+    if (location.search.includes('print')) document.addEventListener('DOMContentLoaded', expandModules);
+    window.addEventListener('beforeprint', expandModules);
+  </script>
   <style>
     :root {
       --navy: #0b1026;
@@ -267,6 +273,42 @@
       .module[open] { border-color: #3a3a8f; }
       .fit-list li::before { color: #fff; background: rgba(124,58,237,.5); }
       .fit-card.not .fit-list li::before { color: #c3cbe2; background: #26315c; }
+    }
+
+    /* Printing / PDF: a clean document, with every module open. */
+    @media print {
+      :root { color-scheme: light; }
+      @page { size: A4; margin: 13mm 12mm; }
+      body { background: #fff; color: #1a2033; }
+      /* Keep the logo, drop the navigation and the on-screen calls to action. */
+      .nav-links, .hero-actions, .toggle, .metric-band, footer { display: none !important; }
+      .nav { padding: 0 0 18px; }
+      .wordmark img { height: 34px; }
+      .js .reveal { opacity: 1 !important; transform: none !important; }
+      /* background-clip: text does not survive printing, so it would paint a box. */
+      .gradient-text { background: none !important; -webkit-background-clip: border-box !important;
+        background-clip: border-box !important; -webkit-text-fill-color: #5b3fd9 !important; color: #5b3fd9 !important; }
+      .hero { min-height: auto; padding-bottom: 10px; }
+      .system-visual { display: none; }
+      .section { padding: 18px 0; }
+      .shell { width: 100%; max-width: none; padding: 0; }
+      h1 { font-size: 32px; }
+      h2 { font-size: 23px; }
+      .hero-lead, .section-intro { font-size: 13.5px; line-height: 1.55; }
+      .section-head, .curriculum-head { display: block; margin-bottom: 16px; break-inside: avoid; break-after: avoid; page-break-after: avoid; }
+      .section-head .section-intro, .curriculum-head .section-intro { max-width: none; margin-top: 8px; }
+      .problem-grid, .learning-stack, .audience-grid, .map-grid { grid-template-columns: 1fr 1fr; }
+      .capstone, .cert { grid-template-columns: 1fr; gap: 18px; padding: 22px; }
+      /* Modules stay whole, but several fit on a page. */
+      .module { break-inside: avoid; page-break-inside: avoid; margin-bottom: 7px; }
+      .module summary { cursor: default; }
+      .problem-card, .fit-card, .format-card, .cert-shot, .capstone { break-inside: avoid; page-break-inside: avoid; }
+      h2 { break-after: avoid; page-break-after: avoid; }
+      /* The certificate closes the document on its own page. */
+      #certificate { break-before: page; page-break-before: always; padding-top: 0; }
+      .cert-shot { box-shadow: none; }
+      .cert-shot img { max-height: 150mm; object-fit: contain; }
+      a[href]::after { content: none !important; }
     }
   </style>
 </head>
