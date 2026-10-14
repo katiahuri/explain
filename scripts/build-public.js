@@ -33,6 +33,7 @@ const ORIGIN = (env('SITE_ORIGIN')
 const FILES = [
   'index.html', 'digital-course.html', 'articles.html', 'about.html', 'syllabus.html',
   'content/articles.js', 'course/module-00/worksheet.html', 'course/module-00/deck.html',
+  'course/module-00-part-2/worksheet.html',
 ];
 // The cheat sheets are paid: they ship with The Book, not with the public site.
 const DIRS = ['assets'];

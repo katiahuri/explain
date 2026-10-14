@@ -21,7 +21,7 @@ newsletter. See [ANALYTICS.md](ANALYTICS.md).
 ```
 npm run report        where people land, where they come from, what to fix
 npm run audit         the SEO audit on its own
-npm run newsletter    rebuild the newsletter from content/newsletter.json
+npm run articles      rebuild the articles and Dispatch issues
 ```
 
 ## Deploying
@@ -37,17 +37,15 @@ deployed.
 
 ```
 index.html, digital-course.html, syllabus.html, articles.html, about.html
-newsletter.html                      The Dispatch archive
 module-00.html … module-08.html      Module pages
 article-*.html                       Articles
-newsletter-*.html                    Newsletter issues
 assets/                              Shared CSS, JS, logo and the beacon
-content/articles.json                Article sources
-content/newsletter.json              Newsletter sources
+content/articles.json                Articles and Dispatch issues
 course/workbook.html                 Participant workbook
 course/cheatsheets/                  One-page cheat sheet per module
 api/                                 Waitlist, tracking and stats endpoints
 server/                              Local development server
+scripts/build-articles.js            Builds the articles and the email drafts
 scripts/build-public.js              Builds the deployable site
 scripts/site-report.js               Traffic + SEO report
 .claude/agents/site-analyst.md       The agent that reads it and acts

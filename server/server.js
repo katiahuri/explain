@@ -24,6 +24,7 @@ const ADMIN_TOKEN = process.env.ADMIN_TOKEN || '';
 const PUBLIC_FILES = new Set([
   'index.html', 'digital-course.html', 'articles.html', 'about.html', 'syllabus.html',
   'privacy.html', 'terms.html', 'content/articles.js', 'course/module-00/worksheet.html', 'course/module-00/deck.html',
+  'course/module-00-part-2/worksheet.html',
 ]);
 const PUBLIC_PREFIXES = ['assets/'];
 const PUBLIC_PATTERNS = [/^module-\d\d(-part-\d)?\.html$/, /^article-[a-z0-9-]+\.html$/];

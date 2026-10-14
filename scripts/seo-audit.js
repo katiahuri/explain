@@ -39,12 +39,22 @@ function listPages(dir, base = '') {
   return found;
 }
 
+function listFiles(dir, base = '') {
+  const found = [];
+  for (const name of fs.readdirSync(path.join(dir, base))) {
+    const rel = base ? `${base}/${name}` : name;
+    found.push(...(fs.statSync(path.join(dir, rel)).isDirectory() ? listFiles(dir, rel) : [rel]));
+  }
+  return found;
+}
+
 function audit({ build = true } = {}) {
   if (build || !fs.existsSync(OUT)) {
     execFileSync(process.execPath, [path.join(ROOT, 'scripts', 'build-public.js')], { cwd: ROOT, stdio: 'pipe' });
   }
 
   const pages = listPages(OUT).filter((rel) => rel !== '404.html');
+  const built = new Set(listFiles(OUT));
   const sitemap = fs.existsSync(path.join(OUT, 'sitemap.xml')) ? fs.readFileSync(path.join(OUT, 'sitemap.xml'), 'utf8') : '';
   const findings = [];
   const seen = { title: new Map(), description: new Map() };
@@ -87,15 +97,20 @@ function audit({ build = true } = {}) {
     if (title) seen.title.set(title, [...(seen.title.get(title) || []), rel]);
     if (description) seen.description.set(description, [...(seen.description.get(description) || []), rel]);
 
-    // Count inbound internal links, so orphan pages show up.
-    for (const match of html.matchAll(/href="([^"#?]+)/g)) {
+    // Count inbound internal links, so orphan pages show up, and check that
+    // every one of them actually resolves to something in the build.
+    const dir = rel.includes('/') ? `${rel.slice(0, rel.lastIndexOf('/'))}/` : '';
+    const markup = html.replace(/<script[\s\S]*?<\/script>/gi, ' ');
+    for (const match of markup.matchAll(/href="([^"#?]+)/g)) {
       const href = match[1];
-      if (/^(https?:|mailto:|tel:)/.test(href)) continue;
-      const target = href.replace(/^\//, '').replace(/^\.\//, '');
-      const candidates = [target, `${target}.html`, `${target}/index.html`];
-      for (const candidate of candidates) {
-        if (linkedFrom.has(candidate) && candidate !== rel) linkedFrom.set(candidate, linkedFrom.get(candidate) + 1);
-      }
+      if (/^(https?:|mailto:|tel:|data:)/.test(href)) continue;
+      const target = href.startsWith('/')
+        ? href.slice(1)
+        : path.posix.normalize(dir + href.replace(/^\.\//, ''));
+      const candidates = [target, `${target}.html`, `${target}/index.html`, target.replace(/\/$/, '/index.html')];
+      const hit = candidates.find((candidate) => built.has(candidate));
+      if (!hit) say('error', `Link to ${href} goes nowhere: no such page in the build.`);
+      else if (linkedFrom.has(hit) && hit !== rel) linkedFrom.set(hit, linkedFrom.get(hit) + 1);
     }
 
     facts.push({ page: rel, title, description, words, h1s, canonical });

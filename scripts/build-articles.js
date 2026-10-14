@@ -72,7 +72,7 @@ const FOOTER = `
           <h4>More</h4>
           <ul>
             <li><a href="articles.html">Articles</a></li>
-            <li><a href="newsletter.html">Newsletter</a></li>
+            
             <li><a href="about.html">About</a></li>
             <li><a href="https://www.linkedin.com/in/katia-stainfeld-huri-6a268478" target="_blank" rel="noopener">LinkedIn</a></li>
           </ul>
@@ -256,7 +256,7 @@ ${issue.body.map((b) => `        ${block(b)}`).join('\n')}
 
       <div class="article-cta">
         <p><b>${esc(data.name)} lands when there is something worth saying.</b>${esc(data.promise)}</p>
-        <a class="btn btn-primary" href="newsletter.html#join">Subscribe <span aria-hidden="true">→</span></a>
+        <a class="btn btn-primary" href="articles.html#join">Get the next one <span aria-hidden="true">→</span></a>
       </div>
     </div>
 ${keepReading}
@@ -330,7 +330,7 @@ ${issue.body.map((b) => `        ${emailBlock(b)}`).join('\n')}
       </td></tr>
       <tr><td style="padding:22px 32px 30px; border-top:1px solid #e4e8f1;">
         <p style="margin:0 0 8px; font:13px/1.6 Helvetica,Arial,sans-serif; color:#667085;">
-          Read this issue on the web: <a href="{{site}}/newsletter-${issue.slug}" style="color:#7c3aed;">{{site}}/newsletter-${issue.slug}</a>
+          Read this issue on the web: <a href="{{site}}/article-${issue.slug}" style="color:#7c3aed;">{{site}}/article-${issue.slug}</a>
         </p>
         <p style="margin:0; font:12px/1.6 Helvetica,Arial,sans-serif; color:#98a3c0;">
           You are getting this because you joined the ExplAIn list. <a href="{{unsubscribe}}" style="color:#98a3c0;">Unsubscribe</a>.

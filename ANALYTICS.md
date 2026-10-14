@@ -90,10 +90,12 @@ Regenerate the social card after a brand change with `python scripts/og-card.py`
 
 ## The newsletter
 
-Issues live in `content/newsletter.json`. `npm run newsletter` writes:
+The Dispatch and the articles are one stream. An issue is an object in
+`content/articles.json` and publishes as `/article-<slug>`, so every issue is an
+indexable page rather than a mail that disappears. `npm run articles` writes:
 
-- `newsletter.html` — the archive, linked from the nav and the footer
-- `newsletter-<slug>.html` — one indexable page per issue
+- `articles.html` — the index, linked from the nav and the footer
+- `article-<slug>.html` — one page per article or issue
 - `email-drafts/<slug>.html` — the same issue as a single-column email, with
   `{{site}}` and `{{unsubscribe}}` left for whatever sends it
 

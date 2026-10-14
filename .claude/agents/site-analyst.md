@@ -41,17 +41,24 @@ The site is generated in places. Edit the source, never the output:
 
 | To change | Edit | Then run |
 | --- | --- | --- |
-| Articles | `content/articles.json` | `node course/_build/articles.js` |
-| Newsletter issues | `content/newsletter.json` | `node scripts/build-newsletter.js` |
+| Articles and newsletter issues | `content/articles.json` | `npm run articles` |
 | Module pages | `course/_build/build.js` and `course/content/*.json` | `node course/_build/build.js` |
 | Home, course, about, syllabus | the `.html` file directly | — |
+| What is published at all | `scripts/build-public.js` (`FILES`, `DIRS`, `PATTERNS`) | `npm run build` |
 | Canonicals, structured data, sitemap, robots, feed | `scripts/build-public.js` | `npm run build` |
 | What gets tracked | `assets/track.js`, `api/track.js`, `api/stats.js` | — |
 
-`module-*.html`, `article-*.html`, `newsletter*.html`, `content/articles.js` and
+`module-*.html`, `article-*.html`, `articles.html`, `content/articles.js` and
 everything in `public/` are generated. Editing them directly loses the change at
 the next build. If `course/_build/` is missing (it is kept out of the public
 repo), say so rather than hand-editing the output.
+
+Two traps worth knowing. `course/_build/articles.js` is an older generator that
+`scripts/build-articles.js` replaced: running it overwrites the current pages
+with stale markup, so leave it alone. And a page only reaches the site if
+`scripts/build-public.js` lists it — a link to a file that exists in the repo
+but is not published is a 404 in production, which is why the audit now checks
+that every internal link resolves in the build.
 
 Fixes worth making, in the order they usually pay off:
 
@@ -79,15 +86,17 @@ you expect to move. Name the figure you will check on the next run.
 ## The newsletter
 
 The newsletter is both a mailing and the site's best source of new indexable
-pages. One issue is one object in `content/newsletter.json`, using the same block
-types as the articles (`p`, `h2`, `ul`, `ol`, `quote`, `table`).
+pages. The Dispatch and the articles are one stream: an issue is an object in
+`content/articles.json`, using the block types `p`, `h2`, `ul`, `ol`, `quote`
+and `table`, and it publishes as `/article-<slug>` alongside everything else.
+The file's `name` and `promise` are the Dispatch's own.
 
 Pick the topic from the data, not from taste: the subjects of the pages that
 already pull organic or AI landings, or the question behind the search terms that
 are working. Then:
 
 ```bash
-node scripts/build-newsletter.js    # archive page, issue page, email draft
+npm run articles                    # articles.html, the issue page, the email draft
 npm run build && node scripts/seo-audit.js
 ```
 
