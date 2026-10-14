@@ -109,7 +109,12 @@
      "text": "The point is not the test itself. It is the habit of naming the failing part before changing anything — the same habit the ExplAIn course builds across all eight parts of an AI system, starting with the map in Module 00."
     }
    ],
-   "takeaway": "Read the retrieved text before you blame the model: if the answer was never fetched, no prompt can save it."
+   "takeaway": "Read the retrieved text before you blame the model: if the answer was never fetched, no prompt can save it.",
+   "module": {
+    "num": "06",
+    "label": "Knowledge",
+    "title": "Retrieval, memory and fine-tuning"
+   }
   },
   {
    "slug": "what-your-ai-product-actually-is",
@@ -228,7 +233,12 @@
      "text": "ExplAIn is built on this map. The first module draws it, and every module after that goes deep into one box: context, knowledge and memory, tools, orchestration, guardrails and evaluation."
     }
    ],
-   "takeaway": "Name the box before you fix anything, and rule out context, knowledge and tools before you blame the model."
+   "takeaway": "Name the box before you fix anything, and rule out context, knowledge and tools before you blame the model.",
+   "module": {
+    "num": "01",
+    "label": "The map",
+    "title": "What is an AI system?"
+   }
   },
   {
    "slug": "confident-and-wrong",
@@ -336,7 +346,12 @@
      "text": "ExplAIn spends a module on this mechanism and a later one on the checks: what to verify, where the check lives in your system, and how to test that it still works after a model or prompt change."
     }
    ],
-   "takeaway": "Treat every output as a likely guess until something outside the model checks it."
+   "takeaway": "Treat every output as a likely guess until something outside the model checks it.",
+   "module": {
+    "num": "04",
+    "label": "Probability",
+    "title": "Reasoning, sampling and hallucination"
+   }
   },
   {
    "slug": "workflow-or-agent",
@@ -463,7 +478,12 @@
      "text": "ExplAIn has a module on this: the loop, the spectrum, how errors compound, and how to redesign a real use case at three levels of autonomy so the trade-offs are on the table before anyone builds."
     }
    ],
-   "takeaway": "Give the model a decision only where fixed code can’t handle the variety, and keep a person on anything you can’t undo."
+   "takeaway": "Give the model a decision only where fixed code can’t handle the variety, and keep a person on anything you can’t undo.",
+   "module": {
+    "num": "08",
+    "label": "Agents",
+    "title": "Agents without the mythology"
+   }
   }
  ]
 }

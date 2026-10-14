@@ -255,6 +255,16 @@ ${issue.body.map((b) => `        ${block(b)}`).join('\n')}
         <p>${esc(issue.takeaway)}</p>
       </div>
 
+${issue.module ? `
+      <aside class="bridge">
+        <p class="bridge-tag">In the course</p>
+        <p class="bridge-mod"><b>Module ${esc(issue.module.num)}</b> · ${esc(issue.module.label)}</p>
+        <p class="bridge-title">${esc(issue.module.title)}</p>
+        <p class="bridge-line">This article is the short version. The module adds the applied exercise,
+          the cheat sheet and the podcast episode.</p>
+        <a class="bridge-cta" href="module-${esc(issue.module.num)}.html">Open Module ${esc(issue.module.num)} <span aria-hidden="true">→</span></a>
+      </aside>` : ''}
+
       <div class="article-cta">
         <p><b>${esc(data.name)} lands when there is something worth saying.</b>${esc(data.promise)}</p>
         <a class="btn btn-primary" href="articles.html#join">Get the next one <span aria-hidden="true">→</span></a>
