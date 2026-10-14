@@ -5,18 +5,19 @@ waitlist form can store sign-ups, then set a token so you can download the list.
 
 ## 1. Deploy
 
-From this folder:
+**Pushing to `main` deploys the site.** The Vercel project is connected to the
+GitHub repo, so a push builds and goes live on explaincourse.com by itself, and
+every other branch gets its own preview URL.
 
-```
-vercel
-```
-
-The first run asks a few questions (scope, project name) and then gives you a
-preview URL. When you are happy with it:
+To deploy by hand instead — a rollback, or a build without a commit:
 
 ```
 vercel --prod
 ```
+
+The project lives in the **LUMI** team on Vercel, not under a personal account.
+If the CLI answers `Not authorized`, its default scope has drifted; fix it with
+`vercel switch lumibooks` rather than relinking the project.
 
 Vercel runs `node scripts/build-public.js`, which copies **only** the public site
 into `public/` and deploys that. Your decks, facilitator scripts, course sources
