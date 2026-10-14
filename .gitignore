@@ -3,7 +3,15 @@ course/**/*.pptx
 course/**/*.docx
 course/foundations-01/
 course/content/
-course/_build/
+# The build code is site code and belongs in the repo: it generates the public
+# module pages. Everything else under _build stays out - node_modules, and the
+# deck background images that only the .pptx build needs.
+course/_build/*
+!course/_build/*.js
+!course/_build/*.css
+!course/_build/*.py
+!course/_build/package.json
+!course/_build/package-lock.json
 course/certificate/
 course/dist/
 

@@ -1,0 +1,13 @@
+{
+  "name": "explain-course-build",
+  "private": true,
+  "description": "Generates ExplAIn course decks, facilitator scripts and module pages from course/content/*.json",
+  "scripts": {
+    "validate": "node validate-content.js",
+    "build": "node validate-content.js && node build.js && python package.py"
+  },
+  "dependencies": {
+    "docx": "^9.7.1",
+    "pptxgenjs": "^3.12.0"
+  }
+}
