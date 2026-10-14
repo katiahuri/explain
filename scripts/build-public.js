@@ -33,7 +33,7 @@ const ORIGIN = (env('SITE_ORIGIN')
 const FILES = [
   'index.html', 'digital-course.html', 'articles.html', 'about.html', 'syllabus.html',
   'content/articles.js', 'course/module-00/worksheet.html', 'course/module-00/deck.html',
-  'course/module-00-part-2/worksheet.html',
+  'course/module-01/worksheet.html',
 ];
 // The cheat sheets are paid: they ship with The Book, not with the public site.
 const DIRS = ['assets'];
@@ -43,8 +43,8 @@ const read = (rel) => fs.readFileSync(path.join(ROOT, rel), 'utf8');
 const readJson = (rel) => { try { return JSON.parse(read(rel)); } catch { return null; } };
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
+// The articles and the Dispatch issues are one list.
 const articles = (readJson('content/articles.json') || { articles: [] }).articles;
-const issues = (readJson('content/newsletter.json') || { issues: [] }).issues;
 
 // cleanUrls is on in vercel.json, so /about.html is served at /about.
 function urlFor(rel) {
@@ -104,8 +104,8 @@ function jsonLd(url, rel, title, description) {
     }];
   }
 
-  const slug = (rel.match(/^(?:article|newsletter)-([a-z0-9-]+)\.html$/) || [])[1];
-  const entry = slug && (articles.find((a) => a.slug === slug) || issues.find((i) => i.slug === slug));
+  const slug = (rel.match(/^article-([a-z0-9-]+)\.html$/) || [])[1];
+  const entry = slug && articles.find((a) => a.slug === slug);
   if (entry) {
     return [{
       '@context': 'https://schema.org',
@@ -244,8 +244,8 @@ if (ORIGIN) {
   // How important each kind of page is, first match wins.
   const WEIGHT = [
     [/^index\.html$/, '1.0'], [/^digital-course\.html$/, '0.9'], [/^syllabus\.html$/, '0.9'],
-    [/^articles\.html$/, '0.8'], [/^newsletter\.html$/, '0.8'], [/^about\.html$/, '0.7'],
-    [/^(article|newsletter)-/, '0.7'], [/^module-/, '0.6'],
+    [/^articles\.html$/, '0.8'], [/^about\.html$/, '0.7'],
+    [/^article-/, '0.7'], [/^module-/, '0.6'],
   ];
   const urls = pages.map((rel) => {
     const stat = fs.statSync(path.join(ROOT, rel));
@@ -262,11 +262,9 @@ if (ORIGIN) {
 
   write('robots.txt', ['User-agent: *', 'Allow: /', 'Disallow: /api/', '', `Sitemap: ${ORIGIN}/sitemap.xml`, ''].join('\n'));
 
-  // One feed for the articles and the newsletter together, newest first.
-  const items = [
-    ...articles.map((a) => ({ ...a, url: `/article-${a.slug}` })),
-    ...issues.map((i) => ({ ...i, url: `/newsletter-${i.slug}` })),
-  ].sort((a, b) => String(b.date).localeCompare(String(a.date))).map((item) => [
+  // One feed for the articles and the Dispatch issues, newest first.
+  const items = articles.map((a) => ({ ...a, url: `/article-${a.slug}` }))
+    .sort((a, b) => String(b.date).localeCompare(String(a.date))).map((item) => [
     '    <item>',
     `      <title>${esc(item.title)}</title>`,
     `      <link>${ORIGIN}${item.url}</link>`,

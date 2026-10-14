@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Building AI you can trust — ExplAIn Module 08</title>
-  <meta name="description" content="ExplAIn Module 08: Moves from “it worked for me” to measurable production thinking: golden sets, graders, failure types, regression tests and cost-latency…">
+  <title>Agents without the mythology — ExplAIn Module 08</title>
+  <meta name="description" content="ExplAIn Module 08: Takes the mythology out of agents: a loop where the model picks the next step. Learn when that autonomy helps, where it adds risk, and…">
   <meta name="theme-color" content="#0B1026">
   <link rel="icon" type="image/png" href="assets/icon.png">
   <link rel="apple-touch-icon" href="assets/icon.png">
@@ -261,9 +261,9 @@
   <header class="hero">
     <div class="shell hero-inner">
       <a class="back" href="digital-course.html#curriculum">← All modules</a>
-      <p class="eyebrow">Module 08 · Evals</p>
-      <h1>Building AI you can trust</h1>
-      <p class="hero-lead">A demo is not a system.</p>
+      <p class="eyebrow">Module 08 · Agents</p>
+      <h1>Agents without the mythology</h1>
+      <p class="hero-lead">An agent is a loop with model-selected decisions.</p>
     </div>
   </header>
 
@@ -273,10 +273,10 @@
       <div class="shell">
         <div class="section-head"><p class="eyebrow">What you’ll learn</p><h2>Four ideas, one module</h2></div>
         <div class="learn">
-          <article><span>01</span><h3>Golden sets</h3><p>A small, versioned set of real cases that defines “working”.</p></article>
-          <article><span>02</span><h3>Three ways to grade</h3><p>Deterministic checks, human review and LLM judges, and when to use each.</p></article>
-          <article><span>03</span><h3>Failures and regressions</h3><p>Name the failure type, then rerun the set on every change.</p></article>
-          <article><span>04</span><h3>Quality, cost, latency</h3><p>Choose what belongs in production, not what won the demo.</p></article>
+          <article><span>01</span><h3>Workflow vs agent</h3><p>Who decides the next step: your code or the model.</p></article>
+          <article><span>02</span><h3>The agent loop</h3><p>Observe, decide, act, update state. Repeat until done or stopped.</p></article>
+          <article><span>03</span><h3>Errors compound</h3><p>Why a chain of mostly good steps can still fail as a whole.</p></article>
+          <article><span>04</span><h3>Autonomy by design</h3><p>Where a human approves, and when a plain workflow is the better choice.</p></article>
         </div>
       </div>
     </section>
@@ -286,11 +286,11 @@
         <div class="exercise">
           <div>
             <p class="eyebrow">Applied exercise</p>
-            <h2>Better, slower, pricier</h2>
-            <p>Compare two architectures where one performs better but is substantially slower and more expensive. Decide what belongs in production.</p>
+            <h2>Redesign four use cases</h2>
+            <p>Redesign four use cases as workflows, partially agentic systems and autonomous agents, then compare risk.</p>
             <div class="actions"><a class="btn btn-primary" href="digital-course.html#pricing">Get the workbook <span aria-hidden="true">→</span></a></div>
           </div>
-          <ul class="products"><li>Architecture A</li><li>Architecture B</li><li>The decision</li></ul>
+          <ul class="products"><li>Customer refund requests</li><li>Weekly sales report</li><li>Competitor research brief</li><li>Night-time incident response</li></ul>
         </div>
       </div>
     </section>
@@ -298,8 +298,8 @@
 
     <section class="section white" id="cheat-sheet">
       <div class="shell">
-        <div class="section-head"><p class="eyebrow">Cheat sheet</p><h2>If you can’t name the number that would make you roll back, you don’t know it works</h2></div>
-        <p style="max-width:640px;color:var(--muted);font-size:17px;line-height:1.65">One page you keep: the questions to ask on every project, the rules of thumb, and a template you can use on your own product. All nine come with The Book.</p>
+        <div class="section-head"><p class="eyebrow">Cheat sheet</p><h2>Autonomy is a cost: give the model a decision only where code can’t cover the cases</h2></div>
+        <p style="max-width:640px;color:var(--muted);font-size:17px;line-height:1.65">One page you keep: the questions to ask on every project, the rules of thumb, and a decision guide you can use on your own product. All nine come with The Book.</p>
         <div class="actions" style="margin-top:22px"><a class="btn btn-primary" href="digital-course.html#pricing">Get the cheat sheets</a></div>
       </div>
     </section>
@@ -308,11 +308,11 @@
         <div class="section-head"><p class="eyebrow">Leave at the door</p><h2>Five myths this module breaks</h2></div>
         <table class="myths">
           <tr><th scope="col">Myth</th><th scope="col">What’s actually true</th></tr>
-          <tr><td>“LLM-as-a-judge is objective.”</td><td>It has biases. Calibrate it against human labels.</td></tr>
-          <tr><td>“I tried it a few times. It works.”</td><td>A few tries are anecdotes. Use a golden set.</td></tr>
-          <tr><td>“One accuracy number tells the story.”</td><td>Break failures down by type and by cost.</td></tr>
-          <tr><td>“The best model belongs in production.”</td><td>The best fit for quality, cost and latency does.</td></tr>
-          <tr><td>“Evals are a launch step.”</td><td>Rerun them on every prompt, model or data change.</td></tr>
+          <tr><td>“More agentic is always better.”</td><td>More autonomy adds variance, cost and risk too.</td></tr>
+          <tr><td>“The agent takes the action.”</td><td>The model requests it. Your system executes it.</td></tr>
+          <tr><td>“It made a plan, so it stays on track.”</td><td>A plan is text. Only checks keep it on track.</td></tr>
+          <tr><td>“More agents give better answers.”</td><td>Each hand-off adds cost and a chance to fail.</td></tr>
+          <tr><td>“A human in the loop makes it safe.”</td><td>Only if they see the evidence and can say no.</td></tr>
         </table>
       </div>
     </section>
@@ -325,15 +325,15 @@
           <h2>Can you call this one?</h2>
         </div>
         <div class="chk" data-chk>
-          <p class="chk-q">After a model upgrade, users say the assistant “got worse”.</p>
-          <p class="chk-p">What would you need in place to confirm or refute it in an hour? Name three pieces.</p>
+          <p class="chk-q">A research agent misreads a figure at step 2. The report builds on it.</p>
+          <p class="chk-p">Why did the error spread? Name two design changes that would have caught it earlier.</p>
           <label class="chk-label" for="chk-answer">Your answer</label>
           <textarea class="chk-in" id="chk-answer" rows="3"
                     placeholder="Name the part that failed, and what you would change."></textarea>
           <button class="chk-btn" type="button" data-chk-show>Show how we would answer</button>
           <div class="chk-a" data-chk-answer hidden>
             <p class="chk-a-h">How we would answer</p>
-            <ul><li><b>A golden set</b> real cases with expected behavior, agreed before the upgrade.</li><li><b>A baseline</b> stored scores for the old version on the same set.</li><li><b>Graders</b> deterministic checks, plus a judge calibrated against human labels.</li><li><b>A failure taxonomy</b> to label what “worse” means and which box it lives in.</li><li><b>Logs of real requests</b> to add the complaining users’ cases to the set.</li><li>Cost and latency tracked too: “worse” is sometimes “slower”.</li></ul>
+            <ul><li><b>Why it spread</b> later steps treat earlier results in state as facts. Nothing re-checked the figure, so every step built on it.</li><li><b>Check observations</b> compare the extracted figure against the source before storing it.</li><li><b>Add a checkpoint</b> a code check or human review before key numbers are used downstream.</li><li>Require citations for every figure, and verify them automatically.</li><li>Make the known steps a fixed workflow, so fewer steps are left to the model.</li><li><b>Not enough on its own</b> a bigger model. It lowers the per-step error but doesn’t stop propagation.</li></ul>
             <p class="chk-cta">Every module ends on a question like this.
               <a href="digital-course.html#join">Join the waitlist &rarr;</a></p>
           </div>
@@ -345,17 +345,17 @@
     <section class="section white" id="episode">
       <div class="shell">
         <article class="guest">
-          <figure class="guest-face"><img class="guest-art" src="assets/guests/remy-calder.jpg" width="320" height="320"
-              loading="lazy" decoding="async" alt="Portrait of Remy Calder"></figure>
+          <figure class="guest-face"><img class="guest-art" src="assets/guests/cleo-maren.jpg" width="320" height="320"
+              loading="lazy" decoding="async" alt="Portrait of Cleo Maren"></figure>
           <div class="guest-body">
-            <p class="guest-epithet">The Benchmark Saboteur</p>
-            <h2>Remy Calder</h2>
-            <p class="guest-line">stress-tests the tests themselves, exposing impressive scores that hide embarrassing failures.</p>
+            <p class="guest-epithet">The Autonomy Engineer</p>
+            <h2>Cleo Maren</h2>
+            <p class="guest-line">builds and breaks agent workflows to discover when independent AI becomes useful and when it becomes chaos.</p>
             
             
             <div class="guest-links">
               <button class="guest-link" type="button" disabled>Let’s chat</button>
-              <button class="guest-link guest-link-icon" type="button" disabled aria-label="Message Remy Calder on Telegram"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22.1 3.2 2.6 10.8c-1.1.4-1.1 2 .1 2.3l4.9 1.5 1.9 5.6c.3.9 1.5 1.1 2.1.3l2.6-2.9 5 3.7c.8.6 1.9.1 2.1-.8l3-16c.2-1-.9-1.8-1.8-1.3ZM9.6 14.6l9-6.4-7.3 7.8-.3 3.6Z"/></svg></button>
+              <button class="guest-link guest-link-icon" type="button" disabled aria-label="Message Cleo Maren on Telegram"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22.1 3.2 2.6 10.8c-1.1.4-1.1 2 .1 2.3l4.9 1.5 1.9 5.6c.3.9 1.5 1.1 2.1.3l2.6-2.9 5 3.7c.8.6 1.9.1 2.1-.8l3-16c.2-1-.9-1.8-1.8-1.3ZM9.6 14.6l9-6.4-7.3 7.8-.3 3.6Z"/></svg></button>
             </div>
             <p class="guest-note">Coming soon · an AI character from the show, not a real researcher.</p>
           </div>
@@ -366,10 +366,10 @@
     <section class="section">
       <div class="shell">
         <div class="next">
-          <div><small>Course complete</small><h3>Don’t just use AI. Own it</h3></div>
+          <div><small>Next · Module 09</small><h3>Building AI you can trust</h3></div>
           <div class="next-actions">
             <a class="btn btn-outline" href="module-07.html">← Module 07</a>
-            <a class="btn btn-primary" href="digital-course.html#pricing">Get the workbook <span aria-hidden="true">→</span></a>
+            <a class="btn btn-primary" href="module-09.html">Module 09 <span aria-hidden="true">→</span></a>
           </div>
         </div>
       </div>

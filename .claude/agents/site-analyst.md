@@ -53,9 +53,7 @@ everything in `public/` are generated. Editing them directly loses the change at
 the next build. If `course/_build/` is missing (it is kept out of the public
 repo), say so rather than hand-editing the output.
 
-Two traps worth knowing. `course/_build/articles.js` is an older generator that
-`scripts/build-articles.js` replaced: running it overwrites the current pages
-with stale markup, so leave it alone. And a page only reaches the site if
+One trap worth knowing: a page only reaches the site if
 `scripts/build-public.js` lists it — a link to a file that exists in the repo
 but is not published is a 404 in production, which is why the audit now checks
 that every internal link resolves in the build.

@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>How a model sees the world — ExplAIn Module 01</title>
-  <meta name="description" content="ExplAIn Module 01: Opens the Model box: tokens, embeddings and attention, just enough to explain why what enters the context shapes every answer, its cost…">
+  <title>What is an AI system? — ExplAIn Module 01</title>
+  <meta name="description" content="ExplAIn Module 01: Installs the map the whole course hangs on: which parts of an AI product are the model, and which are the system around it.">
   <meta name="theme-color" content="#0B1026">
   <link rel="icon" type="image/png" href="assets/icon.png">
   <link rel="apple-touch-icon" href="assets/icon.png">
@@ -261,9 +261,9 @@
   <header class="hero">
     <div class="shell hero-inner">
       <a class="back" href="digital-course.html#curriculum">← All modules</a>
-      <p class="eyebrow">Module 01 · Inside the model</p>
-      <h1>How a model sees the world</h1>
-      <p class="hero-lead">Context is the model’s working reality.</p>
+      <p class="eyebrow">Module 01 · The map</p>
+      <h1>What is an AI system?</h1>
+      <p class="hero-lead">The model generates. The system does.</p>
     </div>
   </header>
 
@@ -273,24 +273,31 @@
       <div class="shell">
         <div class="section-head"><p class="eyebrow">What you’ll learn</p><h2>Four ideas, one module</h2></div>
         <div class="learn">
-          <article><span>01</span><h3>Tokens</h3><p>What the model actually reads, and why it explains odd behavior.</p></article>
-          <article><span>02</span><h3>Embeddings and attention</h3><p>How each token’s meaning is shaped by everything around it.</p></article>
-          <article><span>03</span><h3>Context windows</h3><p>A hard budget. Fitting inside it isn’t the same as being used well.</p></article>
-          <article><span>04</span><h3>Token cost</h3><p>Why every token costs money and time, on every single call.</p></article>
+          <article><span>01</span><h3>One nesting map</h3><p>AI, ML, deep learning, generative AI and LLMs, in their place.</p></article>
+          <article><span>02</span><h3>Model vs product</h3><p>Same model, different products, different failures.</p></article>
+          <article><span>03</span><h3>Training vs inference</h3><p>Why your chat doesn’t teach the model.</p></article>
+          <article><span>04</span><h3>The system map</h3><p>Eight boxes you’ll use for the rest of the course.</p></article>
         </div>
       </div>
     </section>
 
+    <section class="section white">
+      <div class="shell">
+        <div class="section-head"><p class="eyebrow">The system map</p><h2>Eight boxes around <span class="grad-text">one model</span></h2></div>
+        <div class="map"><div class="box"><h3>Context</h3><p>What the model sees right now</p></div><div class="box"><h3>Knowledge</h3><p>Documents and retrieval</p></div><div class="box"><h3>Memory and state</h3><p>What persists between turns</p></div><div class="box"><h3>Tools and actions</h3><p>What it can do in the world</p></div><div class="box model"><h3>Model</h3><p>Generates the next tokens</p></div><div class="box"><h3>Orchestration</h3><p>Steps and loops around calls</p></div><div class="box"><h3>Guardrails</h3><p>What it may see and do</p></div><div class="box"><h3>Evaluation</h3><p>How we know it works</p></div><div class="box"><h3>Interface</h3><p>Where people meet it</p></div></div>
+        <p class="map-note">Every later module zooms into one box.</p>
+      </div>
+    </section>
     <section class="section">
       <div class="shell">
         <div class="exercise">
           <div>
             <p class="eyebrow">Applied exercise</p>
-            <h2>Predict the strongest context</h2>
-            <p>Predict which of three differently structured contexts will produce the strongest answer—and explain why.</p>
-            <div class="actions"><a class="btn btn-primary" href="digital-course.html#pricing">Get the workbook <span aria-hidden="true">→</span></a></div>
+            <h2>Dissect three real products</h2>
+            <p>Dissect ChatGPT, a coding assistant and a support bot into model, context, tools, state and external systems.</p>
+            <div class="actions"><a class="btn btn-primary" href="digital-course.html#pricing">Get the workbook <span aria-hidden="true">→</span></a> <a class="btn btn-ghost" href="course/module-01/worksheet.html">Printable worksheet</a></div>
           </div>
-          <ul class="products"><li>A: The whole handbook</li><li>B: Just the question</li><li>C: Curated context</li></ul>
+          <ul class="products"><li>ChatGPT</li><li>A coding assistant</li><li>A customer-support bot</li></ul>
         </div>
       </div>
     </section>
@@ -298,7 +305,7 @@
 
     <section class="section white" id="cheat-sheet">
       <div class="shell">
-        <div class="section-head"><p class="eyebrow">Cheat sheet</p><h2>Every answer is shaped by what’s in the context: choose it, measure it, pay for it</h2></div>
+        <div class="section-head"><p class="eyebrow">Cheat sheet</p><h2>Most of what users call “the AI” is the system you build around the model</h2></div>
         <p style="max-width:640px;color:var(--muted);font-size:17px;line-height:1.65">One page you keep: the questions to ask on every project, the rules of thumb, and a checklist you can use on your own product. All nine come with The Book.</p>
         <div class="actions" style="margin-top:22px"><a class="btn btn-primary" href="digital-course.html#pricing">Get the cheat sheets</a></div>
       </div>
@@ -308,11 +315,11 @@
         <div class="section-head"><p class="eyebrow">Leave at the door</p><h2>Five myths this module breaks</h2></div>
         <table class="myths">
           <tr><th scope="col">Myth</th><th scope="col">What’s actually true</th></tr>
-          <tr><td>“The model reads words.”</td><td>It reads tokens: pieces of text mapped to numbers.</td></tr>
-          <tr><td>“A bigger context window fixes it.”</td><td>Fitting in the window doesn’t mean being used well.</td></tr>
-          <tr><td>“More context means better answers.”</td><td>Irrelevant context dilutes the relevant part.</td></tr>
-          <tr><td>“It remembers earlier in the chat.”</td><td>The system re-sends the history on every call.</td></tr>
-          <tr><td>“Tokens are just a billing detail.”</td><td>They set cost, speed, limits and odd behavior.</td></tr>
+          <tr><td>“The model learns from my chats.”</td><td>Weights don’t change during inference.</td></tr>
+          <tr><td>“It looks things up to answer.”</td><td>Only if the system gives it a search tool.</td></tr>
+          <tr><td>“Better prompts are the main lever.”</td><td>Context, data and tools usually matter more.</td></tr>
+          <tr><td>“The demo worked, so it works.”</td><td>A demo is one sample, not an evaluation.</td></tr>
+          <tr><td>“The AI decided.”</td><td>Someone configured that behavior.</td></tr>
         </table>
       </div>
     </section>
@@ -325,15 +332,15 @@
           <h2>Can you call this one?</h2>
         </div>
         <div class="chk" data-chk>
-          <p class="chk-q">A chatbot follows a rule at turn 3 but ignores it by turn 40.</p>
-          <p class="chk-p">Explain why using tokens, context and attention. What would you change?</p>
+          <p class="chk-q">A support bot starts quoting outdated refund terms.</p>
+          <p class="chk-p">Name three places the problem could be. Which one is the model?</p>
           <label class="chk-label" for="chk-answer">Your answer</label>
           <textarea class="chk-in" id="chk-answer" rows="3"
                     placeholder="Name the part that failed, and what you would change."></textarea>
           <button class="chk-btn" type="button" data-chk-show>Show how we would answer</button>
           <div class="chk-a" data-chk-answer hidden>
             <p class="chk-a-h">How we would answer</p>
-            <ul><li>The weights didn’t change. The model didn’t “forget” like a person; its context did.</li><li><b>Dilution</b> the rule is now a small part of a long context, competing with 40 turns of history.</li><li><b>Trimming</b> the system may have cut or summarized old messages to fit the window, rule included.</li><li><b>Conflict</b> later messages may contradict or override the rule.</li><li><b>Fixes</b> keep the rule in system instructions sent on every call, trim or summarize history, restate key constraints near the question, and test long conversations (Module 08).</li></ul>
+            <ul><li><b>Knowledge</b> an old policy document or a stale retrieval index.</li><li><b>Context</b> the system instructions still quote the old terms.</li><li><b>Memory</b> a cached answer or saved note repeats them.</li><li><b>Tools</b> a policy API or database returns old data.</li><li><b>Model</b> the terms came from training data before the knowledge cutoff. Only this one is the model.</li></ul>
             <p class="chk-cta">Every module ends on a question like this.
               <a href="digital-course.html#join">Join the waitlist &rarr;</a></p>
           </div>
@@ -345,17 +352,17 @@
     <section class="section white" id="episode">
       <div class="shell">
         <article class="guest">
-          <figure class="guest-face"><img class="guest-art" src="assets/guests/zoya-kellan.jpg" width="320" height="320"
-              loading="lazy" decoding="async" alt="Portrait of Zoya Kellan"></figure>
+          <figure class="guest-face"><img class="guest-art" src="assets/guests/jax-ellery.jpg" width="320" height="320"
+              loading="lazy" decoding="async" alt="Portrait of Jax Ellery"></figure>
           <div class="guest-body">
-            <p class="guest-epithet">The Token Decoder</p>
-            <h2>Zoya Kellan</h2>
-            <p class="guest-line">explores the strange universe between human language and the numerical fragments machines actually process.</p>
+            <p class="guest-epithet">The Stack Surgeon</p>
+            <h2>Jax Ellery</h2>
+            <p class="guest-line">dissects AI products layer by layer to expose what is actually intelligent and what is just clever engineering.</p>
             
             
             <div class="guest-links">
               <button class="guest-link" type="button" disabled>Let’s chat</button>
-              <button class="guest-link guest-link-icon" type="button" disabled aria-label="Message Zoya Kellan on Telegram"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22.1 3.2 2.6 10.8c-1.1.4-1.1 2 .1 2.3l4.9 1.5 1.9 5.6c.3.9 1.5 1.1 2.1.3l2.6-2.9 5 3.7c.8.6 1.9.1 2.1-.8l3-16c.2-1-.9-1.8-1.8-1.3ZM9.6 14.6l9-6.4-7.3 7.8-.3 3.6Z"/></svg></button>
+              <button class="guest-link guest-link-icon" type="button" disabled aria-label="Message Jax Ellery on Telegram"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22.1 3.2 2.6 10.8c-1.1.4-1.1 2 .1 2.3l4.9 1.5 1.9 5.6c.3.9 1.5 1.1 2.1.3l2.6-2.9 5 3.7c.8.6 1.9.1 2.1-.8l3-16c.2-1-.9-1.8-1.8-1.3ZM9.6 14.6l9-6.4-7.3 7.8-.3 3.6Z"/></svg></button>
             </div>
             <p class="guest-note">Coming soon · an AI character from the show, not a real researcher.</p>
           </div>
@@ -366,9 +373,9 @@
     <section class="section">
       <div class="shell">
         <div class="next">
-          <div><small>Next · Module 02</small><h3>How models learn</h3></div>
+          <div><small>Next · Module 02</small><h3>How a model sees the world</h3></div>
           <div class="next-actions">
-            <a class="btn btn-outline" href="module-00-part-2.html">← Module 00 · Part 2</a>
+            <a class="btn btn-outline" href="module-00.html">← Module 00</a>
             <a class="btn btn-primary" href="module-02.html">Module 02 <span aria-hidden="true">→</span></a>
           </div>
         </div>
