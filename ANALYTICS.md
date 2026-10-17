@@ -38,7 +38,15 @@ npm run report                      # last 30 days: traffic + SEO audit + findin
 node scripts/site-report.js --days=7
 node scripts/site-report.js --json  # the same thing for a script to chew on
 npm run audit                       # SEO only, no traffic needed
+npm run dashboard                   # the same numbers as one page: dashboard.html
+node scripts/build-dashboard.js --demo   # the layout, on sample data
 ```
+
+`dashboard.html` is for looking at: headline numbers, landings per day, where
+people land, which channels convert, and the same ranked findings the written
+report ends with. It is gitignored and never deployed — it is your copy of
+numbers that are nobody else's business. The charts are plain SVG in one file,
+so it opens from disk with nothing to fetch.
 
 Or hand the whole job to the agent, which reads the report, applies the fixes
 and can write the next newsletter issue:

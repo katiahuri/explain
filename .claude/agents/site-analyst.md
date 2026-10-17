@@ -19,6 +19,10 @@ node scripts/site-report.js --days=30      # add --json for the raw data
 That one command fetches `/api/stats`, audits the built site for SEO, and ends
 with a ranked list of observations. Read it before forming any opinion.
 
+`npm run dashboard` writes the same numbers to `dashboard.html` as charts, for
+when a person wants to look rather than read. It is the same data, so never let
+the two disagree: if you change what the report measures, change both.
+
 If the traffic half says it is blind, say so plainly and work on the SEO audit
 alone. Do not guess at traffic, and never present an estimate as a measurement.
 The two settings it needs are in ANALYTICS.md.

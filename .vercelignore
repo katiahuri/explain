@@ -14,3 +14,4 @@ server/data/
 node_modules/
 public/
 email-drafts/
+dashboard.html

@@ -9,6 +9,7 @@
     "pdf": "node scripts/make-syllabus-pdf.js",
     "report": "node scripts/site-report.js",
     "audit": "node scripts/seo-audit.js",
+    "dashboard": "node scripts/build-dashboard.js",
     "podcast:extract": "python scripts/podcast/extract.py",
     "podcast:check": "node scripts/podcast/render.js --check",
     "podcast:render": "node scripts/podcast/render.js",
