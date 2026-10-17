@@ -10,6 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/listen.css">
   <script>document.documentElement.classList.add('js');</script>
   <script>
     // A printed syllabus should show every module, not just the open one.
@@ -317,7 +318,7 @@
     .sf-tag { color: var(--violet); font-size: 11.5px; font-weight: 700; letter-spacing: .17em; text-transform: uppercase; }
     .startfree h2 { margin: 8px 0 10px; font-size: clamp(26px,3vw,34px); }
     .sf-line { max-width: 620px; color: var(--muted); font-size: 15.5px; line-height: 1.6; }
-    .sf-audio { width: 100%; max-width: 440px; margin-top: 18px; }
+    .startfree .listen { max-width: 440px; margin-top: 18px; }
     .sf-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
     .sf-btn { display: inline-flex; align-items: center; min-height: 46px; padding: 0 22px; border: 0; border-radius: 999px; color: #fff; background: linear-gradient(115deg,#5b21b6,#1d4ed8); font: inherit; font-size: 15px; font-weight: 600; text-decoration: none; cursor: pointer; }
     .sf-btn.ghost { color: var(--navy); border: 1px solid var(--line); background: #fff; }
@@ -463,8 +464,24 @@
     <div class="sf-body">
       <p class="sf-tag">Start here · free</p>
       <h2>Module 00 is open</h2>
-      <p class="sf-line">The first episode and the full slide deck, free. No sign-up, nothing to pay — start and see whether the way this is taught works for you.</p>
-      <audio class="sf-audio" controls preload="metadata" src="assets/podcast/00-how-we-got-here.mp3"></audio>
+      <p class="sf-line">The first episode and the full slide deck, free. Nothing to pay — the deck is open, the episode asks for an email, and you can see whether the way this is taught works for you.</p>
+      <div class="listen" data-listen="00-how-we-got-here">
+        <div class="listen-lock" data-listen-lock>
+          <p class="listen-lock-head"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2h-1V7a5 5 0 0 0-5-5Zm0 2a3 3 0 0 1 3 3v3H9V7a3 3 0 0 1 3-3Z"/></svg> Listen free &mdash; one email</p>
+          <p class="listen-note">The episode is yours for an email address. Enter it once and it plays here and anywhere else on the site, on this browser.</p>
+          <form novalidate>
+            <input type="hidden" name="source" value="episode-00-syllabus">
+            <div class="listen-row">
+              <label class="listen-hp" for="listen-email-syllabus">Email address</label>
+              <input id="listen-email-syllabus" type="email" name="email" placeholder="you@company.com" autocomplete="email" required>
+              <button type="submit">Unlock the episode</button>
+            </div>
+            <input class="listen-hp" type="text" name="company_website" tabindex="-1" autocomplete="off" aria-hidden="true">
+          </form>
+          <p class="listen-status" data-listen-status role="status"></p>
+        </div>
+        <audio class="listen-audio" controls preload="none" data-listen-audio hidden></audio>
+      </div>
       <div class="sf-actions">
         <a class="sf-btn" href="module-00.html">Open module 00 &rarr;</a>
         <a class="sf-btn ghost" href="module-00.html#deck">Read the slides</a>
@@ -873,5 +890,6 @@
       });
     })();
   </script>
+  <script src="assets/listen.js" defer></script>
 </body>
 </html>

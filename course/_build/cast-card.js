@@ -13,7 +13,7 @@ const path = require('path');
 const ROOT = path.resolve(__dirname, '..', '..');
 const CAST = path.join(ROOT, 'scripts', 'podcast', 'cast.json');
 const PHOTOS = path.join(ROOT, 'assets', 'guests');
-const AUDIO = path.join(ROOT, 'assets', 'podcast');
+const AUDIO = path.join(ROOT, 'media', 'podcast');
 const SCRIPTS = path.join(ROOT, 'course', 'podcast', 'dist');
 
 const esc = (s) => String(s == null ? '' : s)
@@ -103,13 +103,18 @@ function portrait(name, seed) {
   return drawn(name, seed);
 }
 
+// Off for now. The transcript is the episode in text, so leaving it on the page
+// while the audio sits behind an email would hand over the thing being asked for.
+// Flipping this back on is the whole change; nothing below it has been removed.
+const TRANSCRIPTS = false;
+
 // The transcript, read from the rendered script. Only the spoken turns: the file
 // opens with a title, a one-liner and the show's disclosure, all of which the page
 // already says. The text is inlined rather than linked, so it is searchable and
 // readable without leaving the module.
 function transcript(ep) {
-  // Paid episodes never reach the page. The transcript is the episode in text;
-  // publishing it would give away a module that ships with the course.
+  if (!TRANSCRIPTS) return '';
+  // Paid episodes never reach the page, for the same reason.
   if (!ep.free) return '';
   const file = path.join(SCRIPTS, `${ep.number}-${ep.slug}.txt`);
   if (!fs.existsSync(file)) return '';
@@ -124,7 +129,34 @@ function transcript(ep) {
             </details>`;
 }
 
-// The episode itself, once it has been rendered and copied into assets/podcast/.
+// ---------------------------------------------------------------- the gate
+// Listening costs an email. assets/listen.js swaps this panel for a player once
+// /api/unlock has handed out a pass; the mp3 itself is served by /api/episode
+// and has no public URL, so hiding the panel is not what keeps it closed.
+const LOCK = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2h-1V7a5 5 0 0 0-5-5Zm0 2a3 3 0 0 1 3 3v3H9V7a3 3 0 0 1 3-3Z"/></svg>`;
+
+function listenGate(slug, source) {
+  const id = `listen-${slug}`;
+  return `<div class="listen" data-listen="${esc(slug)}">
+              <div class="listen-lock" data-listen-lock>
+                <p class="listen-lock-head">${LOCK} Listen free — one email</p>
+                <p class="listen-note">The episode is yours for an email address. Enter it once and it plays here and anywhere else on the site, on this browser.</p>
+                <form novalidate>
+                  <input type="hidden" name="source" value="${esc(source)}">
+                  <div class="listen-row">
+                    <label class="listen-hp" for="${id}">Email address</label>
+                    <input id="${id}" type="email" name="email" placeholder="you@company.com" autocomplete="email" required>
+                    <button type="submit">Unlock the episode</button>
+                  </div>
+                  <input class="listen-hp" type="text" name="company_website" tabindex="-1" autocomplete="off" aria-hidden="true">
+                </form>
+                <p class="listen-status" data-listen-status role="status"></p>
+              </div>
+              <audio class="listen-audio" controls preload="none" data-listen-audio hidden></audio>
+            </div>`;
+}
+
+// The episode itself, once it has been rendered and copied into media/podcast/.
 function player(ep) {
   // Only the free episode is playable on the site; the others are named, so the
   // page still tells visitors the episode exists, without handing it over.
@@ -132,10 +164,10 @@ function player(ep) {
     return `<p class="guest-ep">Episode ${esc(ep.number)} · ${esc(ep.title)}</p>
             <p class="guest-line">Included with the course.</p>`;
   }
-  const file = `${ep.number}-${ep.slug}.mp3`;
-  if (!fs.existsSync(path.join(AUDIO, file))) return '';
+  const slug = `${ep.number}-${ep.slug}`;
+  if (!fs.existsSync(path.join(AUDIO, `${slug}.mp3`))) return '';
   return `<p class="guest-ep">Episode ${esc(ep.number)} · ${esc(ep.title)}</p>
-            <audio class="guest-audio" controls preload="metadata" src="assets/podcast/${file}"></audio>`;
+            ${listenGate(slug, 'episode-00-module')}`;
 }
 
 const TELEGRAM = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22.1 3.2 2.6 10.8c-1.1.4-1.1 2 .1 2.3l4.9 1.5 1.9 5.6c.3.9 1.5 1.1 2.1.3l2.6-2.9 5 3.7c.8.6 1.9.1 2.1-.8l3-16c.2-1-.9-1.8-1.8-1.3ZM9.6 14.6l9-6.4-7.3 7.8-.3 3.6Z"/></svg>`;
@@ -154,8 +186,7 @@ function guestSection(slug) {
             <p class="guest-epithet">${esc(g.epithet)}</p>
             <h2>${esc(g.name)}</h2>
             <p class="guest-line">${esc(g.editorial_line)}.</p>
-            ${player(ep)}
-            ${transcript(ep)}
+            ${[player(ep), transcript(ep)].filter(Boolean).join(`\n            `)}
             <div class="guest-links">
               <button class="guest-link" type="button" disabled>Let’s chat</button>
               <button class="guest-link guest-link-icon" type="button" disabled aria-label="Message ${esc(g.name)} on Telegram">${TELEGRAM}</button>
@@ -168,16 +199,9 @@ function guestSection(slug) {
 `;
 }
 
-const GUEST_CSS = `
-    .guest { display: grid; grid-template-columns: 200px 1fr; gap: 40px; align-items: center; padding: 36px 40px; border: 1px solid var(--line); border-radius: 28px; background: #fff; }
-    .guest-face { margin: 0; }
-    .guest-art { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; border-radius: 50%; box-shadow: 0 16px 38px rgba(11, 16, 38, .16); }
-    .guest-epithet { color: var(--violet); font-size: 12px; font-weight: 600; letter-spacing: .17em; text-transform: uppercase; }
-    .guest-body h2 { margin: 8px 0 12px; font-size: clamp(30px, 3.6vw, 40px); }
-    .guest-line { color: var(--muted); font-size: 17px; line-height: 1.6; }
-    .guest-ep { margin-top: 22px; color: var(--navy); font-size: 14px; font-weight: 600; }
-    .guest-audio { width: 100%; max-width: 460px; margin-top: 10px; }
-    .transcript { margin-top: 14px; max-width: 560px; }
+// Styling for the transcript, kept beside it so TRANSCRIPTS drops both at once
+// and a module page carries no rules for markup it no longer has.
+const TRANSCRIPT_CSS = !TRANSCRIPTS ? '' : `    .transcript { margin-top: 14px; max-width: 560px; }
     .transcript summary { display: inline-flex; align-items: center; gap: 8px; color: var(--violet); font-size: 14px; font-weight: 600; cursor: pointer; }
     .transcript summary::marker { content: ""; }
     .transcript summary::before { content: "▸"; transition: transform .2s ease; }
@@ -186,7 +210,24 @@ const GUEST_CSS = `
     .transcript-body p { margin: 0 0 14px; color: var(--muted); font-size: 14px; line-height: 1.65; }
     .transcript-body p:last-child { margin-bottom: 0; }
     .transcript-body b { display: block; color: var(--navy); font-size: 12px; font-weight: 600; letter-spacing: .04em; }
-    .guest-links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+`;
+
+const TRANSCRIPT_DARK_CSS = !TRANSCRIPTS ? '' : `      .transcript summary { color: #c8b9ff; }
+      .transcript-body { background: #0e1533; border-color: #26315c; }
+      .transcript-body p { color: #a3adca; }
+      .transcript-body b { color: #e7ebfa; }
+`;
+
+const GUEST_CSS = `
+    .guest { display: grid; grid-template-columns: 200px 1fr; gap: 40px; align-items: center; padding: 36px 40px; border: 1px solid var(--line); border-radius: 28px; background: #fff; }
+    .guest-face { margin: 0; }
+    .guest-art { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; border-radius: 50%; box-shadow: 0 16px 38px rgba(11, 16, 38, .16); }
+    .guest-epithet { color: var(--violet); font-size: 12px; font-weight: 600; letter-spacing: .17em; text-transform: uppercase; }
+    .guest-body h2 { margin: 8px 0 12px; font-size: clamp(30px, 3.6vw, 40px); }
+    .guest-line { color: var(--muted); font-size: 17px; line-height: 1.6; }
+    .guest-ep { margin-top: 22px; color: var(--navy); font-size: 14px; font-weight: 600; }
+    .listen { margin-top: 10px; }
+${TRANSCRIPT_CSS}    .guest-links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
     .guest-link { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 46px; padding: 0 22px; border: 1px solid var(--line); border-radius: 999px; background: #fff; color: var(--navy); font: inherit; font-size: 15px; font-weight: 600; cursor: pointer; }
     .guest-link:not([disabled]):hover { border-color: var(--violet); }
     .guest-link[disabled] { opacity: .45; cursor: not-allowed; }
@@ -203,11 +244,7 @@ const GUEST_CSS = `
       .guest-body h2 { color: #f2f5ff; }
       .guest-line, .guest-note { color: #a3adca; }
       .guest-ep { color: #f2f5ff; }
-      .transcript summary { color: #c8b9ff; }
-      .transcript-body { background: #0e1533; border-color: #26315c; }
-      .transcript-body p { color: #a3adca; }
-      .transcript-body b { color: #e7ebfa; }
-      .guest-epithet { color: #c8b9ff; }
+${TRANSCRIPT_DARK_CSS}      .guest-epithet { color: #c8b9ff; }
       .guest-link { color: #f2f5ff; border-color: #2f3a6e; }
     }`;
 

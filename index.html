@@ -15,6 +15,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/site.css">
+  <link rel="stylesheet" href="assets/listen.css">
   <script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
@@ -132,7 +133,23 @@
           <h3>How we got here</h3>
           <p class="freeep-line">Almost none of the maths is new. How old it really is, why the field stalled twice,
             and what actually changed.</p>
-          <audio class="freeep-audio" controls preload="metadata" src="assets/podcast/00-how-we-got-here.mp3"></audio>
+          <div class="listen" data-listen="00-how-we-got-here">
+            <div class="listen-lock" data-listen-lock>
+              <p class="listen-lock-head"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2h-1V7a5 5 0 0 0-5-5Zm0 2a3 3 0 0 1 3 3v3H9V7a3 3 0 0 1 3-3Z"/></svg> Listen free &mdash; one email</p>
+              <p class="listen-note">The episode is yours for an email address. Enter it once and it plays here and anywhere else on the site, on this browser.</p>
+              <form novalidate>
+                <input type="hidden" name="source" value="episode-00-home">
+                <div class="listen-row">
+                  <label class="listen-hp" for="listen-email-home">Email address</label>
+                  <input id="listen-email-home" type="email" name="email" placeholder="you@company.com" autocomplete="email" required>
+                  <button type="submit">Unlock the episode</button>
+                </div>
+                <input class="listen-hp" type="text" name="company_website" tabindex="-1" autocomplete="off" aria-hidden="true">
+              </form>
+              <p class="listen-status" data-listen-status role="status"></p>
+            </div>
+            <audio class="listen-audio" controls preload="none" data-listen-audio hidden></audio>
+          </div>
           <p class="freeep-cta">Want to hear what’s next? <a href="#join">Join the waitlist <span aria-hidden="true">→</span></a></p>
         </div>
       </article>
@@ -292,6 +309,7 @@
   </footer>
 
   <script src="assets/site.js"></script>
+  <script src="assets/listen.js" defer></script>
   <script src="content/articles.js"></script>
   <script>
     // Latest three articles, from the same data the articles page uses.

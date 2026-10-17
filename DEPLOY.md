@@ -54,6 +54,26 @@ limiting and for counting visitors. The same `ADMIN_TOKEN` opens
 `/api/stats?token=…`, which is where the site's traffic numbers come from — see
 [ANALYTICS.md](ANALYTICS.md).
 
+## 4. Lock the free episode
+
+The episode is free but not open: it costs an email. `/api/unlock` writes that
+email to the same `signups` table and sets a signed cookie; `/api/episode` is
+the only route to the audio and refuses anyone without it. The mp3 lives in
+`media/podcast/`, which the build never copies into `public/`, so there is no
+public URL to pass around.
+
+Add one more environment variable:
+
+- **Name:** `LISTEN_SECRET`
+- **Value:** a long random string you keep private
+
+It signs the cookie. Without it the gate falls back to `IP_SALT`, and without
+that to a value anyone could guess, which would let a determined visitor forge
+a pass. Changing `LISTEN_SECRET` signs everyone out.
+
+`vercel.json` bundles `media/podcast/**` into the `api/episode.js` function,
+so adding an episode means dropping the mp3 in that folder and redeploying.
+
 ## What is deployed
 
 | Path | What it is |
@@ -66,6 +86,8 @@ limiting and for counting visitors. The same `ADMIN_TOKEN` opens
 | `/newsletter` `/newsletter-…` | The Dispatch and its issues |
 | `/robots.txt` `/sitemap.xml` `/feed.xml` | Generated at build time |
 | `/api/signup` | Receives the form (POST) |
+| `/api/unlock` | Takes an email, hands out the episode pass (POST) |
+| `/api/episode?ep=` | The free episode, pass required |
 | `/api/signups?token=` | CSV export, token required |
 | `/api/track` | Receives pageviews from the beacon (POST) |
 | `/api/stats?token=` | The numbers, as JSON, token required |

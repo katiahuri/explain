@@ -1,0 +1,29 @@
+/* The email gate in front of the free episode. One stylesheet, because the
+   same panel appears on the home page, the syllabus and the module page, each
+   of which otherwise carries its own CSS. Tokens are declared here too, so the
+   panel looks right on the module pages, which never load assets/site.css. */
+.listen { max-width: 480px; margin-top: 14px; }
+.listen-audio { width: 100%; max-width: 460px; }
+.listen-lock { padding: 18px 20px; border: 1px solid #e4e8f1; border-radius: 18px; background: #f8fafc; }
+.listen-lock-head { display: flex; align-items: center; gap: 9px; margin: 0 0 6px; color: #0b1026; font-size: 14px; font-weight: 600; }
+.listen-lock-head svg { width: 15px; height: 15px; fill: #7c3aed; flex: none; }
+.listen-note { margin: 0 0 14px; color: #667085; font-size: 13.5px; line-height: 1.6; }
+.listen-row { display: flex; flex-wrap: wrap; gap: 10px; }
+.listen-row input[type="email"] { flex: 1 1 200px; min-width: 0; height: 46px; padding: 0 15px; border: 1px solid #d6dbe7; border-radius: 12px; color: #0b1026; background: #fff; font: inherit; font-size: 15px; transition: border-color .2s ease, box-shadow .2s ease; }
+.listen-row input[type="email"]:focus { border-color: #7c3aed; box-shadow: 0 0 0 4px rgba(124, 58, 237, .14); outline: none; }
+.listen-row input[aria-invalid="true"] { border-color: #dc2626; }
+.listen-row button { flex: none; height: 46px; padding: 0 22px; border: 0; border-radius: 12px; color: #fff; background: linear-gradient(135deg, #7c3aed, #3b82f6); font: inherit; font-size: 15px; font-weight: 600; cursor: pointer; }
+.listen-row button:hover { filter: brightness(1.08); }
+.listen-row button[disabled] { opacity: .6; cursor: progress; }
+.listen-hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+.listen-status { min-height: 18px; margin: 10px 0 0; color: #667085; font-size: 13px; }
+.listen-status[data-type="error"] { color: #dc2626; }
+
+@media (prefers-color-scheme: dark) {
+  .listen-lock { border-color: #26315c; background: #0e1533; }
+  .listen-lock-head { color: #f2f5ff; }
+  .listen-lock-head svg { fill: #c8b9ff; }
+  .listen-note, .listen-status { color: #a3adca; }
+  .listen-row input[type="email"] { color: #fff; border-color: #2f3a6e; background: #121a3a; }
+  .listen-row input::placeholder { color: #7c87a8; }
+}

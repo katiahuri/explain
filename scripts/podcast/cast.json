@@ -6,7 +6,7 @@
     "format": "Two voices. Lexi Stark is the constant: the same sarcastic, unimpressed host every episode. The guest changes, and each one is a different person with their own quirks, disagreements and specialism - not ten experts reading the same encyclopaedia.",
     "disclosure": "Lexi and the guest are both AI, and Lexi says so once in the open, lightly, then drops it. The guests never discuss their own nature; they are experts, and they answer the question. Backgrounds stay vague by design - a lifetime on the topic, no institution, no employer, no degree, because those would be the part that lies.",
     "language": "English only. The course has Hebrew facilitator scripts and content, and the podcast deliberately does not follow them: Lexi's register does not survive translation, so a Hebrew show would be a separate show, written in Hebrew from the Hebrew scripts, not a dub of this one.",
-    "free_episode": "Only the episode marked free: true is published. Module 00 is the free half of the course, so its audio and transcript go on the public site; every other episode ships with the course and must never be copied into assets/podcast/."
+    "free_episode": "Only the episode marked free: true is published. Module 00 is the free half of the course, so its audio goes on the public site behind the email gate (transcripts are off for now, see TRANSCRIPTS in course/_build/cast-card.js); every other episode ships with the course and must never be copied into media/podcast/, which is the only directory /api/episode will serve from."
   },
   "host": {
     "name": "Lexi Stark",

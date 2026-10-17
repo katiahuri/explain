@@ -215,8 +215,9 @@ for (const rel of FILES) {
   count += 1;
 }
 
-// Walks subdirectories too: assets/guests and assets/podcast live one level down,
-// and a non-recursive copy left every headshot and the episode 404ing in production.
+// Walks subdirectories too: assets/guests lives one level down,
+// and a non-recursive copy left every headshot 404ing in production. The episode
+// itself is not here: it lives in media/, behind /api/episode.
 function copyTree(dir) {
   for (const name of fs.readdirSync(path.join(ROOT, dir))) {
     const rel = `${dir}/${name}`;

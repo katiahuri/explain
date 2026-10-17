@@ -10,11 +10,13 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 const { URL } = require('url');
+const { unlocked, passCookie } = require('../api/_listen');
 
 const ROOT = path.resolve(__dirname, '..');
 const DATA_DIR = path.join(__dirname, 'data');
 const STORE = path.join(DATA_DIR, 'signups.json');
 const CSV = path.join(DATA_DIR, 'signups.csv');
+const MEDIA = path.join(ROOT, 'media', 'podcast');
 const portArg = process.argv.find((a) => a.startsWith('--port='));
 const PORT = Number(portArg?.split('=')[1]) || Number(process.env.PORT) || 3000;
 const ADMIN_TOKEN = process.env.ADMIN_TOKEN || '';
@@ -64,7 +66,7 @@ function rateLimited(ip) {
 const send = (res, status, body, type = 'application/json; charset=utf-8') =>
   res.writeHead(status, { 'Content-Type': type, 'Cache-Control': 'no-store' }).end(body);
 
-function handleSignup(req, res, ip) {
+function handleSignup(req, res, ip, opts = {}) {
   let raw = '';
   req.on('data', (chunk) => {
     raw += chunk;
@@ -94,7 +96,7 @@ function handleSignup(req, res, ip) {
       email,
       first_name: String(fields.first_name || '').trim().slice(0, 80),
       interest: ['individual', 'team'].includes(fields.interest) ? fields.interest : 'individual',
-      source: String(fields.source || '').trim().slice(0, 40),
+      source: String(fields.source || opts.defaultSource || '').trim().slice(0, 40),
     };
     const existing = rows.findIndex((r) => r.email === email);
     if (existing >= 0) rows[existing] = { ...rows[existing], ...entry };
@@ -102,8 +104,32 @@ function handleSignup(req, res, ip) {
     writeStore(rows);
 
     console.log(`[signup] ${entry.interest} · ${entry.source || 'site'} · total ${rows.length}`);
-    send(res, 200, JSON.stringify({ ok: true }));
+    if (opts.pass) res.setHeader('Set-Cookie', passCookie(req));
+    send(res, 200, JSON.stringify({ ok: true, unlocked: Boolean(opts.pass) }));
   });
+}
+
+// Audio needs byte ranges: without them a player cannot read the duration or
+// seek, so a 16MB episode shows 0:00 until it has downloaded in full.
+function sendFile(req, res, file, extra) {
+  const size = fs.statSync(file).size;
+  const headers = { ...extra, 'X-Content-Type-Options': 'nosniff', 'Accept-Ranges': 'bytes' };
+
+  const asked = /^bytes=(\d*)-(\d*)$/.exec(req.headers.range || '');
+  if (asked) {
+    const start = asked[1] ? parseInt(asked[1], 10) : 0;
+    const end = asked[2] ? Math.min(parseInt(asked[2], 10), size - 1) : size - 1;
+    if (start >= size || start > end) {
+      return res.writeHead(416, { 'Content-Range': `bytes */${size}` }).end();
+    }
+    res.writeHead(206, { ...headers, 'Content-Range': `bytes ${start}-${end}/${size}`, 'Content-Length': end - start + 1 });
+    if (req.method === 'HEAD') return res.end();
+    return fs.createReadStream(file, { start, end }).pipe(res);
+  }
+
+  res.writeHead(200, { ...headers, 'Content-Length': size });
+  if (req.method === 'HEAD') return res.end();
+  return fs.createReadStream(file).pipe(res);
 }
 
 const server = http.createServer((req, res) => {
@@ -124,6 +150,23 @@ const server = http.createServer((req, res) => {
     return send(res, 200, JSON.stringify({ ok: true, signups: readStore().length }));
   }
 
+  // The free episode is behind an email. /api/unlock hands out the pass,
+  // /api/episode is the only way to the audio: it is not under assets/.
+  if (pathname === '/api/unlock') {
+    if (req.method === 'GET') return send(res, 200, JSON.stringify({ unlocked: unlocked(req) }));
+    if (req.method === 'POST') return handleSignup(req, res, ip, { pass: true, defaultSource: 'episode-00' });
+    return send(res, 405, JSON.stringify({ error: 'Method not allowed.' }));
+  }
+
+  if (pathname === '/api/episode') {
+    if (!unlocked(req)) return send(res, 403, JSON.stringify({ error: 'Enter your email to unlock this episode.' }));
+    const name = url.searchParams.get('ep') || '';
+    if (!/^[a-z0-9-]{1,80}$/.test(name)) return send(res, 404, JSON.stringify({ error: 'No such episode.' }));
+    const audio = path.join(MEDIA, `${name}.mp3`);
+    if (!fs.existsSync(audio)) return send(res, 404, JSON.stringify({ error: 'No such episode.' }));
+    return sendFile(req, res, audio, { 'Content-Type': 'audio/mpeg', 'Cache-Control': 'private, no-store' });
+  }
+
   if (req.method !== 'GET' && req.method !== 'HEAD') return send(res, 405, JSON.stringify({ error: 'Method not allowed.' }));
 
   // Static files
@@ -139,31 +182,10 @@ const server = http.createServer((req, res) => {
   }
 
   const ext = path.extname(file).toLowerCase();
-  const size = fs.statSync(file).size;
-  const headers = {
+  return sendFile(req, res, file, {
     'Content-Type': TYPES[ext] || 'application/octet-stream',
     'Cache-Control': ['.html', '.css', '.js'].includes(ext) ? 'no-cache' : 'public, max-age=3600',
-    'X-Content-Type-Options': 'nosniff',
-    'Accept-Ranges': 'bytes',
-  };
-
-  // Audio needs byte ranges: without them a player cannot read the duration or
-  // seek, so a 16MB episode shows 0:00 until it has downloaded in full.
-  const asked = /^bytes=(\d*)-(\d*)$/.exec(req.headers.range || '');
-  if (asked) {
-    const start = asked[1] ? parseInt(asked[1], 10) : 0;
-    const end = asked[2] ? Math.min(parseInt(asked[2], 10), size - 1) : size - 1;
-    if (start >= size || start > end) {
-      return res.writeHead(416, { 'Content-Range': `bytes */${size}` }).end();
-    }
-    res.writeHead(206, { ...headers, 'Content-Range': `bytes ${start}-${end}/${size}`, 'Content-Length': end - start + 1 });
-    if (req.method === 'HEAD') return res.end();
-    return fs.createReadStream(file, { start, end }).pipe(res);
-  }
-
-  res.writeHead(200, { ...headers, 'Content-Length': size });
-  if (req.method === 'HEAD') return res.end();
-  fs.createReadStream(file).pipe(res);
+  });
 });
 
 server.listen(PORT, () => {

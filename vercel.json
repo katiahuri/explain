@@ -2,6 +2,11 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "buildCommand": "node scripts/build-public.js",
   "outputDirectory": "public",
+  "functions": {
+    "api/episode.js": {
+      "includeFiles": "media/podcast/**"
+    }
+  },
   "cleanUrls": true,
   "trailingSlash": false,
   "redirects": [
