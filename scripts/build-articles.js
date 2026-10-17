@@ -134,7 +134,7 @@ const card = (issue, i) => `
 
 // Diagrams an article places with {"type":"figure","figure":"<name>"}.
 const FIGURES = {
-  sysmap: `<figure class="sysmap" style="margin:34px 0">
+  sysmap: `<figure class="sysmap sysmap-stage" style="margin:34px 0">
         <p class="sysmap-band">What it sees</p>
         <div class="sysmap-row">
           <a class="sysmap-box" href="module-05.html" title="Module 05 · Context engineering"><span class="sysmap-mod">05</span><h3>Context</h3><p>What the model sees right now</p></a>

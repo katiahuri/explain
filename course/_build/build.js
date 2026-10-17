@@ -459,7 +459,7 @@ function cheatSection(m) {
     <section class="section white" id="cheat-sheet">
       <div class="shell">
         <div class="section-head"><p class="eyebrow">Cheat sheet</p><h2>${esc(noDot(cs.big_idea))}</h2></div>
-        <p style="max-width:640px;color:var(--muted);font-size:17px;line-height:1.65">One page you keep: the questions to ask on every project, the rules of thumb, and ${esc(cs.tool.kind === 'decision' ? 'a decision guide' : cs.tool.kind === 'template' ? 'a template' : 'a checklist')} you can use on your own product. All nine come with The Book.</p>
+        <p style="max-width:640px;color:var(--muted);font-size:17px;line-height:1.65">One page you keep: the questions to ask on every project, the rules of thumb, and ${esc(cs.tool.kind === 'decision' ? 'a decision guide' : cs.tool.kind === 'template' ? 'a template' : 'a checklist')} you can use on your own product. All ten come with The Book.</p>
         <div class="actions" style="margin-top:22px"><a class="btn btn-primary" href="digital-course.html#pricing">Get the cheat sheets</a>${webDeck}</div>
       </div>
     </section>`;

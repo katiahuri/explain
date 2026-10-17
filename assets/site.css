@@ -34,11 +34,15 @@ p { margin: 0; }
 /* Buttons */
 .btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 52px; padding: 0 26px; border: 0; border-radius: 999px; font: inherit; font-size: 15px; font-weight: 600; text-decoration: none; white-space: nowrap; cursor: pointer; transition: transform .2s ease, box-shadow .2s ease; }
 .btn:hover { transform: translateY(-2px); }
+.btn span[aria-hidden] { transition: transform .2s ease; }
+.btn:hover span[aria-hidden] { transform: translateX(3px); }
 .btn:disabled { opacity: .7; transform: none; cursor: progress; }
-.btn-primary { color: #fff; background: var(--grad); box-shadow: 0 14px 34px rgba(99, 82, 246, .34); }
+.btn-primary { color: #fff; background: linear-gradient(115deg, #7c3aed, #3b82f6 52%, #7c3aed); background-size: 230% 100%; background-position: 0 0; box-shadow: 0 14px 34px rgba(99, 82, 246, .34); transition: transform .2s ease, box-shadow .2s ease, background-position .5s ease; }
+.btn-primary:hover { background-position: 62% 0; box-shadow: 0 20px 46px rgba(99, 82, 246, .5); }
 .btn-outline { color: var(--navy); border: 1px solid var(--line); background: #fff; }
 .btn-ghost { color: #fff; border: 1px solid rgba(255,255,255,.24); background: rgba(255,255,255,.06); }
 .btn-sm { min-height: 44px; padding: 0 20px; font-size: 14px; }
+.btn-lg { min-height: 60px; padding: 0 34px; font-size: 16.5px; }
 .text-link { display: inline-flex; align-items: center; gap: 8px; padding-bottom: 3px; border-bottom: 2px solid var(--blue); color: var(--navy); font-weight: 600; text-decoration: none; }
 .on-dark .text-link { color: #fff; }
 
@@ -137,23 +141,85 @@ p { margin: 0; }
 .tier-band .price { margin-top: 0; }
 .tier-band .btn { width: 100%; margin-top: 20px; }
 
-/* The system map */
-.sysmap { margin: 0; }
-.sysmap-band { margin: 30px 0 14px; color: var(--violet); font-size: 11px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; }
+/* ---------------------------------------------------------------- System map
+   The map is the index of the course: every part links to the module that
+   teaches it, and the panel beside it says what that module covers. Plain
+   links throughout, so the map works with JavaScript off; assets/sysmap.js
+   only swaps what the panel shows. */
+.sysmap, .sysmap-stage { margin: 0; }
+.sysmap-split { display: grid; grid-template-columns: minmax(0, 1.32fr) minmax(300px, .88fr); gap: 20px; align-items: start; }
+
+.sysmap-stage { position: relative; padding: 26px 24px 28px; border: 1px solid var(--line); border-radius: 28px; background:
+  radial-gradient(130% 80% at 50% -12%, rgba(124, 58, 237, .10), transparent 62%),
+  radial-gradient(110% 70% at 50% 112%, rgba(59, 130, 246, .09), transparent 60%),
+  var(--off-white); }
+
+.sysmap-band { display: flex; align-items: center; gap: 12px; margin: 22px 0 12px; color: var(--violet); font-size: 10.5px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; }
+.sysmap-band::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, var(--lav-line), transparent); }
 .sysmap-band:first-child { margin-top: 0; }
-.sysmap-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+
+.sysmap-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
 .sysmap-row.two { grid-template-columns: repeat(2, 1fr); }
-.sysmap-box { padding: 20px 22px; border: 1px solid var(--line); border-radius: 18px; background: var(--white); }
-.sysmap-box h3 { font-size: 17px; }
-.sysmap-box p { margin-top: 6px; color: var(--muted); font-size: 13.5px; }
+
+.sysmap-box { position: relative; display: block; overflow: hidden; padding: 17px 18px 18px; border: 1px solid var(--line); border-radius: 16px; background: var(--white); text-decoration: none; transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease; }
+.sysmap-box::before { content: ""; position: absolute; top: 0; bottom: 0; left: 0; width: 3px; background: var(--grad); opacity: 0; transition: opacity .18s ease; }
+.sysmap-box h3 { padding-right: 34px; font-size: 16px; }
+.sysmap-box p { margin-top: 5px; color: var(--muted); font-size: 13px; line-height: 1.5; }
 .sysmap-box.wrap { border-style: dashed; background: transparent; }
-.sysmap-model { padding: 26px 22px; border-radius: 18px; text-align: center; background: var(--grad-deep); box-shadow: 0 18px 44px rgba(99, 82, 246, .26); }
-.sysmap-model h3 { color: #fff; font-size: 24px; }
-.sysmap-model p { margin-top: 6px; color: #ddd6fe; font-size: 14px; }
-.sysmap-flow { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; height: 32px; }
+.sysmap-box:hover, .sysmap-box.is-lit { transform: translateY(-2px); border-color: var(--violet); box-shadow: 0 14px 30px rgba(11, 16, 38, .09); }
+.sysmap-box:hover::before, .sysmap-box.is-lit::before { opacity: 1; }
+
+.sysmap-mod { position: absolute; top: 13px; right: 13px; display: grid; place-items: center; width: 27px; height: 27px; border-radius: 50%; background: var(--lavender); color: var(--violet-deep); font-size: 11px; font-weight: 700; font-variant-numeric: tabular-nums; }
+
+/* The model, and the three modules that open it up */
+.sysmap-core { position: relative; padding: 20px; border-radius: 22px; background: var(--grad-deep); box-shadow: 0 22px 50px rgba(76, 29, 149, .3); }
+.sysmap-core-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; color: #fff; font-size: 21px; font-weight: 700; letter-spacing: -.025em; }
+.sysmap-core-head span { color: #cfc2ff; font-size: 13.5px; font-weight: 500; letter-spacing: 0; }
+.sysmap-core-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 11px; margin-top: 15px; }
+.sysmap-chip { position: relative; display: block; padding: 15px 15px 16px; border: 1px solid rgba(255, 255, 255, .18); border-radius: 14px; background: rgba(8, 10, 35, .32); text-decoration: none; transition: transform .18s ease, border-color .18s ease, background .18s ease; }
+.sysmap-chip h3 { padding-right: 30px; color: #fff; font-size: 15px; }
+.sysmap-chip p { margin-top: 5px; color: #e4dcff; font-size: 13px; line-height: 1.45; }
+.sysmap-chip .sysmap-mod { top: 12px; right: 12px; width: 25px; height: 25px; background: rgba(255, 255, 255, .18); color: #fff; }
+.sysmap-chip:hover, .sysmap-chip.is-lit { transform: translateY(-2px); border-color: rgba(255, 255, 255, .46); background: rgba(8, 10, 35, .46); }
+
+/* The plain model block, used by the map inside the article */
+.sysmap-model { position: relative; display: block; padding: 24px 22px; border-radius: 20px; text-align: center; background: var(--grad-deep); box-shadow: 0 20px 46px rgba(76, 29, 149, .28); text-decoration: none; transition: transform .18s ease, box-shadow .18s ease; }
+.sysmap-model h3 { padding-right: 26px; color: #fff; font-size: 23px; }
+.sysmap-model p { margin-top: 6px; color: #e4dcff; font-size: 14px; }
+.sysmap-model .sysmap-mod { background: rgba(255, 255, 255, .18); color: #fff; }
+.sysmap-model:hover { transform: translateY(-2px); box-shadow: 0 26px 56px rgba(76, 29, 149, .38); }
+
+.sysmap-flow { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; height: 28px; }
 .sysmap-flow.one { grid-template-columns: 1fr; }
-.sysmap-flow span { position: relative; justify-self: center; width: 1px; height: 100%; background: var(--lav-line); }
+.sysmap-flow span { position: relative; justify-self: center; width: 1px; height: 100%; background: linear-gradient(180deg, transparent, var(--lav-line) 38%); }
 .sysmap-flow span::after { content: ""; position: absolute; left: 50%; bottom: 0; width: 7px; height: 7px; transform: translate(-50%, 2px) rotate(45deg); border-right: 1px solid var(--lav-line); border-bottom: 1px solid var(--lav-line); }
+
+/* The panel: what the module behind the hovered part teaches */
+.sysmap-aside { position: sticky; top: 100px; display: grid; gap: 14px; align-content: start; }
+.sysmap-panel { padding: 24px 24px 26px; border: 1px solid var(--line); border-radius: 24px; background: var(--white); box-shadow: var(--shadow); }
+.sysmap-panel-tag { color: var(--violet); font-size: 11px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
+.sysmap-panel-title { margin-top: 10px; font-size: 22px; line-height: 1.25; }
+.sysmap-panel-quote { margin: 12px 0 0; padding-left: 14px; border-left: 2px solid var(--violet-soft); color: var(--violet-deep); font-size: 14.5px; font-style: italic; line-height: 1.5; }
+.sysmap-learn { display: grid; gap: 11px; margin: 18px 0 0; padding: 0; list-style: none; }
+.sysmap-learn li { position: relative; padding-left: 17px; }
+.sysmap-learn li::before { content: ""; position: absolute; top: 8px; left: 0; width: 7px; height: 7px; border-radius: 50%; background: var(--grad); }
+.sysmap-learn b { display: block; color: var(--navy); font-size: 14.5px; font-weight: 600; }
+.sysmap-learn span { display: block; margin-top: 1px; color: var(--muted); font-size: 13px; line-height: 1.5; }
+.sysmap-panel-cta { display: inline-flex; align-items: center; gap: 8px; min-height: 46px; margin-top: 20px; padding: 0 22px; border-radius: 999px; background: var(--grad-deep); color: #fff; font-size: 14.5px; font-weight: 600; text-decoration: none; transition: transform .2s ease, box-shadow .2s ease; }
+.sysmap-panel-cta:hover { transform: translateY(-2px); box-shadow: 0 16px 34px rgba(76, 29, 149, .32); }
+.sysmap-hint { display: none; margin-top: 14px; color: var(--muted); font-size: 12.5px; }
+.js .sysmap-hint { display: block; }
+/* Nothing to hover on a touch screen: there the rail below is the index. */
+@media (hover: none) { .js .sysmap-hint { display: none; } }
+
+/* Every module, including the three the map has no box for */
+.sysmap-rail { padding: 18px 20px 20px; border: 1px solid var(--line); border-radius: 22px; background: var(--white); }
+.sysmap-rail-head { color: var(--muted); font-size: 11px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
+.sysmap-rail ul { display: grid; grid-template-columns: 1fr 1fr; gap: 3px; margin: 12px 0 0; padding: 0; list-style: none; }
+.sysmap-rail a { display: flex; align-items: center; gap: 9px; padding: 7px 9px; border-radius: 10px; color: var(--text); font-size: 13px; text-decoration: none; transition: background .16s ease, color .16s ease; }
+.sysmap-rail b { color: var(--violet); font-size: 11.5px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.sysmap-rail a:hover, .sysmap-rail a.is-lit { background: var(--lavender); color: var(--navy); }
+.sysmap-rail a:hover b, .sysmap-rail a.is-lit b { color: var(--violet-deep); }
 
 /* The mechanisms — two moving illustrations */
 .mech { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: start; }
@@ -247,15 +313,51 @@ p { margin: 0; }
 .price-card.featured h3, .price-card.featured .price { color: #fff; }
 .price-card.featured p:last-child { color: #b9c2db; }
 
-/* Module list */
-.modules { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
-.module { display: flex; flex-direction: column; padding: 22px; border: 1px solid var(--line); border-radius: 20px; background: #fff; text-decoration: none; transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease; }
-.module:hover { transform: translateY(-2px); border-color: var(--lav-line); box-shadow: var(--shadow); }
-.module-top { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
-.module-num { width: 42px; height: 42px; display: grid; place-items: center; border-radius: 12px; color: #fff; background: linear-gradient(145deg, var(--navy-2), var(--navy)); font-size: 14px; font-weight: 600; }
-.module-top small { color: var(--violet); font-size: 10.5px; font-weight: 600; letter-spacing: .17em; text-transform: uppercase; }
+/* Module list
+   Each card carries its own hue on --h, stepping from violet at module 00 to
+   blue at module 09, so the curriculum reads as one gradient rather than ten
+   grey boxes. Lightness is fixed low enough that white stays legible on every
+   numeral in the run. */
+.modules { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.module { --h: 258; position: relative; overflow: hidden; display: flex; flex-direction: column; padding: 24px 22px 20px; border: 1px solid var(--line); border-radius: 20px; background: var(--white); text-decoration: none; transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease; }
+.module::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, hsl(var(--h) 80% 58%), hsl(calc(var(--h) - 26) 82% 50%)); transform: scaleX(0); transform-origin: left; transition: transform .3s ease; }
+.module::after { content: ""; position: absolute; inset: 0; opacity: 0; background: radial-gradient(130% 100% at 0% 0%, hsla(var(--h), 85%, 58%, .12), transparent 60%); transition: opacity .3s ease; }
+.module > * { position: relative; z-index: 1; }
+.module:hover { transform: translateY(-3px); border-color: hsl(var(--h) 72% 74%); box-shadow: 0 20px 44px hsla(var(--h), 55%, 40%, .2); }
+.module:hover::before { transform: scaleX(1); }
+.module:hover::after { opacity: 1; }
+.module-num { display: grid; place-items: center; width: 48px; height: 48px; border-radius: 15px; color: #fff; background: linear-gradient(145deg, hsl(var(--h) 78% 48%), hsl(calc(var(--h) - 24) 82% 38%)); box-shadow: 0 10px 22px hsla(var(--h), 68%, 45%, .35); font-size: 15px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.module-tag { display: block; margin-top: 17px; color: hsl(var(--h) 62% 40%); font-size: 10.5px; font-weight: 700; letter-spacing: .17em; text-transform: uppercase; }
 .module h3 { font-size: 18px; line-height: 1.3; }
-.module blockquote { margin: 2px 0 0; color: var(--violet-deep); font-size: 15px; line-height: 1.5; font-weight: 500; }
+.module blockquote { margin: 8px 0 0; color: var(--navy); font-size: 16px; font-weight: 600; line-height: 1.45; letter-spacing: -.015em; }
+.module-go { margin-top: auto; padding-top: 20px; color: hsl(var(--h) 62% 45%); font-size: 12.5px; font-weight: 600; opacity: .6; transition: opacity .2s ease; }
+.module:hover .module-go { opacity: 1; }
+.module-free { display: inline-block; margin-left: 8px; padding: 2px 8px; border-radius: 999px; background: var(--lavender); color: var(--violet-deep); font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; vertical-align: 2px; }
+
+/* Builder to owner: the one promise, stated as a before and after */
+.shift { display: grid; grid-template-columns: 1fr auto 1fr; gap: 20px; align-items: stretch; }
+.shift-col { padding: 26px 26px 28px; border: 1px solid var(--line); border-radius: 24px; background: var(--white); }
+.shift-col.owner { border-color: transparent; background: radial-gradient(120% 120% at 100% 0%, rgba(124, 58, 237, .32), transparent 58%), linear-gradient(145deg, #141d48, #0b1026 72%); box-shadow: 0 26px 60px rgba(46, 63, 146, .24); }
+.shift-tag { display: inline-block; padding: 5px 13px; border-radius: 999px; background: var(--lavender); color: var(--violet-deep); font-size: 11px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+.shift-col.owner .shift-tag { background: rgba(255, 255, 255, .15); color: #e4dcff; }
+.shift ul { display: grid; gap: 13px; margin: 20px 0 0; padding: 0; list-style: none; }
+.shift li { position: relative; padding-left: 28px; color: var(--muted); font-size: 15px; line-height: 1.55; }
+.shift li::before { content: ""; position: absolute; top: 6px; left: 0; width: 15px; height: 15px; border-radius: 50%; border: 1.5px solid var(--lav-line); }
+.shift-col.owner li { color: #d4dbf0; }
+.shift-col.owner li::before { border: 0; background: var(--grad); }
+.shift-col.owner li::after { content: "\2713"; position: absolute; top: 4px; left: 3px; color: #fff; font-size: 10px; font-weight: 700; }
+.shift-arrow { align-self: center; color: var(--violet-soft); font-size: 30px; font-weight: 700; line-height: 1; }
+
+/* Waitlist calls to action */
+.cta-row { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 22px; margin-top: 36px; }
+.cta-note { color: var(--muted); font-size: 13.5px; }
+.cta-band { display: grid; grid-template-columns: 1.3fr .8fr; gap: 36px; align-items: center; padding: 46px; border: 1px solid var(--edge); border-radius: 30px; background: radial-gradient(110% 140% at 0% 0%, rgba(124, 58, 237, .34), transparent 56%), linear-gradient(140deg, #141d48, #0b1026 70%); box-shadow: 0 30px 70px rgba(11, 16, 38, .28); }
+.cta-band h2 { color: #fff; font-size: clamp(27px, 3.1vw, 38px); }
+.cta-band .lead { margin-top: 14px; }
+.cta-band .lead, .cta-band .cta-note { color: #b8c2df; }
+.cta-band-act { display: grid; gap: 12px; }
+.cta-band-act .btn { width: 100%; }
+.cta-band-act .cta-note { text-align: center; font-size: 13px; }
 
 /* Steps */
 .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; counter-reset: step; }
@@ -366,6 +468,16 @@ footer { color: #9aa5c0; background: #070b1d; }
   .btn:hover, .module:hover, .post:hover { transform: none; }
 }
 
+@media (max-width: 1100px) {
+  .sysmap-split { grid-template-columns: 1fr; }
+  .sysmap-aside { position: static; }
+  .sysmap-rail ul { grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); }
+}
+@media (max-width: 900px) {
+  .shift { grid-template-columns: 1fr; }
+  .shift-arrow { justify-self: center; transform: rotate(90deg); }
+  .cta-band { grid-template-columns: 1fr; gap: 28px; padding: 36px 30px; }
+}
 @media (max-width: 1000px) {
   .cols-4, .price-row { grid-template-columns: repeat(2, 1fr); }
   .cols-3, .modules, .article-grid, .steps { grid-template-columns: repeat(2, 1fr); }
@@ -378,7 +490,7 @@ footer { color: #9aa5c0; background: #070b1d; }
 }
 @media (max-width: 760px) {
   .nav-links a:not(.btn) { display: none; }
-  .sysmap-row, .sysmap-row.two, .sysmap-flow, .price-row, .mech { grid-template-columns: 1fr; }
+  .sysmap-row, .sysmap-row.two, .sysmap-core-row, .sysmap-flow, .price-row, .mech { grid-template-columns: 1fr; }
   .sysmap-flow span:nth-child(n+2) { display: none; }
 }
 @media (max-width: 640px) {
@@ -409,10 +521,11 @@ footer { color: #9aa5c0; background: #070b1d; }
   .card p { font-size: 13px; }
   .card-icon { width: 40px; height: 40px; margin-bottom: 12px; }
   .card .num { margin-bottom: 14px; }
-  .module { padding: 16px; }
-  .module-top { margin-bottom: 10px; }
-  .module-num { width: 34px; height: 34px; font-size: 12px; }
-  .module blockquote { font-size: 14px; }
+  .module { padding: 18px 16px 16px; }
+  .module-num { width: 38px; height: 38px; border-radius: 12px; font-size: 13px; }
+  .module-tag { margin-top: 13px; }
+  .module blockquote { font-size: 14.5px; }
+  .module-go { padding-top: 14px; font-size: 12px; }
   .steps { grid-template-columns: 1fr; }
 }
 
@@ -433,9 +546,9 @@ footer { color: #9aa5c0; background: #070b1d; }
   .card, .step, .tier, .post, .module, .faq details, .article-cta, .signup-card,
   .article-body table, .btn-outline { background: #121a3a; border-color: #26315c; }
   .card p, .post p, .step p, .tier > p, .article-cta p { color: #a3adca; }
-  .module blockquote { color: #c8b9ff; border-top-color: #26315c; }
   .card-icon { color: #c8b9ff; background: #1e2550; }
-  .card .num, .module-top small { color: #b39dff; }
+  .card .num { color: #b39dff; }
+  .module-tag, .module-go { color: hsl(var(--h) 86% 76%); }
   .btn-outline, .text-link, .faq summary { color: #f2f5ff; }
   .btn-outline { border-color: #2f3a6e; }
   .faq summary::after { color: #c8b9ff; border-color: #2f3a6e; }
@@ -477,17 +590,15 @@ footer { color: #9aa5c0; background: #070b1d; }
 .footer-legal a { color: inherit; text-decoration: none; opacity: .85; }
 .footer-legal a:hover { opacity: 1; text-decoration: underline; }
 
-/* The system map is an index of the course: each box goes to the module that teaches it. */
-a.sysmap-box, a.sysmap-model { position: relative; display: block; text-decoration: none; transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease; }
-a.sysmap-box:hover { transform: translateY(-2px); border-color: var(--violet); box-shadow: 0 12px 28px rgba(11, 16, 38, .1); }
-a.sysmap-model:hover { transform: translateY(-2px); box-shadow: 0 22px 50px rgba(99, 82, 246, .34); }
-.sysmap-mod { position: absolute; top: 14px; right: 16px; color: var(--muted); font-size: 11px; font-weight: 700; letter-spacing: .1em; }
-a.sysmap-box:hover .sysmap-mod { color: var(--violet); }
-.sysmap-model .sysmap-mod { color: #e4dcff; }
-a.sysmap-box h3, a.sysmap-model h3 { padding-right: 26px; }
+/* System map, dark: the stage sits below the section it is on, as it does in
+   light, and the hover accent switches to the lighter violet. */
 @media (prefers-color-scheme: dark) {
-  a.sysmap-box:hover { border-color: #a78bfa; }
-  a.sysmap-box:hover .sysmap-mod { color: #c8b9ff; }
+  .sysmap-stage { background:
+    radial-gradient(130% 80% at 50% -12%, rgba(124, 58, 237, .20), transparent 62%),
+    radial-gradient(110% 70% at 50% 112%, rgba(59, 130, 246, .14), transparent 60%),
+    var(--off-white); }
+  .sysmap-box:hover, .sysmap-box.is-lit { border-color: #a78bfa; box-shadow: 0 14px 30px rgba(0, 0, 0, .45); }
+  .sysmap-rail a:hover, .sysmap-rail a.is-lit { color: #f2f5ff; }
 }
 
 /* Article to module: this piece is one idea from a module. */

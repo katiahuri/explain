@@ -106,7 +106,7 @@
     },
     {
      "type": "p",
-     "text": "The point is not the test itself. It is the habit of naming the failing part before changing anything — the same habit the ExplAIn course builds across all eight parts of an AI system, starting with the map in Module 00."
+     "text": "The point is not the test itself. It is the habit of naming the failing part before changing anything — the same habit the ExplAIn course builds across all eight parts of an AI system, starting with the map in Module 01."
     }
    ],
    "takeaway": "Read the retrieved text before you blame the model: if the answer was never fetched, no prompt can save it.",
