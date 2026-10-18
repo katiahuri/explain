@@ -65,7 +65,7 @@ function observations(stats, seo) {
 
   for (const page of landings.filter((l) => l.landings >= 20)) {
     if (page.bounce_rate >= 70) {
-      add(1, 'page', `${page.path}: ${page.landings} landings, ${page.bounce_rate}% leave without a second page. The page is found but does not carry anyone forward.`);
+      add(1, 'page', `${page.path}: ${page.landings} landings, ${page.bounce_rate}% leave without scrolling, pressing anything or signing up. The page is found but does not hold anyone.`);
     }
     if (page.signups === 0) {
       add(2, 'page', `${page.path}: ${page.landings} landings and no sign-ups. Check that the call to action is visible before the fold.`);
@@ -154,7 +154,10 @@ function markdown(stats, seo, notes) {
         { label: 'Landings', get: (r) => r.landings },
         { label: 'People', get: (r) => r.visitors },
         { label: 'Pages/visit', get: (r) => r.pages_per_visit },
-        { label: 'Left at once', get: (r) => `${r.bounce_rate}%` },
+        ...(stats.landings.some((r) => r.single_page_rate !== undefined)
+          ? [{ label: 'Left cold', get: (r) => `${r.bounce_rate}%` },
+             { label: 'One page', get: (r) => `${r.single_page_rate}%` }]
+          : [{ label: 'One page', get: (r) => `${r.bounce_rate}%` }]),
         { label: 'Sign-ups', get: (r) => `${r.signups} (${r.signup_rate}%)` },
       ]),
       '## Where they come from', '',

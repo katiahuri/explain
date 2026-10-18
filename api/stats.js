@@ -34,12 +34,15 @@ module.exports = async function handler(req, res) {
              COUNT(DISTINCT p.visitor_hash)::int AS visitors,
              COALESCE(ROUND(AVG(v.depth)::numeric, 2), 1) AS pages_per_visit,
              COUNT(*) FILTER (WHERE v.depth = 1)::int AS single_page_visits,
+             COUNT(*) FILTER (WHERE v.depth = 1 AND NOT COALESCE(v.engaged, false))::int AS left_cold,
              COUNT(*) FILTER (WHERE v.converted)::int AS signups
       FROM pageviews p
       LEFT JOIN (
         SELECT pv.visit_id,
                COUNT(*)::int AS depth,
-               EXISTS (SELECT 1 FROM events e WHERE e.visit_id = pv.visit_id AND e.name = 'signup') AS converted
+               EXISTS (SELECT 1 FROM events e WHERE e.visit_id = pv.visit_id AND e.name = 'signup') AS converted,
+               EXISTS (SELECT 1 FROM events e WHERE e.visit_id = pv.visit_id
+                       AND e.name IN ('signup', 'cta', 'scroll75')) AS engaged
         FROM pageviews pv WHERE pv.visit_id <> '' GROUP BY pv.visit_id
       ) v ON v.visit_id = p.visit_id
       WHERE p.is_landing AND p.at > NOW() - ${window}::interval
@@ -136,7 +139,8 @@ module.exports = async function handler(req, res) {
       landings: landings.map((row) => ({
         ...row,
         pages_per_visit: Number(row.pages_per_visit),
-        bounce_rate: rate(row.single_page_visits, row.landings),
+        bounce_rate: rate(row.left_cold, row.landings),
+        single_page_rate: rate(row.single_page_visits, row.landings),
         signup_rate: rate(row.signups, row.landings),
       })),
       pages,

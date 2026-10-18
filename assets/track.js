@@ -76,7 +76,7 @@
     var link = e.target.closest && e.target.closest('a');
     if (!link) return;
     var href = link.getAttribute('href') || '';
-    if (/#join|#pricing/.test(href)) return event('cta', (link.textContent || '').trim().slice(0, 40));
+    if (/#join|#pricing|#episode/.test(href)) return event('cta', (link.textContent || '').trim().slice(0, 40));
     if (/\.pdf$/i.test(href)) return event('pdf', href.split('/').pop().slice(0, 40));
     if (link.hostname && link.hostname !== location.hostname) return event('outbound', link.hostname.slice(0, 40));
   }, true);

@@ -340,18 +340,21 @@ function page(stats, seo, notes) {
 
   <section>
     <h2>Where people land</h2>
-    <p class="lede">The page search, social or an assistant actually sent them to — the page that has to do the work.</p>
+    <p class="lede">The page search, social or an assistant actually sent them to. <b>Left cold</b> is the share who did nothing at all — no scroll, no press, no sign-up. <b>One page</b> is the share who never opened a second page, which on a one-page pitch is most people even when it works.</p>
     ${barRows((stats.landings || []).slice(0, 8), {
       label: (r) => r.path,
       value: (r) => r.landings,
-      caption: (r) => `${r.path} · ${r.landings} landings · ${r.bounce_rate}% left at once · ${r.signups} sign-ups`,
+      caption: (r) => `${r.path} · ${r.landings} landings · ${r.bounce_rate}% did not come back for a second page · ${r.signups} sign-ups`,
     })}
     <div style="margin-top:22px">
     ${table((stats.landings || []).slice(0, 8), [
       { label: 'Page', get: (r) => `<span class="mono">${esc(r.path)}</span>` },
       { label: 'Landings', right: true, get: (r) => `<b>${num(r.landings)}</b>` },
       { label: 'Pages/visit', right: true, get: (r) => r.pages_per_visit },
-      { label: 'Left at once', right: true, get: (r) => `${r.bounce_rate}%` },
+      ...((stats.landings || []).some((r) => r.single_page_rate !== undefined)
+        ? [{ label: 'Left cold', right: true, get: (r) => `${r.bounce_rate}%` },
+           { label: 'One page', right: true, get: (r) => `${r.single_page_rate}%` }]
+        : [{ label: 'One page', right: true, get: (r) => `${r.bounce_rate}%` }]),
       { label: 'Sign-ups', right: true, get: (r) => `${r.signups} <span style="color:var(--text-muted)">(${r.signup_rate}%)</span>` },
     ])}
     </div>
