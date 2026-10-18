@@ -49,6 +49,14 @@ module.exports = async function handler(req, res) {
       GROUP BY p.path ORDER BY landings DESC LIMIT 40
     `;
 
+    // What people were holding when they landed, page by page.
+    const landingDevices = await db`
+      SELECT path, device, COUNT(*)::int AS landings
+      FROM pageviews
+      WHERE is_landing AND device <> '' AND at > NOW() - ${window}::interval
+      GROUP BY path, device
+    `;
+
     const pages = await db`
       SELECT path, COUNT(*)::int AS views, COUNT(DISTINCT visitor_hash)::int AS visitors
       FROM pageviews WHERE at > NOW() - ${window}::interval
@@ -148,6 +156,8 @@ module.exports = async function handler(req, res) {
       },
       landings: landings.map((row) => ({
         ...row,
+        devices: Object.fromEntries(landingDevices.filter((d) => d.path === row.path)
+          .map((d) => [d.device, d.landings])),
         pages_per_visit: Number(row.pages_per_visit),
         bounce_rate: rate(row.left_cold, row.landings),
         single_page_rate: rate(row.single_page_visits, row.landings),

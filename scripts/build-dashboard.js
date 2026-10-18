@@ -126,10 +126,10 @@ function demo() {
     };
   });
   const landings = [
-    { path: '/', landings: 193, visitors: 178, pages_per_visit: 2.6, bounce_rate: 41, signups: 11, signup_rate: 5.7 },
-    { path: '/article-confident-and-wrong', landings: 142, visitors: 139, pages_per_visit: 1.2, bounce_rate: 83, signups: 1, signup_rate: 0.7 },
+    { path: '/', landings: 193, visitors: 178, pages_per_visit: 2.6, bounce_rate: 41, signups: 11, signup_rate: 5.7, devices: { phone: 118, desktop: 63, tablet: 12 } },
+    { path: '/article-confident-and-wrong', landings: 142, visitors: 139, pages_per_visit: 1.2, bounce_rate: 83, signups: 1, signup_rate: 0.7, devices: { phone: 109, desktop: 28, tablet: 5 } },
     { path: '/article-retrieval-or-the-model', landings: 88, visitors: 86, pages_per_visit: 1.5, bounce_rate: 68, signups: 3, signup_rate: 3.4 },
-    { path: '/digital-course', landings: 61, visitors: 57, pages_per_visit: 2.2, bounce_rate: 49, signups: 6, signup_rate: 9.8 },
+    { path: '/digital-course', landings: 61, visitors: 57, pages_per_visit: 2.2, bounce_rate: 49, signups: 6, signup_rate: 9.8, devices: { phone: 17, desktop: 41, tablet: 3 } },
     { path: '/module-04', landings: 37, visitors: 36, pages_per_visit: 1.7, bounce_rate: 62, signups: 1, signup_rate: 2.7 },
     { path: '/about', landings: 26, visitors: 25, pages_per_visit: 1.3, bounce_rate: 77, signups: 0, signup_rate: 0 },
   ];
@@ -177,6 +177,9 @@ function demo() {
 
 const GRID = 'var(--grid)';
 
+// Fixed slots: a device keeps its colour whatever the mix on a given page.
+const DEVICES = [['phone', 'Phone', 1], ['desktop', 'Computer', 2], ['tablet', 'Tablet', 3]];
+
 // Trend over time, one series: no legend, the title names it.
 function lineChart(daily) {
   const w = 980;
@@ -218,14 +221,24 @@ function lineChart(daily) {
 }
 
 // Magnitude, low to high: one hue, ranked, direct-labelled.
-function barRows(rows, { label, value, caption }) {
+function barRows(rows, { label, value, caption, parts }) {
   const max = Math.max(...rows.map(value), 1);
-  return `<div class="bars">${rows.map((r) => `
+  return `<div class="bars">${rows.map((r) => {
+    const width = Math.max((value(r) / max) * 100, 1.5);
+    const split = parts ? parts(r) : null;
+    const fill = split && split.length
+      // One bar, segmented: 2px of surface between segments keeps them apart.
+      ? `<div class="bar-fill bar-split" style="width:${width}%">${split.map((p) => `
+          <span class="hit" style="flex:${p.value};background:var(--series-${p.slot})"
+                data-tip="${esc(`${label(r)} · ${p.label}: ${p.value}`)}"></span>`).join('')}</div>`
+      : `<div class="bar-fill" style="width:${width}%"></div>`;
+    return `
     <div class="bar-row hit" data-tip="${esc(caption(r))}">
       <div class="bar-label" title="${esc(label(r))}">${esc(label(r))}</div>
-      <div class="bar-track"><div class="bar-fill" style="width:${Math.max((value(r) / max) * 100, 1.5)}%"></div></div>
+      <div class="bar-track">${fill}</div>
       <div class="bar-value">${num(value(r))}</div>
-    </div>`).join('')}</div>`;
+    </div>`;
+  }).join('')}</div>`;
 }
 
 // Part-to-whole across channels: the validated categorical order, 2px gaps,
@@ -416,6 +429,9 @@ function page(stats, seo, notes, list) {
   .bar-fill { height: 100%; border-radius: 0 4px 4px 0; background: var(--accent); }
   .bar-value { font-size: 13px; font-weight: 600; text-align: right; font-variant-numeric: tabular-nums; }
   .bar-row:hover .bar-fill { filter: brightness(1.08); }
+  .bar-split { display: flex; gap: 2px; background: none; overflow: hidden; }
+  .bar-split span:last-child { border-radius: 0 4px 4px 0; }
+  .bar-split span:hover { filter: brightness(1.15); }
 
   .stack { display: flex; gap: 2px; height: 30px; border-radius: 4px; overflow: hidden; margin-bottom: 16px; }
   .stack-part { min-width: 3px; }
@@ -479,10 +495,15 @@ function page(stats, seo, notes, list) {
   <section>
     <h2>Where people land</h2>
     <p class="lede">The page search, social or an assistant actually sent them to. <b>Left cold</b> is the share who did nothing at all — no scroll, no press, no sign-up. <b>One page</b> is the share who never opened a second page, which on a one-page pitch is most people even when it works.</p>
+    ${DEVICES.some(([key]) => (stats.landings || []).some((r) => (r.devices || {})[key])) ? `<ul class="legend">${
+      DEVICES.map(([key, label, slot]) => `<li><span class="swatch" style="background:var(--series-${slot})"></span>${label}</li>`).join('')
+    }</ul>` : ''}
     ${barRows((stats.landings || []).slice(0, 8), {
       label: (r) => r.path,
       value: (r) => r.landings,
       caption: (r) => `${r.path} · ${r.landings} landings · ${r.bounce_rate}% did not come back for a second page · ${r.signups} sign-ups`,
+      parts: (r) => DEVICES.map(([key, label, slot]) => ({ label, slot, value: (r.devices || {})[key] || 0 }))
+        .filter((p) => p.value > 0),
     })}
     <div style="margin-top:22px">
     ${table((stats.landings || []).slice(0, 8), [
