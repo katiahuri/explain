@@ -90,6 +90,12 @@
     if (total > 0 && seen / total >= 0.75) { deep = true; event('scroll75'); }
   }, { passive: true });
 
+  // assets/listen.js announces a play and how far it got.
+  window.addEventListener('explain:listen', function (e) {
+    var detail = e.detail || {};
+    if (detail.name) event(detail.name, detail.episode || '');
+  });
+
   // assets/site.js announces a successful waitlist sign-up.
   window.addEventListener('explain:signup', function (e) {
     event('signup', (e.detail && e.detail.source) || '');

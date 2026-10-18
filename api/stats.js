@@ -121,6 +121,16 @@ module.exports = async function handler(req, res) {
       GROUP BY path, detail ORDER BY clicks DESC LIMIT 25
     `;
 
+    // The podcast: who pressed play, and how far they got.
+    const listens = await db`
+      SELECT name, detail,
+             COUNT(*)::int AS count,
+             COUNT(DISTINCT visit_id) FILTER (WHERE visit_id <> '')::int AS people
+      FROM events
+      WHERE name LIKE 'listen%' AND at > NOW() - ${window}::interval
+      GROUP BY name, detail ORDER BY name
+    `;
+
     const [signups] = await db`
       SELECT COUNT(*)::int AS count FROM signups WHERE created_at > NOW() - ${window}::interval
     `;
@@ -156,6 +166,7 @@ module.exports = async function handler(req, res) {
       daily,
       events,
       ctas,
+      listens,
     });
   } catch (error) {
     console.error('[stats]', error);

@@ -7,7 +7,8 @@
 const { connect, hashVisitor } = require('./_db');
 
 const PATHS = /^\/[A-Za-z0-9/._-]{0,120}$/;
-const EVENTS = new Set(['signup', 'cta', 'outbound', 'scroll75', 'pdf']);
+const EVENTS = new Set(['signup', 'cta', 'outbound', 'scroll75', 'pdf',
+  'listen', 'listen25', 'listen50', 'listen75', 'listen100']);
 const DEVICES = new Set(['phone', 'tablet', 'desktop']);
 
 const text = (value, max) => String(value ?? '').trim().slice(0, max);

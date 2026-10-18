@@ -85,6 +85,17 @@ function observations(stats, seo) {
     if (source.signups === 0) add(2, 'traffic', `${source.source} sent ${source.landings} landings and nobody joined the list.`);
   }
 
+  const heard = funnel(stats.listens);
+  const started = heard[0].people;
+  if (started) {
+    const through = heard[4].people;
+    const half = heard[2].people;
+    add(2, 'podcast', `${started} pressed play on the episode; ${half} reached halfway and ${through} heard it through.`);
+    if (started >= 5 && half / started < 0.3) {
+      add(2, 'podcast', `Most people who start the episode leave before halfway. The opening minutes are where to look.`);
+    }
+  }
+
   const organic = sources.filter((s) => s.medium === 'organic').reduce((n, s) => n + s.landings, 0);
   if (totals.landings >= 50 && organic / Math.max(totals.landings, 1) < 0.1) {
     add(1, 'seo', `Search is ${Math.round((organic / totals.landings) * 100)}% of landings. The site depends on links people share by hand.`);
@@ -123,6 +134,27 @@ function observations(stats, seo) {
   }
 
   return out.sort((a, b) => a.priority - b.priority);
+}
+
+// The podcast funnel: pressed play, then each quarter they stayed for.
+const STAGES = [
+  ['listen', 'Pressed play'],
+  ['listen25', 'Heard a quarter'],
+  ['listen50', 'Heard half'],
+  ['listen75', 'Heard three quarters'],
+  ['listen100', 'Heard it through'],
+];
+
+function funnel(listens = []) {
+  return STAGES.map(([name, label]) => {
+    const rows = listens.filter((r) => r.name === name);
+    return {
+      name,
+      label,
+      people: rows.reduce((n, r) => n + r.people, 0),
+      count: rows.reduce((n, r) => n + r.count, 0),
+    };
+  });
 }
 
 const table = (rows, columns) => {
@@ -185,6 +217,12 @@ function markdown(stats, seo, notes) {
         { label: 'Button', get: (r) => r.detail },
         { label: 'Clicks', get: (r) => r.clicks },
       ]),
+      '## The podcast', '',
+      table(funnel(stats.listens).filter((r, i) => i === 0 || r.count), [
+        { label: 'Stage', get: (r) => r.label },
+        { label: 'People', get: (r) => r.people },
+        { label: 'Times', get: (r) => r.count },
+      ]),
       '## By day', '',
       table(stats.daily.slice(-14), [
         { label: 'Day', get: (r) => r.day },
@@ -217,7 +255,7 @@ function markdown(stats, seo, notes) {
   return lines.join('\n');
 }
 
-module.exports = { observations, markdown };
+module.exports = { observations, markdown, funnel, STAGES };
 
 if (require.main === module) {
   (async () => {

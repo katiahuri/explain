@@ -9,13 +9,48 @@
   var gates = document.querySelectorAll('[data-listen]');
   if (!gates.length) return;
 
+  // How many people press play, and how far they get. Milestones only: the
+  // position is never reported, and each mark fires once per page.
+  function meter(audio, episode) {
+    var reached = {};
+    var started = false;
+    var tell = function (name) {
+      window.dispatchEvent(new CustomEvent('explain:listen', { detail: { name: name, episode: episode } }));
+    };
+
+    audio.addEventListener('play', function () {
+      if (started) return;
+      started = true;
+      tell('listen');
+    });
+
+    audio.addEventListener('timeupdate', function () {
+      var total = audio.duration;
+      if (!total || !isFinite(total)) return;
+      var percent = (audio.currentTime / total) * 100;
+      [25, 50, 75].forEach(function (mark) {
+        if (percent >= mark && !reached[mark]) { reached[mark] = true; tell('listen' + mark); }
+      });
+      if (percent >= 99 && !reached[100]) { reached[100] = true; tell('listen100'); }
+    });
+
+    audio.addEventListener('ended', function () {
+      if (!reached[100]) { reached[100] = true; tell('listen100'); }
+    });
+  }
+
   function open(gate) {
     var audio = gate.querySelector('[data-listen-audio]');
     var lock = gate.querySelector('[data-listen-lock]');
     if (lock) lock.hidden = true;
     if (!audio) return;
     if (!audio.getAttribute('src')) {
+      // Fetch the metadata as soon as the pass is in hand, so the player shows
+      // the real length instead of 0:00 until someone presses play. The markup
+      // stays preload="none", so a locked visitor never asks for the file.
+      audio.setAttribute('preload', 'metadata');
       audio.setAttribute('src', '/api/episode?ep=' + encodeURIComponent(gate.dataset.listen));
+      meter(audio, gate.dataset.listen);
     }
     audio.hidden = false;
   }

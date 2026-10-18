@@ -12,7 +12,7 @@
 const fs = require('fs');
 const path = require('path');
 const { audit } = require('./seo-audit');
-const { observations } = require('./site-report');
+const { observations, funnel } = require('./site-report');
 
 const ROOT = path.resolve(__dirname, '..');
 const OUT = path.join(ROOT, 'dashboard.html');
@@ -157,6 +157,13 @@ function demo() {
     countries: [{ country: 'IL', views: 402 }, { country: 'US', views: 318 }, { country: 'GB', views: 164 }, { country: 'DE', views: 97 }],
     daily,
     events: [{ name: 'scroll75', count: 198 }, { name: 'cta', count: 94 }, { name: 'signup', count: 22 }, { name: 'outbound', count: 31 }],
+    listens: [
+      { name: 'listen', detail: '00-how-we-got-here', count: 61, people: 54 },
+      { name: 'listen25', detail: '00-how-we-got-here', count: 39, people: 36 },
+      { name: 'listen50', detail: '00-how-we-got-here', count: 27, people: 25 },
+      { name: 'listen75', detail: '00-how-we-got-here', count: 18, people: 17 },
+      { name: 'listen100', detail: '00-how-we-got-here', count: 12, people: 11 },
+    ],
     ctas: [
       { path: '/', detail: 'Join the first cohort', clicks: 51 },
       { path: '/digital-course', detail: 'Join the first cohort', clicks: 29 },
@@ -248,6 +255,33 @@ const table = (rows, columns) => (rows.length ? `<table>
   <thead><tr>${columns.map((c) => `<th scope="col"${c.right ? ' class="r"' : ''}>${esc(c.label)}</th>`).join('')}</tr></thead>
   <tbody>${rows.map((r) => `<tr>${columns.map((c) => `<td${c.right ? ' class="r"' : ''}>${c.get(r)}</td>`).join('')}</tr>`).join('')}</tbody>
 </table>` : '<p class="empty">Nothing recorded yet.</p>');
+
+// Pressed play, then how far they stayed. Magnitude, so one hue, ranked.
+function podcastSection(listens) {
+  const stages = funnel(listens || []);
+  const started = stages[0].people;
+  if (!started) {
+    return `<section><h2>The podcast</h2>
+      <p class="lede">Nobody has pressed play yet, or the episode went live after this window.</p></section>`;
+  }
+  const through = stages[4].people;
+  return `<section>
+    <h2>The podcast</h2>
+    <p class="lede">How many people pressed play on the free episode, and how far they stayed.
+      Counted in quarters, so no one's position is ever recorded.</p>
+
+    <div class="kpis" style="margin:0 0 22px">
+      <div class="kpi"><small>Pressed play</small><b>${num(started)}</b><p class="note">people</p></div>
+      <div class="kpi"><small>Heard it through</small><b>${num(through)}</b><p class="note">${Math.round((through / started) * 100)}% of those who started</p></div>
+    </div>
+
+    ${barRows(stages, {
+      label: (r) => r.label,
+      value: (r) => r.people,
+      caption: (r) => `${r.label} · ${r.people} people · ${r.count} times`,
+    })}
+  </section>`;
+}
 
 // The list, which is the only part of this page that names anybody.
 function listSection(list) {
@@ -494,6 +528,8 @@ function page(stats, seo, notes, list) {
       ])}
     </section>
   </div>
+
+  ${podcastSection(stats.listens)}
 
   ${listSection(list)}
 
