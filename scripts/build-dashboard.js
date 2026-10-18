@@ -4,6 +4,7 @@
 //   node scripts/build-dashboard.js --days=7
 //   node scripts/build-dashboard.js --demo       sample data, clearly marked
 //   node scripts/build-dashboard.js --from=x.json
+//   node scripts/build-dashboard.js --no-list   leave the sign-up list out
 //
 // Same source as the written report: GET /api/stats, plus the SEO audit. The
 // file is self-contained and deliberately not deployed — it is your copy of
@@ -35,6 +36,8 @@ const arg = (name, fallback) => {
 const DAYS = Math.max(1, parseInt(arg('days', '30'), 10) || 30);
 const DEMO = process.argv.includes('--demo');
 const FROM = arg('from', '');
+// The list is personal data. --no-list leaves it out, for screen-sharing.
+const WITH_LIST = !process.argv.includes('--no-list');
 
 const esc = (s) => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 const num = (n) => Number(n || 0).toLocaleString('en-GB');
@@ -56,6 +59,59 @@ async function load() {
   } catch (error) {
     return { error: `Could not reach ${origin}: ${error.message}` };
   }
+}
+
+// The waitlist itself, from the same CSV export the browser downloads.
+function parseCsv(text) {
+  const rows = [];
+  let row = [];
+  let field = '';
+  let quoted = false;
+  for (let i = 0; i < text.length; i += 1) {
+    const ch = text[i];
+    if (quoted) {
+      if (ch === '"' && text[i + 1] === '"') { field += '"'; i += 1; }
+      else if (ch === '"') quoted = false;
+      else field += ch;
+    } else if (ch === '"') quoted = true;
+    else if (ch === ',') { row.push(field); field = ''; }
+    else if (ch === '\n') { row.push(field); rows.push(row); row = []; field = ''; }
+    else if (ch !== '\r') field += ch;
+  }
+  if (field || row.length) { row.push(field); rows.push(row); }
+  return rows.filter((r) => r.length > 1);
+}
+
+async function loadList() {
+  if (!WITH_LIST) return { skipped: true, rows: [] };
+  if (DEMO || FROM) return { rows: demoList() };
+  const origin = (env('SITE_ORIGIN') || '').replace(/\/+$/, '');
+  const token = env('ADMIN_TOKEN');
+  if (!origin || !token) return { error: 'SITE_ORIGIN or ADMIN_TOKEN is missing.', rows: [] };
+  try {
+    const response = await fetch(`${origin}/api/signups?token=${encodeURIComponent(token)}`);
+    if (!response.ok) return { error: `GET /api/signups returned ${response.status}.`, rows: [] };
+    const [header, ...body] = parseCsv(await response.text());
+    const key = header.map((h) => h.trim());
+    return {
+      rows: body.map((cells) => Object.fromEntries(key.map((k, i) => [k, cells[i] || ''])))
+        .sort((a, b) => String(b.date).localeCompare(String(a.date))),
+    };
+  } catch (error) {
+    return { error: `Could not reach ${origin}: ${error.message}`, rows: [] };
+  }
+}
+
+function demoList() {
+  const names = ['Dana', 'Yuval', 'Noa', '', 'Tomer', 'Lior', '', 'Maya'];
+  const sources = ['episode-00-home', 'home', 'episode-00-home', 'module-00', 'home', 'episode-00-home', 'articles', 'home'];
+  return names.map((first_name, i) => ({
+    date: new Date(Date.now() - i * 36e5 * 11).toISOString(),
+    email: `someone${i + 1}@example.com`,
+    first_name,
+    interest: i % 4 === 0 ? 'team' : 'individual',
+    source: sources[i],
+  }));
 }
 
 // Shaped like a real early month, so the layout is judged on realistic numbers.
@@ -193,9 +249,57 @@ const table = (rows, columns) => (rows.length ? `<table>
   <tbody>${rows.map((r) => `<tr>${columns.map((c) => `<td${c.right ? ' class="r"' : ''}>${c.get(r)}</td>`).join('')}</tr>`).join('')}</tbody>
 </table>` : '<p class="empty">Nothing recorded yet.</p>');
 
+// The list, which is the only part of this page that names anybody.
+function listSection(list) {
+  if (list.skipped) return '';
+  if (list.error) {
+    return `<section><h2>The list</h2>
+      <p class="lede">Could not read it: ${esc(list.error)}</p></section>`;
+  }
+
+  const rows = list.rows;
+  const week = rows.filter((r) => Date.now() - Date.parse(r.date) < 7 * 864e5).length;
+  const teams = rows.filter((r) => r.interest === 'team').length;
+  const bySource = [...rows.reduce((m, r) => m.set(r.source || 'unknown', (m.get(r.source || 'unknown') || 0) + 1), new Map())]
+    .map(([source, count]) => ({ source, count })).sort((a, b) => b.count - a.count);
+
+  const when = (iso) => {
+    const d = new Date(iso);
+    return Number.isNaN(d.getTime()) ? esc(iso) : `${d.toISOString().slice(0, 10)} <span style="color:var(--text-muted)">${d.toISOString().slice(11, 16)}</span>`;
+  };
+
+  return `<section>
+    <h2>The list</h2>
+    <p class="lede">Everyone who has given you an email address, newest first. This is the
+      only section that names people: the file is gitignored, never deployed, and
+      <span class="mono">--no-list</span> leaves it out when you are sharing a screen.</p>
+
+    <div class="kpis" style="margin:0 0 22px">
+      <div class="kpi"><small>On the list</small><b>${num(rows.length)}</b><p class="note">all time</p></div>
+      <div class="kpi"><small>Joined this week</small><b>${num(week)}</b><p class="note">last 7 days</p></div>
+      <div class="kpi"><small>Signing up for a team</small><b>${num(teams)}</b><p class="note">rest are individuals</p></div>
+    </div>
+
+    ${rows.length ? `${barRows(bySource, {
+      label: (r) => r.source,
+      value: (r) => r.count,
+      caption: (r) => `${r.source} · ${r.count} sign-up${r.count === 1 ? '' : 's'}`,
+    })}
+    <div style="margin-top:22px">${table(rows.slice(0, 50), [
+      { label: 'When', get: (r) => when(r.date) },
+      { label: 'Name', get: (r) => (r.first_name ? `<b>${esc(r.first_name)}</b>` : '<span style="color:var(--text-muted)">—</span>') },
+      { label: 'Email', get: (r) => `<span class="mono">${esc(r.email)}</span>` },
+      { label: 'For', get: (r) => esc(r.interest) },
+      { label: 'From', get: (r) => `<span class="mono">${esc(r.source || '—')}</span>` },
+    ])}</div>
+    ${rows.length > 50 ? `<p class="lede" style="margin:14px 0 0">Showing the newest 50 of ${num(rows.length)}.</p>` : ''}`
+      : '<p class="empty">Nobody yet.</p>'}
+  </section>`;
+}
+
 // ---------------------------------------------------------------- the page
 
-function page(stats, seo, notes) {
+function page(stats, seo, notes, list) {
   const t = stats.totals || {};
   const findings = (seo?.findings || []).filter((f) => f.level !== 'info');
   const counts = (seo?.findings || []).reduce((acc, f) => ({ ...acc, [f.level]: (acc[f.level] || 0) + 1 }), {});
@@ -391,6 +495,8 @@ function page(stats, seo, notes) {
     </section>
   </div>
 
+  ${listSection(list)}
+
   <section>
     <h2>What the numbers say</h2>
     <p class="lede">Generated from the figures above, not from taste. P1 first.</p>
@@ -444,6 +550,7 @@ function page(stats, seo, notes) {
   }
   const seo = audit();
   const notes = observations(stats, seo);
-  fs.writeFileSync(OUT, page(stats, seo, notes));
+  const list = await loadList();
+  fs.writeFileSync(OUT, page(stats, seo, notes, list));
   console.log(`Wrote dashboard.html${stats.demo ? ' (sample data)' : ''} - ${(fs.statSync(OUT).size / 1024).toFixed(0)} KB`);
 })();

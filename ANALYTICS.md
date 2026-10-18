@@ -39,12 +39,16 @@ node scripts/site-report.js --days=7
 node scripts/site-report.js --json  # the same thing for a script to chew on
 npm run audit                       # SEO only, no traffic needed
 npm run dashboard                   # the same numbers as one page: dashboard.html
+node scripts/build-dashboard.js --no-list   # ...without the sign-up list
 node scripts/build-dashboard.js --demo   # the layout, on sample data
 ```
 
 `dashboard.html` is for looking at: headline numbers, landings per day, where
 people land, which channels convert, and the same ranked findings the written
-report ends with. It is gitignored and never deployed — it is your copy of
+report ends with, and **the list**: everyone who has given you an email
+address, with the form they came from. That last section is the only one that
+names anybody — `--no-list` leaves it out when you are sharing a screen.
+It is gitignored and never deployed — it is your copy of
 numbers that are nobody else's business. The charts are plain SVG in one file,
 so it opens from disk with nothing to fetch.
 
