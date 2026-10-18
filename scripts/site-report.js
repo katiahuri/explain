@@ -65,7 +65,11 @@ function observations(stats, seo) {
 
   for (const page of landings.filter((l) => l.landings >= 20)) {
     if (page.bounce_rate >= 70) {
-      add(1, 'page', `${page.path}: ${page.landings} landings, ${page.bounce_rate}% leave without scrolling, pressing anything or signing up. The page is found but does not hold anyone.`);
+      // Only the new endpoint can tell "did nothing" from "saw one page".
+      const honest = page.single_page_rate !== undefined;
+      add(1, 'page', honest
+        ? `${page.path}: ${page.landings} landings, ${page.bounce_rate}% leave without scrolling, pressing anything or signing up. The page is found but does not hold anyone.`
+        : `${page.path}: ${page.landings} landings, ${page.bounce_rate}% never opened a second page. On a one-page pitch that counts people who read it all and signed up, so treat it as an upper bound.`);
     }
     if (page.signups === 0) {
       add(2, 'page', `${page.path}: ${page.landings} landings and no sign-ups. Check that the call to action is visible before the fold.`);
