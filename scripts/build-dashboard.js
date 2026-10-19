@@ -598,7 +598,10 @@ function page(stats, seo, notes, list) {
 `;
 }
 
-(async () => {
+// scripts/daily-brief.js builds on these rather than keeping its own copy.
+module.exports = { load, loadList, env, page };
+
+async function build() {
   const stats = await load();
   if (stats.error) {
     console.error(`No numbers to draw: ${stats.error}`);
@@ -610,4 +613,9 @@ function page(stats, seo, notes, list) {
   const list = await loadList();
   fs.writeFileSync(OUT, page(stats, seo, notes, list));
   console.log(`Wrote dashboard.html${stats.demo ? ' (sample data)' : ''} - ${(fs.statSync(OUT).size / 1024).toFixed(0)} KB`);
-})();
+  return { stats, seo, notes, list };
+}
+
+module.exports.build = build;
+
+if (require.main === module) build();
