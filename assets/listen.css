@@ -27,3 +27,35 @@
   .listen-row input[type="email"] { color: #fff; border-color: #2f3a6e; background: #121a3a; }
   .listen-row input::placeholder { color: #7c87a8; }
 }
+
+/* The player now opens the page, inside a hero that is dark in both themes,
+   so it carries its own colours rather than the light-section ones above. */
+.hero-episode {
+  max-width: 580px;
+  margin-top: 36px;
+  padding: 22px 24px 20px;
+  border: 1px solid rgba(255, 255, 255, .14);
+  border-radius: 20px;
+  background: rgba(8, 12, 32, .55);
+}
+.hero-episode-head { display: flex; align-items: center; gap: 15px; }
+.hero-episode-head img { width: 56px; height: 56px; border-radius: 50%; object-fit: cover; flex: none; }
+.hero-episode h2 { margin: 0; color: #fff; font-size: 21px; letter-spacing: -.01em; }
+.hero-episode-meta { margin: 4px 0 0; color: #9aa5c4; font-size: 13.5px; }
+.hero-episode-note { margin: 14px 0 0; color: #8c97b8; font-size: 13px; }
+.hero-episode .listen { max-width: none; margin-top: 18px; }
+.hero-episode .listen-audio { max-width: none; }
+
+/* Beats the dark-mode block above on specificity, in either theme. */
+.hero .listen-lock { border-color: rgba(255, 255, 255, .16); background: rgba(255, 255, 255, .05); }
+.hero .listen-lock-head { color: #fff; }
+.hero .listen-lock-head svg { fill: #c8b9ff; }
+.hero .listen-note, .hero .listen-status { color: #a3adca; }
+.hero .listen-row input[type="email"] { color: #fff; border-color: rgba(255, 255, 255, .22); background: rgba(8, 12, 32, .6); }
+.hero .listen-row input::placeholder { color: #8c97b8; }
+
+@media (max-width: 640px) {
+  .hero-episode { margin-top: 28px; padding: 18px 18px 16px; }
+  .hero-episode-head img { width: 46px; height: 46px; }
+  .hero-episode h2 { font-size: 19px; }
+}

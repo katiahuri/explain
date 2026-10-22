@@ -50,6 +50,11 @@
     var audio = gate.querySelector('[data-listen-audio]');
     if (!audio || audio.dataset.mode) return;
 
+    // Hold the ask back until the opening has run out. Every page with a gate
+    // gets this, so none of them have to hide it in their own markup.
+    var waiting = gate.querySelector('[data-listen-lock]');
+    if (waiting) waiting.hidden = true;
+
     audio.dataset.mode = 'preview';
     audio.setAttribute('preload', 'metadata');
     audio.setAttribute('src', source(gate.dataset.listen, true));
