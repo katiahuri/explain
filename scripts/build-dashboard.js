@@ -44,6 +44,20 @@ const num = (n) => Number(n || 0).toLocaleString('en-GB');
 
 // ---------------------------------------------------------------- the numbers
 
+// The morning run starts seconds after a wake, sometimes before Wi-Fi is back.
+// A network error is worth waiting out; a refusal from the server is not.
+async function fetchWithRetry(url, options = {}, tries = 5, waitMs = 8000) {
+  for (let attempt = 1; ; attempt += 1) {
+    try {
+      return await fetch(url, options);
+    } catch (error) {
+      if (attempt >= tries) throw error;
+      console.log(`Network not ready (${error.message}); retrying in ${waitMs / 1000}s.`);
+      await new Promise((resolve) => { setTimeout(resolve, waitMs); });
+    }
+  }
+}
+
 async function load() {
   if (FROM) return JSON.parse(fs.readFileSync(path.resolve(ROOT, FROM), 'utf8'));
   if (DEMO) return demo();
@@ -52,7 +66,7 @@ async function load() {
   if (!origin) return { error: 'SITE_ORIGIN is not set, so there is no site to ask.' };
   if (!token) return { error: 'ADMIN_TOKEN is not set, so /api/stats will not answer.' };
   try {
-    const response = await fetch(`${origin}/api/stats?days=${DAYS}&token=${encodeURIComponent(token)}`,
+    const response = await fetchWithRetry(`${origin}/api/stats?days=${DAYS}&token=${encodeURIComponent(token)}`,
       { headers: { Accept: 'application/json' } });
     if (!response.ok) return { error: `GET /api/stats returned ${response.status}.` };
     return await response.json();
@@ -89,7 +103,7 @@ async function loadList() {
   const token = env('ADMIN_TOKEN');
   if (!origin || !token) return { error: 'SITE_ORIGIN or ADMIN_TOKEN is missing.', rows: [] };
   try {
-    const response = await fetch(`${origin}/api/signups?token=${encodeURIComponent(token)}`);
+    const response = await fetchWithRetry(`${origin}/api/signups?token=${encodeURIComponent(token)}`);
     if (!response.ok) return { error: `GET /api/signups returned ${response.status}.`, rows: [] };
     const [header, ...body] = parseCsv(await response.text());
     const key = header.map((h) => h.trim());
