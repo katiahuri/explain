@@ -39,6 +39,17 @@ const FROM = arg('from', '');
 // The list is personal data. --no-list leaves it out, for screen-sharing.
 const WITH_LIST = !process.argv.includes('--no-list');
 
+// Testing the site should not look like someone joining the list.
+function isOurs(email) {
+  const address = String(email || '').toLowerCase().trim();
+  if (!address) return false;
+  const own = (env('SITE_ORIGIN') || '').split('//').pop().split('/')[0].toLowerCase();
+  const rules = [env('BRIEF_TO'), ...(env('EXCLUDE_EMAILS') || '').split(',')]
+    .map((r) => String(r || '').toLowerCase().trim()).filter(Boolean);
+  if (own && address.endsWith(`@${own}`)) return true;
+  return rules.some((rule) => (rule.startsWith('@') ? address.endsWith(rule) : address === rule));
+}
+
 const esc = (s) => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 const num = (n) => Number(n || 0).toLocaleString('en-GB');
 
@@ -291,14 +302,14 @@ function podcastSection(listens) {
     return `<section><h2>The podcast</h2>
       <p class="lede">Nobody has pressed play yet, or the episode went live after this window.</p></section>`;
   }
-  const through = stages[4].people;
+  const through = stages[5].people;
   return `<section>
     <h2>The podcast</h2>
     <p class="lede">How many people pressed play on the free episode, and how far they stayed.
       Counted in quarters, so no one's position is ever recorded.</p>
 
     <div class="kpis" style="margin:0 0 22px">
-      <div class="kpi"><small>Pressed play</small><b>${num(started)}</b><p class="note">people</p></div>
+      <div class="kpi"><small>Played the opening</small><b>${num(started)}</b><p class="note">no email needed</p></div>
       <div class="kpi"><small>Heard it through</small><b>${num(through)}</b><p class="note">${Math.round((through / started) * 100)}% of those who started</p></div>
     </div>
 
@@ -318,7 +329,8 @@ function listSection(list) {
       <p class="lede">Could not read it: ${esc(list.error)}</p></section>`;
   }
 
-  const rows = list.rows;
+  const ours = list.rows.filter((r) => isOurs(r.email));
+  const rows = list.rows.filter((r) => !isOurs(r.email));
   const week = rows.filter((r) => Date.now() - Date.parse(r.date) < 7 * 864e5).length;
   const teams = rows.filter((r) => r.interest === 'team').length;
   const bySource = [...rows.reduce((m, r) => m.set(r.source || 'unknown', (m.get(r.source || 'unknown') || 0) + 1), new Map())]
@@ -336,7 +348,7 @@ function listSection(list) {
       <span class="mono">--no-list</span> leaves it out when you are sharing a screen.</p>
 
     <div class="kpis" style="margin:0 0 22px">
-      <div class="kpi"><small>On the list</small><b>${num(rows.length)}</b><p class="note">all time</p></div>
+      <div class="kpi"><small>On the list</small><b>${num(rows.length)}</b><p class="note">all time${ours.length ? `, excluding ${ours.length} of ours` : ''}</p></div>
       <div class="kpi"><small>Joined this week</small><b>${num(week)}</b><p class="note">last 7 days</p></div>
       <div class="kpi"><small>Signing up for a team</small><b>${num(teams)}</b><p class="note">rest are individuals</p></div>
     </div>
@@ -364,6 +376,16 @@ function page(stats, seo, notes, list) {
   const t = stats.totals || {};
   const findings = (seo?.findings || []).filter((f) => f.level !== 'info');
   const counts = (seo?.findings || []).reduce((acc, f) => ({ ...acc, [f.level]: (acc[f.level] || 0) + 1 }), {});
+  // The API counts every sign-up row; ours are not conversions.
+  const windowStart = Date.now() - (stats.days || 30) * 864e5;
+  const inWindow = (list.rows || []).filter((r) => Date.parse(r.date) >= windowStart);
+  const ourCount = inWindow.filter((r) => isOurs(r.email)).length;
+  const real = {
+    signups: inWindow.length - ourCount,
+    ours: ourCount,
+    rate: t.landings ? Number((((inWindow.length - ourCount) / t.landings) * 100).toFixed(2)) : 0,
+  };
+
   const phone = (stats.devices || []).find((d) => d.device === 'phone')?.views || 0;
   const allViews = (stats.devices || []).reduce((n, d) => n + d.views, 0) || 1;
 
@@ -496,7 +518,7 @@ function page(stats, seo, notes, list) {
   <div class="kpis">
     <div class="kpi"><small>Landings</small><b>${num(t.landings)}</b><p class="note">${num(t.visitors)} people, ${num(t.views)} views</p></div>
     <div class="kpi"><small>Pages per visit</small><b>${t.views_per_visit ?? 0}</b><p class="note">Past 1.0 means the first page worked</p></div>
-    <div class="kpi"><small>Sign-ups</small><b>${num(t.signups)}</b><p class="note">${t.signup_rate_per_landing ?? 0}% of landings</p></div>
+    <div class="kpi"><small>Sign-ups</small><b>${num(real.signups)}</b><p class="note">${real.rate}% of landings${real.ours ? ` · ${real.ours} of ours not counted` : ''}</p></div>
     <div class="kpi"><small>On a phone</small><b>${Math.round((phone / allViews) * 100)}%</b><p class="note">of all page views</p></div>
   </div>
 

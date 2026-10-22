@@ -11,6 +11,7 @@ const fs = require('fs');
 const path = require('path');
 const { URL } = require('url');
 const { unlocked, passCookie } = require('../api/_listen');
+const { previewStart, PREVIEW_BYTES } = require('../api/episode');
 
 const ROOT = path.resolve(__dirname, '..');
 const DATA_DIR = path.join(__dirname, 'data');
@@ -159,11 +160,20 @@ const server = http.createServer((req, res) => {
   }
 
   if (pathname === '/api/episode') {
-    if (!unlocked(req)) return send(res, 403, JSON.stringify({ error: 'Enter your email to unlock this episode.' }));
+    // The opening is free to everyone; the rest needs the pass. Mirrors api/episode.js.
+    const wantsPreview = url.searchParams.get('preview') === '1';
+    if (!wantsPreview && !unlocked(req)) return send(res, 403, JSON.stringify({ error: 'Enter your email to unlock this episode.' }));
     const name = url.searchParams.get('ep') || '';
     if (!/^[a-z0-9-]{1,80}$/.test(name)) return send(res, 404, JSON.stringify({ error: 'No such episode.' }));
     const audio = path.join(MEDIA, `${name}.mp3`);
     if (!fs.existsSync(audio)) return send(res, 404, JSON.stringify({ error: 'No such episode.' }));
+    if (wantsPreview) {
+      const from = previewStart(audio);
+      const length = Math.min(PREVIEW_BYTES, fs.statSync(audio).size - from);
+      res.writeHead(200, { 'Content-Type': 'audio/mpeg', 'Content-Length': length, 'Accept-Ranges': 'none' });
+      if (req.method === 'HEAD') return res.end();
+      return fs.createReadStream(audio, { start: from, end: from + length - 1 }).pipe(res);
+    }
     return sendFile(req, res, audio, { 'Content-Type': 'audio/mpeg', 'Cache-Control': 'private, no-store' });
   }
 

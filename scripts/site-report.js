@@ -92,8 +92,8 @@ function observations(stats, seo) {
   const heard = funnel(stats.listens);
   const started = heard[0].people;
   if (started) {
-    const through = heard[4].people;
-    const half = heard[2].people;
+    const through = heard[5].people;
+    const half = heard[3].people;
     add(2, 'podcast', `${started} pressed play on the episode; ${half} reached halfway and ${through} heard it through.`);
     if (started >= 5 && half / started < 0.3) {
       add(2, 'podcast', `Most people who start the episode leave before halfway. The opening minutes are where to look.`);
@@ -142,7 +142,8 @@ function observations(stats, seo) {
 
 // The podcast funnel: pressed play, then each quarter they stayed for.
 const STAGES = [
-  ['listen', 'Pressed play'],
+  ['preview', 'Played the opening'],
+  ['listen', 'Unlocked the rest'],
   ['listen25', 'Heard a quarter'],
   ['listen50', 'Heard half'],
   ['listen75', 'Heard three quarters'],

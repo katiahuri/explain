@@ -1,30 +1,36 @@
-// The free episode asks for an email before it plays.
+// The free episode plays its opening to anyone, then asks for an email.
 //
 // Markup contract, anywhere on the site:
 //   <div class="listen" data-listen="00-how-we-got-here"> … </div>
 // with a [data-listen-lock] panel holding a form, and a [data-listen-audio]
-// player that stays empty until the pass is in hand. The audio src is only
-// ever set after the server says so: the file has no public URL.
+// player. A stranger gets the preview straight away; the full file is only ever
+// fetched once the server has handed out a pass, and it has no public URL.
 (function () {
   var gates = document.querySelectorAll('[data-listen]');
   if (!gates.length) return;
 
+  function source(slug, preview) {
+    return '/api/episode?ep=' + encodeURIComponent(slug) + (preview ? '&preview=1' : '');
+  }
+
   // How many people press play, and how far they get. Milestones only: the
-  // position is never reported, and each mark fires once per page.
+  // position is never reported, and each mark fires once per mode.
   function meter(audio, episode) {
     var reached = {};
-    var started = false;
+    var started = {};
     var tell = function (name) {
       window.dispatchEvent(new CustomEvent('explain:listen', { detail: { name: name, episode: episode } }));
     };
 
     audio.addEventListener('play', function () {
-      if (started) return;
-      started = true;
-      tell('listen');
+      var mode = audio.dataset.mode;
+      if (started[mode]) return;
+      started[mode] = true;
+      tell(mode === 'preview' ? 'preview' : 'listen');
     });
 
     audio.addEventListener('timeupdate', function () {
+      if (audio.dataset.mode !== 'full') return;
       var total = audio.duration;
       if (!total || !isFinite(total)) return;
       var percent = (audio.currentTime / total) * 100;
@@ -35,33 +41,85 @@
     });
 
     audio.addEventListener('ended', function () {
-      if (!reached[100]) { reached[100] = true; tell('listen100'); }
+      if (audio.dataset.mode === 'full' && !reached[100]) { reached[100] = true; tell('listen100'); }
     });
   }
 
-  function open(gate) {
+  // The opening, free to everyone, with the ask held back until it runs out.
+  function preview(gate) {
+    var audio = gate.querySelector('[data-listen-audio]');
+    if (!audio || audio.dataset.mode) return;
+
+    audio.dataset.mode = 'preview';
+    audio.setAttribute('preload', 'metadata');
+    audio.setAttribute('src', source(gate.dataset.listen, true));
+    audio.hidden = false;
+    meter(audio, gate.dataset.listen);
+
+    audio.addEventListener('ended', function () {
+      if (audio.dataset.mode !== 'preview') return;
+      gate.classList.add('is-preview-over');
+      var lock = gate.querySelector('[data-listen-lock]');
+      if (!lock) return;
+      lock.hidden = false;
+
+      // Keep the icon, change the words: the ask has earned its place now.
+      var head = lock.querySelector('.listen-lock-head');
+      if (head) {
+        var icon = head.querySelector('svg');
+        head.textContent = '';
+        if (icon) head.appendChild(icon);
+        head.appendChild(document.createTextNode(' That was the opening — hear the rest'));
+      }
+
+      var email = lock.querySelector('input[type="email"]');
+      if (email) email.focus({ preventScroll: true });
+    });
+  }
+
+  // The pass is in hand: swap in the whole file and carry on where it stopped.
+  function full(gate) {
     var audio = gate.querySelector('[data-listen-audio]');
     var lock = gate.querySelector('[data-listen-lock]');
     if (lock) lock.hidden = true;
-    if (!audio) return;
-    if (!audio.getAttribute('src')) {
-      // Fetch the metadata as soon as the pass is in hand, so the player shows
-      // the real length instead of 0:00 until someone presses play. The markup
-      // stays preload="none", so a locked visitor never asks for the file.
-      audio.setAttribute('preload', 'metadata');
-      audio.setAttribute('src', '/api/episode?ep=' + encodeURIComponent(gate.dataset.listen));
-      meter(audio, gate.dataset.listen);
-    }
+    gate.classList.remove('is-preview-over');
+    if (!audio || audio.dataset.mode === 'full') return;
+
+    var resumeAt = audio.dataset.mode === 'preview' ? audio.currentTime : 0;
+    var playing = audio.dataset.mode === 'preview' && !audio.paused;
+    if (!audio.dataset.mode) meter(audio, gate.dataset.listen);
+
+    audio.dataset.mode = 'full';
+    audio.setAttribute('preload', 'metadata');
+    audio.setAttribute('src', source(gate.dataset.listen, false));
     audio.hidden = false;
+
+    if (resumeAt > 1 || playing) {
+      var carryOn = function () {
+        try { audio.currentTime = resumeAt; } catch (error) { /* some browsers refuse; start over */ }
+        audio.play().catch(function () { /* autoplay refused: the controls are right there */ });
+      };
+      // A cached file can have its metadata before the listener is attached.
+      if (audio.readyState >= 1) carryOn();
+      else {
+        audio.addEventListener('loadedmetadata', function once() {
+          audio.removeEventListener('loadedmetadata', once);
+          carryOn();
+        });
+      }
+    }
   }
 
-  function openAll() { gates.forEach(open); }
+  var previewAll = function () { gates.forEach(preview); };
+  var fullAll = function () { gates.forEach(full); };
 
   // One question for the whole page: has this browser already paid in an email?
+  // Until it answers, the opening is already playable.
+  previewAll();
   fetch('/api/unlock', { headers: { Accept: 'application/json' } })
     .then(function (r) { return r.ok ? r.json() : null; })
-    .then(function (data) { if (data && data.unlocked) openAll(); })
-    .catch(function () { /* offline or no API: the form is still there */ });
+    .then(function (data) { if (data && data.unlocked) fullAll(); })
+    .catch(function () { /* offline or no API: the preview still plays */ });
 
   gates.forEach(function (gate) {
     var form = gate.querySelector('form');
@@ -89,7 +147,7 @@
       }
 
       button.disabled = true;
-      say('Opening the episode…');
+      say('Opening the rest…');
       fetch('/api/unlock', {
         method: 'POST',
         body: new URLSearchParams(new FormData(form)),
@@ -98,11 +156,11 @@
         .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, data: d }; }); })
         .then(function (result) {
           if (!result.ok) throw new Error(result.data.error || 'Unlock failed.');
-          openAll();
-          var source = form.querySelector('input[name="source"]');
+          fullAll();
+          var field = form.querySelector('input[name="source"]');
           // assets/track.js counts this the same as any other sign-up.
           window.dispatchEvent(new CustomEvent('explain:signup', {
-            detail: { source: source ? source.value : 'episode' },
+            detail: { source: field ? field.value : 'episode' },
           }));
         })
         .catch(function (error) {
