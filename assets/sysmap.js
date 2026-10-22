@@ -145,7 +145,7 @@
     shown = id;
 
     var next = document.createDocumentFragment();
-    next.appendChild(tag('p', 'sysmap-panel-tag', 'Module ' + id + ' · ' + module.label));
+    next.appendChild(tag('p', 'sysmap-panel-tag', 'Module ' + id + ', ' + module.label));
     next.appendChild(tag('h3', 'sysmap-panel-title', module.title));
     next.appendChild(tag('blockquote', 'sysmap-panel-quote', '“' + module.quote + '”'));
 
@@ -158,11 +158,8 @@
     });
     next.appendChild(list);
 
-    var cta = tag('a', 'sysmap-panel-cta', 'Open module ' + id + ' ');
+    var cta = tag('a', 'sysmap-panel-cta', 'Open module ' + id);
     cta.href = 'module-' + id + '.html';
-    var arrow = tag('span', '', '→');
-    arrow.setAttribute('aria-hidden', 'true');
-    cta.appendChild(arrow);
     next.appendChild(cta);
     next.appendChild(tag('p', 'sysmap-hint', HINT));
 
