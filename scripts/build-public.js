@@ -7,6 +7,7 @@
 // certificate generator) is never copied, so it cannot be published.
 const fs = require('fs');
 const path = require('path');
+const crypto = require('crypto');
 
 const ROOT = path.resolve(__dirname, '..');
 const OUT = path.join(ROOT, 'public');
@@ -45,6 +46,24 @@ const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replac
 
 // The articles and the Dispatch issues are one list.
 const articles = (readJson('content/articles.json') || { articles: [] }).articles;
+
+// Assets live at a fixed name and are cached for an hour, so a returning
+// visitor would keep the old stylesheet and the old player until it expired.
+// Each reference carries a hash of the file instead: the URL changes when the
+// file changes, and never otherwise.
+const stamps = new Map();
+function stampAssets(dir, base = '') {
+  for (const name of fs.readdirSync(path.join(dir, base))) {
+    const rel = base ? `${base}/${name}` : name;
+    const full = path.join(dir, rel);
+    if (fs.statSync(full).isDirectory()) stampAssets(dir, rel);
+    else stamps.set(rel, crypto.createHash('sha1').update(fs.readFileSync(full)).digest('hex').slice(0, 8));
+  }
+}
+stampAssets(path.join(ROOT, 'assets'));
+
+const stamp = (html) => html.replace(/((?:src|href)=")([^"]*assets\/)([^"?]+)"/g,
+  (whole, attr, prefix, file) => (stamps.has(file) ? `${attr}${prefix}${file}?v=${stamps.get(file)}"` : whole));
 
 // cleanUrls is on in vercel.json, so /about.html is served at /about.
 function urlFor(rel) {
@@ -180,7 +199,7 @@ function enhance(html, rel) {
   let out = html.replace('</head>', `  ${head.join('\n  ')}\n</head>`);
   // The beacon loads last and never blocks the page.
   out = out.replace('</body>', '  <script src="/assets/track.js" defer></script>\n</body>');
-  return out;
+  return stamp(out);
 }
 
 const copy = (rel, from = path.join(ROOT, rel)) => {
