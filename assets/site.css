@@ -318,20 +318,15 @@ p { margin: 0; }
    blue at module 09, so the curriculum reads as one gradient rather than ten
    grey boxes. Lightness is fixed low enough that white stays legible on every
    numeral in the run. */
-/* Ten modules are a sequence, not ten unrelated boxes, so they are drawn as
-   one track: a line through all of them with each number sitting on it. The
-   hue still steps across the brand gradient, but it marks position on the
-   path rather than giving every card its own identity. */
-.modules { position: relative; display: grid; gap: 0; }
-.modules::before {
-  content: ""; position: absolute; top: 28px; bottom: 28px; left: 27px; width: 2px;
-  background: linear-gradient(hsl(268 70% 60%), hsl(218 70% 55%));
-  opacity: .35;
-}
+/* Ten modules are a contents page, not ten unrelated boxes: one row each,
+   number, name, the sentence you keep, and where it goes. Hairlines between
+   rows do the separating, so nothing needs a border of its own. The hue still
+   steps across the brand gradient, marking position in the run. */
+.modules { position: relative; display: grid; grid-template-columns: 1fr; gap: 0; }
 .module {
   --h: 258;
   position: relative;
-  display: grid; grid-template-columns: 56px 1fr auto; align-items: baseline; gap: 0 22px;
+  display: grid; grid-template-columns: 52px minmax(104px, 164px) 1fr auto; align-items: baseline; gap: 0 20px;
   padding: 18px 20px 18px 0;
   border: 0; border-bottom: 1px solid var(--line); border-radius: 0;
   background: none; text-decoration: none;
@@ -341,14 +336,12 @@ p { margin: 0; }
 .module:last-child { border-bottom: 0; }
 .module:hover { background: hsla(var(--h), 70%, 55%, .06); }
 .module-num {
-  position: relative; z-index: 1;
-  display: grid; place-items: center; width: 56px; height: 34px;
-  color: hsl(var(--h) 72% 46%); background: var(--white);
+  color: hsl(var(--h) 72% 46%);
   font-size: 19px; font-weight: 700; font-variant-numeric: tabular-nums; letter-spacing: -.02em;
 }
 .module-tag {
-  display: block; margin: 0 0 3px; color: var(--muted);
-  font-size: 13px; font-weight: 500; letter-spacing: 0; text-transform: none;
+  display: block; margin: 0; color: hsl(var(--h) 60% 48%);
+  font-size: 14.5px; font-weight: 600; letter-spacing: 0; text-transform: none;
 }
 .module h3 { font-size: 18px; line-height: 1.3; }
 .module blockquote {
@@ -512,7 +505,7 @@ footer { color: #9aa5c0; background: #070b1d; }
 }
 @media (max-width: 1000px) {
   .cols-4, .price-row { grid-template-columns: repeat(2, 1fr); }
-  .cols-3, .modules, .article-grid, .steps { grid-template-columns: repeat(2, 1fr); }
+  .cols-3, .article-grid, .steps { grid-template-columns: repeat(2, 1fr); }
   .tiers, .tiers.three, .signup-panel, .cert { grid-template-columns: 1fr; }
   .tier-band { grid-template-columns: 1fr; gap: 26px; }
   .cert { gap: 34px; }
@@ -553,9 +546,10 @@ footer { color: #9aa5c0; background: #070b1d; }
   .card p { font-size: 13px; }
   .card-icon { width: 40px; height: 40px; margin-bottom: 12px; }
   .card .num { margin-bottom: 14px; }
-  .modules::before { left: 19px; }
-  .module { grid-template-columns: 40px 1fr; padding: 15px 0; }
-  .module-num { width: 40px; height: 28px; font-size: 16px; }
+  .module { grid-template-columns: 40px 1fr; gap: 0 14px; padding: 14px 0; }
+  .module-num { font-size: 16px; grid-row: span 2; }
+  .module-tag { grid-column: 2; margin-bottom: 2px; }
+  .module blockquote { grid-column: 2; }
   .module-go { display: none; }
   .steps { grid-template-columns: 1fr; }
 }
