@@ -62,6 +62,8 @@ function stampAssets(dir, base = '') {
 }
 stampAssets(path.join(ROOT, 'assets'));
 
+const assetUrl = (file) => `${ORIGIN}/assets/${file}${stamps.has(file) ? `?v=${stamps.get(file)}` : ''}`;
+
 const stamp = (html) => html.replace(/((?:src|href)=")([^"]*assets\/)([^"?]+)"/g,
   (whole, attr, prefix, file) => (stamps.has(file) ? `${attr}${prefix}${file}?v=${stamps.get(file)}"` : whole));
 
@@ -80,7 +82,7 @@ function jsonLd(url, rel, title, description) {
     '@type': 'Organization',
     name: 'ExplAIn',
     url: `${ORIGIN}/`,
-    logo: `${ORIGIN}/assets/logo.png`,
+    logo: assetUrl('logo.png'),
     sameAs: ['https://www.linkedin.com/in/katia-stainfeld-huri-6a268478'],
   };
   const course = () => ({
@@ -134,7 +136,7 @@ function jsonLd(url, rel, title, description) {
       url: `${ORIGIN}${url}`,
       datePublished: entry.date,
       dateModified: entry.date,
-      image: `${ORIGIN}/assets/og-card.png`,
+      image: assetUrl('og-card.png'),
       author: { '@type': 'Person', name: 'Katia Stainfeld Huri', url: `${ORIGIN}/about` },
       publisher: org,
       mainEntityOfPage: { '@type': 'WebPage', '@id': `${ORIGIN}${url}` },
@@ -165,7 +167,7 @@ function enhance(html, rel) {
   const url = urlFor(rel);
   const title = titleOf(html);
   const description = descOf(html);
-  const image = `${ORIGIN}/assets/og-card.png`;
+  const image = assetUrl('og-card.png');
   const head = [];
 
   if (ORIGIN) {
