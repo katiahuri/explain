@@ -116,7 +116,7 @@ function observations(stats, seo) {
   }
 
   // Published, indexable, and nobody has ever opened it.
-  const unvisited = (seo.facts || []).map((f) => f.page)
+  const unvisited = (seo.facts || []).filter((f) => !f.noindex).map((f) => f.page)
     .filter((rel) => rel !== '404.html')
     .map((rel) => `/${rel.replace(/index\.html$/, '').replace(/\.html$/, '')}`.replace(/\/{2,}/g, '/'))
     .filter((url) => !seen.has(url));
@@ -125,10 +125,14 @@ function observations(stats, seo) {
   }
 
   if (daily.length >= 8) {
-    const half = Math.floor(daily.length / 2);
+    // Today is still being counted, and uneven halves flatter whichever side
+    // got the extra day. Drop the partial day, then compare like with like.
+    const today = new Date().toISOString().slice(0, 10);
+    const complete = daily.filter((r) => r.day !== today);
+    const half = Math.floor(complete.length / 2);
     const sum = (rows) => rows.reduce((n, r) => n + r.landings, 0);
-    const before = sum(daily.slice(0, half));
-    const after = sum(daily.slice(half));
+    const before = sum(complete.slice(complete.length - half * 2, complete.length - half));
+    const after = sum(complete.slice(complete.length - half));
     if (before > 0) {
       const change = Math.round(((after - before) / before) * 100);
       if (Math.abs(change) >= 20) {
