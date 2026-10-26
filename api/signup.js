@@ -17,9 +17,14 @@ module.exports = async function handler(req, res) {
     return res.status(400).json({ error: 'Please enter a valid email address.' });
   }
 
+  // The waitlist asks for a name and the form requires one, so the endpoint
+  // does too. /api/unlock is the other path and stays email-only by design.
+  const firstName = String(fields.first_name || '').trim().slice(0, 80);
+  if (!firstName) return res.status(400).json({ error: 'Please add your first name.' });
+
   const entry = {
     email,
-    first_name: String(fields.first_name || '').trim().slice(0, 80),
+    first_name: firstName,
     interest: ['individual', 'team'].includes(fields.interest) ? fields.interest : 'individual',
     source: String(fields.source || '').trim().slice(0, 40),
   };

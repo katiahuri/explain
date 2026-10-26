@@ -15,14 +15,23 @@ document.querySelectorAll('[data-interest]').forEach((link) => {
 document.querySelectorAll('.signup-form').forEach((form) => {
   const status = form.querySelector('.form-status');
   const email = form.querySelector('input[type="email"]');
+  const name = form.querySelector('input[name="first_name"]');
   const button = form.querySelector('button[type="submit"]');
   const setStatus = (message, type = '') => { status.textContent = message; status.dataset.type = type; };
 
   email.addEventListener('input', () => email.removeAttribute('aria-invalid'));
+  if (name) name.addEventListener('input', () => name.removeAttribute('aria-invalid'));
 
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
     if (form.elements.company_website.value) return;
+
+    if (name && !name.value.trim()) {
+      name.setAttribute('aria-invalid', 'true');
+      setStatus('Please add your first name.', 'error');
+      name.focus();
+      return;
+    }
 
     if (!email.value.trim() || !email.checkValidity()) {
       email.setAttribute('aria-invalid', 'true');
