@@ -28,7 +28,7 @@ document.querySelectorAll('.signup-form').forEach((form) => {
 
     if (name && !name.value.trim()) {
       name.setAttribute('aria-invalid', 'true');
-      setStatus('Please add your first name.', 'error');
+      setStatus('Please add your name.', 'error');
       name.focus();
       return;
     }

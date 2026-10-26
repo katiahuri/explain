@@ -20,7 +20,7 @@ module.exports = async function handler(req, res) {
   // The waitlist asks for a name and the form requires one, so the endpoint
   // does too. /api/unlock is the other path and stays email-only by design.
   const firstName = String(fields.first_name || '').trim().slice(0, 80);
-  if (!firstName) return res.status(400).json({ error: 'Please add your first name.' });
+  if (!firstName) return res.status(400).json({ error: 'Please add your name.' });
 
   const entry = {
     email,
