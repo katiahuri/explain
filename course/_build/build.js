@@ -1,6 +1,7 @@
 // Builds every ExplAIn course material from course/content/module-XX.json:
 //   course/module-XX/*.pptx   slide deck (with speaker notes)
 //   course/module-XX/*.docx   facilitator script
+//   course/slides/*-Slides.html  printable deck (slides + speaker notes), one PDF per module
 //   module-XX.html            public module page on the site
 //   course/index.html         materials hub linking everything
 // Usage: node build.js   (run validate-content.js first)
@@ -14,6 +15,8 @@ const docx = optional('docx') || {};
 
 const ROOT = path.resolve(__dirname, '..', '..');
 const { buildWebDeck } = require('./web-deck');
+const { buildPrintDeck } = require('./print-deck');
+const { buildAboutSlide } = require('./about-slide');
 const { guestSection, GUEST_CSS } = require('./cast-card');
 const { deckSection, DECK_CSS, DECK_JS } = require('./deck-widget');
 const { checkSection, CHECK_CSS, CHECK_JS } = require('./check-block');
@@ -23,14 +26,21 @@ const ASSETS = path.join(__dirname, 'assets');
 const LOGO_WHITE = path.join(ROOT, 'assets', 'logo-white.png');
 const LOGO_NAVY = path.join(ROOT, 'assets', 'logo.png');
 
+// Dark futuristic editorial. The key names are deliberately unchanged, so every
+// slide renderer picks up the new palette without being rewritten.
+//   background 080D1A · surface 141D30 · ink F3F6FF · secondary A9B6CD
+//   primary accent cyan 46DFF2 · secondary violet A78BFA · caution amber FFCA75
 const C = {
-  navy: '0B1026', navy2: '121A3A', edge: '2A3566', violet: '7C3AED', violetL: 'A78BFA', violetD: '4C1D95',
-  blue: '3B82F6', lav: 'EDE9FE', lavLine: 'DDD6FE', off: 'F8FAFC', white: 'FFFFFF', body: '4A5568',
-  muted: '8A93A6', onDark: 'BFC7DC', line: 'E4E8F1', mapModel: '6D4AF0',
-  // Panels on dark slides. panelAlt marks the emphasised side of a two-column layout.
-  panel: '121A3A', panelAlt: '1B1248', panelLine: '26315C', rowAlt: '0E1534', onPanel: 'E6E9F3',
+  navy: '080D1A', navy2: '141D30', edge: '223050', violet: 'A78BFA', violetL: '46DFF2', violetD: '0E2430',
+  blue: '46DFF2', lav: '46DFF2', lavLine: '46DFF2', off: 'F3F6FF', white: 'F3F6FF', body: 'A9B6CD',
+  muted: '6F7E9B', onDark: 'A9B6CD', line: '223050', mapModel: '46DFF2',
+  cyan: '46DFF2', amber: 'FFCA75',
+  panel: '141D30', panelAlt: '1B2B45', panelLine: '223050', rowAlt: '0E1534', onPanel: 'C9D3E6',
 };
-const FONT = 'Arial';
+// Installed per-user from google/fonts. PowerPoint substitutes anything missing,
+// so check these are present before shipping a deck to someone else's machine.
+const FONT = 'Inter';
+const TITLE_FONT = 'Space Grotesk';
 
 const MAP_BOXES = [
   ['Context', 'What the model sees right now'], ['Knowledge', 'Documents and retrieval'], ['Memory and state', 'What persists between turns'],
@@ -62,6 +72,8 @@ const partCaps = (m) => `MODULE ${m.num}${m.part ? ` · PART ${m.part}` : ''}`;
 const partFile = (m) => `Module-${m.num}${m.part ? `-Part-${m.part}` : ''}`;
 const anchorOf = (m) => `m${m.num}${m.part > 1 ? `p${m.part}` : ''}`;
 const deckName = (m) => `ExplAIn-${partFile(m)}-${slugify(m.title)}.pptx`;
+// The printable deck: every slide plus its speaker notes, one PDF per module.
+const printStem = (m) => `ExplAIn-${partFile(m)}-${slugify(m.title)}-Slides`;
 const scriptName = (m, lang) => `ExplAIn-${partFile(m)}-Facilitator-Script${lang ? `-${lang.toUpperCase()}` : ''}.docx`;
 
 // Fixed wording in the facilitator script. RTL languages set rtl: true.
@@ -108,8 +120,23 @@ const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replac
 // Meta descriptions are cut off in search results past about 160 characters.
 const clip = (text, limit = 155) => (text.length <= limit ? text : `${text.slice(0, text.lastIndexOf(' ', limit)).replace(/[,;:.]$/, '')}\u2026`);
 
+// Natural pixel size of a PNG or JPEG. pptxgenjs cannot read it from the file, and
+// without it a `cover` crop is a no-op that squashes a portrait into a square box.
+function imageSize(file) {
+  const b = fs.readFileSync(file);
+  if (b.length > 24 && b.toString('hex', 0, 8) === '89504e470d0a1a0a') return { w: b.readUInt32BE(16), h: b.readUInt32BE(20) };
+  let i = 2;
+  while (i < b.length - 9) {
+    if (b[i] !== 0xff) { i += 1; continue; }
+    const marker = b[i + 1];
+    if (marker >= 0xc0 && marker <= 0xcf && ![0xc4, 0xc8, 0xcc].includes(marker)) return { h: b.readUInt16BE(i + 5), w: b.readUInt16BE(i + 7) };
+    i += 2 + b.readUInt16BE(i + 2);
+  }
+  throw new Error(`cannot read the pixel size of ${file}`);
+}
+
 // ---------------------------------------------------------------- PowerPoint
-const W = 13.333, MX = 0.65, CW = W - 2 * MX;
+const W = 13.333, MX = 0.667, CW = W - 2 * MX;
 const shadow = () => ({ type: 'outer', color: '000000', opacity: 0.35, blur: 12, offset: 2, angle: 90 });
 
 function buildDeck(m, index) {
@@ -133,42 +160,63 @@ function buildDeck(m, index) {
   const footer = (slide, tone) => {
     page += 1;
     const color = tone === 'accent' ? 'DDD6FE' : C.muted;
-    text(slide, `ExplAIn · ${partName(m)} · ${m.title}`, { x: MX, y: 6.95, w: 9, h: 0.3, fontSize: 10, color });
-    text(slide, `${page} / ${total}`, { x: W - MX - 2, y: 6.95, w: 2, h: 0.3, fontSize: 10, color, align: 'right' });
+    text(slide, `ExplAIn · ${partName(m)} · ${m.title}`, { x: MX, y: 6.95, w: 9, h: 0.3, fontSize: 14, fontFace: TITLE_FONT, color, charSpacing: 1.2 });
+    text(slide, `${page} / ${total}`, { x: W - MX - 2, y: 6.95, w: 2, h: 0.3, fontSize: 14, color, align: 'right', charSpacing: 1.2 });
   };
   // Rough Arial bold width (~0.5 em per character) so statement blocks stay together and vertically centered.
   const lineCount = (str, pt, width) => Math.max(1, Math.ceil((str.length * 0.5 * pt) / 72 / width));
   const statementBlock = (slide, { eyebrow, eyebrowColor, title, titleColor, titlePt, sub, subColor, pill }) => {
     const sw = CW * 0.9;
     const titleH = lineCount(title, titlePt, CW) * titlePt * 1.2 / 72 + 0.1;
-    const subH = sub ? lineCount(sub, 20, sw) * 20 * 1.35 / 72 + 0.1 : 0;
+    const subH = sub ? lineCount(sub, 29, sw) * 29 * 1.35 / 72 + 0.1 : 0;
     const blockH = 0.55 + titleH + (sub ? 0.35 + subH : 0) + (pill ? 1.0 : 0);
     let y = Math.max(0.9, (7.5 - blockH) / 2 - 0.1);
-    text(slide, eyebrow.toUpperCase(), { x: MX, y, w: CW, h: 0.35, fontSize: 13, bold: true, charSpacing: 3, color: eyebrowColor });
+    text(slide, eyebrow.toUpperCase(), { x: MX, y, w: CW, h: 0.35, fontSize: 15, bold: true, charSpacing: 2.6, color: eyebrowColor });
     y += 0.55;
-    text(slide, title, { x: MX, y, w: CW, h: titleH, fontSize: titlePt, bold: true, color: titleColor });
+    text(slide, title, { x: MX, y, w: CW, h: titleH, fontSize: titlePt, fontFace: TITLE_FONT, bold: true, color: titleColor });
     y += titleH;
-    if (sub) { y += 0.35; text(slide, sub, { x: MX, y, w: sw, h: subH, fontSize: 20, color: subColor }); y += subH; }
+    if (sub) { y += 0.35; text(slide, sub, { x: MX, y, w: sw, h: subH, fontSize: 29, color: subColor }); y += subH; }
     if (pill) {
       y += 0.45;
       const pw = Math.min(6, 0.6 + pill.length * 0.13);
       slide.addShape(pres.shapes.ROUNDED_RECTANGLE, { x: MX, y, w: pw, h: 0.55, rectRadius: 0.27, fill: { color: C.lav }, line: { color: C.lav, width: 0 } });
-      text(slide, pill, { x: MX, y, w: pw, h: 0.55, fontSize: 14, bold: true, color: C.violetD, align: 'center', valign: 'middle' });
+      text(slide, pill, { x: MX, y, w: pw, h: 0.55, fontSize: 19, bold: true, color: C.navy, align: 'center', valign: 'middle' });
     }
   };
   const header = (slide, s) => {
-    text(slide, (s.eyebrow || '').toUpperCase(), { x: MX, y: 0.5, w: CW, h: 0.3, fontSize: 12, bold: true, charSpacing: 2, color: C.violetL });
+    text(slide, (s.eyebrow || '').toUpperCase(), { x: MX, y: 0.52, w: CW, h: 0.32, fontSize: 15, bold: true, charSpacing: 2.6, color: s.accent || C.cyan });
     const t = s.title || '';
-    text(slide, t, { x: MX, y: 0.85, w: CW, h: 1.1, fontSize: t.length > 42 ? 28 : 32, bold: true, color: C.white, fit: 'shrink' });
+    text(slide, t, { x: MX, y: 0.95, w: CW, h: 1.3, fontSize: t.length > 40 ? 40 : 46, fontFace: TITLE_FONT, bold: true, color: C.white, fit: 'shrink' });
   };
-  // Every slide is dark. Accent keeps the violet gradient for rhythm; everything else,
-  // including statements the JSON still calls "light", gets the navy background.
+  // Every slide is dark. The signature vocabulary — a faint dot grid, thin orbital
+  // arcs and one glowing node — is drawn before the content, so it sits behind the
+  // text, and alternates side to side so consecutive slides do not look identical.
+  const deco = (slide, accent) => {
+    const right = page % 2 === 0;
+    for (let r = 0; r < 5; r += 1) {
+      for (let c = 0; c < 9; c += 1) {
+        slide.addShape(pres.shapes.OVAL, { x: 9.5 + c * 0.3, y: 0.28 + r * 0.3, w: 0.028, h: 0.028, fill: { color: '2A3A5C' }, line: { width: 0 } });
+      }
+    }
+    const arcs = right ? [[10.6, -2.3, 6.2], [11.4, -1.5, 4.0]] : [[-2.6, 4.4, 5.4], [-1.9, 5.1, 3.6]];
+    arcs.forEach(([x, y, d], i) => slide.addShape(pres.shapes.OVAL, {
+      x, y, w: d, h: d, fill: { type: 'none' },
+      line: { color: accent, width: i ? 0.5 : 0.75, transparency: i ? 72 : 82 },
+    }));
+    const [nx, ny] = right ? [11.95, 0.95] : [1.05, 6.42];
+    slide.addShape(pres.shapes.OVAL, { x: nx - 0.1, y: ny - 0.1, w: 0.33, h: 0.33, fill: { color: accent, transparency: 80 }, line: { width: 0 } });
+    slide.addShape(pres.shapes.OVAL, { x: nx, y: ny, w: 0.13, h: 0.13, fill: { color: accent }, line: { width: 0 } });
+  };
   const bg = (slide, kind) => {
-    slide.background = { path: path.join(ASSETS, kind === 'accent' ? 'bg-accent.png' : 'bg-dark.png') };
+    slide.background = { color: kind === 'accent' ? '0A1326' : C.navy };
+    deco(slide, kind === 'accent' ? C.violet : C.cyan);
   };
-  const numberDot = (slide, x, y, d, label, fill = C.violet) => {
+  // Visuals should occupy roughly 50-70% of the usable area, so a block gets its
+  // natural height and is centred in the space below the title rather than stretched.
+  const place = (h) => 2.2 + Math.max(0, (6.45 - 2.2 - h) / 2);
+  const numberDot = (slide, x, y, d, label, fill = C.cyan) => {
     slide.addShape(pres.shapes.OVAL, { x, y, w: d, h: d, fill: { color: fill }, line: { color: fill, width: 0 } });
-    text(slide, label, { x, y, w: d, h: d, fontSize: 12, bold: true, color: C.white, align: 'center', valign: 'middle' });
+    text(slide, label, { x, y, w: d, h: d, fontSize: 15, bold: true, color: C.navy, align: 'center', valign: 'middle' });
   };
   const tableRows = (columns, rows, firstBold) => [
     columns.map((c) => ({ text: c, options: { bold: true, color: C.lavLine, fill: { color: C.violetD } } })),
@@ -177,8 +225,8 @@ function buildDeck(m, index) {
   const addTable = (slide, columns, rows, { firstBold = false, y = 2.2 } = {}) => {
     const widths = columns.length === 3 ? [0.26, 0.37, 0.37] : [0.42, 0.58];
     slide.addTable(tableRows(columns, rows, firstBold), {
-      x: MX, y, w: CW, colW: widths.map((f) => f * CW), fontFace: FONT, fontSize: rows.length > 5 ? 15 : 16,
-      rowH: 0.56, valign: 'middle', border: { type: 'solid', pt: 0.75, color: C.panelLine },
+      x: MX, y, w: CW, colW: widths.map((f) => f * CW), fontFace: FONT, fontSize: rows.length > 5 ? 18 : 20,
+      rowH: 0.62, valign: 'middle', border: { type: 'solid', pt: 0.75, color: C.panelLine },
     });
   };
 
@@ -188,9 +236,9 @@ function buildDeck(m, index) {
     bg(slide, 'dark');
     slide.addImage({ path: path.join(ASSETS, 'orbit.png'), x: 8.75, y: 0.45, w: 3.95, h: 3.95 });
     slide.addImage({ path: LOGO_WHITE, x: MX, y: 0.6, w: 1.9, h: 0.7 });
-    text(slide, `${partCaps(m)} · ${m.label.toUpperCase()}`, { x: MX, y: 4.1, w: CW, h: 0.35, fontSize: 14, bold: true, charSpacing: 3, color: C.violetL });
-    text(slide, m.title, { x: MX, y: 4.5, w: CW, h: 1.45, fontSize: m.title.length > 34 ? 38 : 44, bold: true, color: C.white, fit: 'shrink' });
-    text(slide, m.quote, { x: MX, y: 6.05, w: CW, h: 0.5, fontSize: 20, color: C.onDark });
+    text(slide, `${partCaps(m)} · ${m.label.toUpperCase()}`, { x: MX, y: 4.05, w: CW, h: 0.35, fontSize: 16, bold: true, charSpacing: 3.4, color: C.cyan });
+    text(slide, m.title, { x: MX, y: 4.5, w: CW, h: 1.5, fontFace: TITLE_FONT, fontSize: m.title.length > 34 ? 46 : 56, bold: true, color: C.white, fit: 'shrink' });
+    text(slide, m.quote, { x: MX, y: 6.1, w: CW, h: 0.5, fontSize: 24, color: C.onDark });
     page += 1;
     slide.addNotes(`${m.summary}\n\nSession plan (${m.minutes || 120} min): ${m.blocks.map((b) => `${b.name} ${b.minutes}`).join(' · ')}.`);
   }
@@ -205,28 +253,43 @@ function buildDeck(m, index) {
       bg(slide, s.style);
       statementBlock(slide, {
         eyebrow: s.eyebrow || '', eyebrowColor: s.style === 'accent' ? C.lav : C.violetL,
-        title: s.title, titleColor: C.white, titlePt: s.title.length > 48 ? 36 : 40,
+        title: s.title, titleColor: C.white, titlePt: s.title.length > 44 ? 46 : 52,
         sub: s.sub, subColor: s.style === 'accent' ? 'F1EDFF' : C.onDark, pill: s.pill,
       });
+    } else if (s.type === 'bio') {
+      // Portrait left, name and credentials right. The name is the title, so this slide
+      // sets its own eyebrow instead of calling header().
+      dark = true; bg(slide, 'dark');
+      text(slide, (s.eyebrow || '').toUpperCase(), { x: MX, y: 0.52, w: CW, h: 0.32, fontSize: 15, bold: true, charSpacing: 2.6, color: C.cyan });
+      const pw = 3.5, py = 1.8, cx = MX + pw + 0.6, cw = CW - pw - 0.6;
+      const photo = path.join(ROOT, 'assets', s.photo), px = imageSize(photo);
+      slide.addImage({ path: photo, x: MX, y: py, w: pw, h: pw * (px.h / px.w), sizing: { type: 'cover', w: pw, h: pw } });
+      text(slide, s.title, { x: cx, y: py, w: cw, h: 0.95, fontFace: TITLE_FONT, fontSize: 40, bold: true, color: C.white, fit: 'shrink' });
+      if (s.sub) text(slide, s.sub, { x: cx, y: py + 1.0, w: cw, h: 0.9, fontSize: 21, color: C.onDark });
+      text(slide, s.points.map((pt, i, a) => ({ text: pt, options: { bullet: true, breakLine: i < a.length - 1, paraSpaceAfter: 10 } })),
+        { x: cx, y: py + 2.05, w: cw, h: 2.4, fontSize: 19, color: C.onPanel });
     } else if (s.type === 'cards') {
       dark = true; bg(slide, 'dark'); header(slide, s);
       const n = s.cards.length, gap = 0.3, cw = (CW - gap * (n - 1)) / n;
+      const bodyLines = Math.max(...s.cards.map((c) => lineCount(c.text, n > 3 ? 20 : 22, cw - 0.7)));
+      const ch = 2.05 + bodyLines * 0.38;
+      const cy = place(ch);
       s.cards.forEach((c, i) => {
         const x = MX + i * (cw + gap);
-        slide.addShape(pres.shapes.ROUNDED_RECTANGLE, { x, y: 2.3, w: cw, h: n > 3 ? 3.5 : 3.7, rectRadius: 0.12, fill: { color: C.panel }, line: { color: C.panelLine, width: 0.75 }, shadow: shadow() });
-        numberDot(slide, x + 0.35, 2.65, 0.55, String(i + 1).padStart(2, '0'));
-        text(slide, c.title, { x: x + 0.35, y: 3.45, w: cw - 0.7, h: 0.8, fontSize: n > 3 ? 17 : 19, bold: true, color: C.white });
-        text(slide, c.text, { x: x + 0.35, y: 4.3, w: cw - 0.7, h: 1.4, fontSize: n > 3 ? 14 : 16, color: C.onDark });
+        slide.addShape(pres.shapes.ROUNDED_RECTANGLE, { x, y: cy, w: cw, h: ch, rectRadius: 0.12, fill: { color: C.panel }, line: { color: C.panelLine, width: 0.75 }, shadow: shadow() });
+        numberDot(slide, x + 0.35, cy + 0.32, 0.55, String(i + 1).padStart(2, '0'));
+        text(slide, c.title, { x: x + 0.35, y: cy + 1.08, w: cw - 0.7, h: 0.85, fontFace: TITLE_FONT, fontSize: n > 3 ? 23 : 25, bold: true, color: C.white });
+        text(slide, c.text, { x: x + 0.35, y: cy + 1.95, w: cw - 0.7, h: ch - 2.1, fontSize: n > 3 ? 20 : 22, color: C.onDark });
       });
     } else if (s.type === 'steps') {
       dark = true; bg(slide, 'dark'); header(slide, s);
       const n = s.steps.length, colW = CW / n, d = 0.7;
-      slide.addShape(pres.shapes.LINE, { x: MX + d / 2, y: 2.65 + d / 2, w: colW * (n - 1), h: 0, line: { color: 'C4B5FD', width: 2 } });
+      slide.addShape(pres.shapes.LINE, { x: MX + d / 2, y: 2.65 + d / 2, w: colW * (n - 1), h: 0, line: { color: C.cyan, width: 1.5, transparency: 55 } });
       s.steps.forEach((st, i) => {
         const x = MX + i * colW;
         numberDot(slide, x, 2.65, d, String(i + 1));
-        text(slide, st.title, { x, y: 3.65, w: colW - 0.4, h: 0.75, fontSize: 18, bold: true, color: C.white });
-        text(slide, st.text, { x, y: 4.45, w: colW - 0.4, h: 1.8, fontSize: 14, color: C.onDark });
+        text(slide, st.title, { x, y: 3.65, w: colW - 0.4, h: 0.8, fontFace: TITLE_FONT, fontSize: 25, bold: true, color: C.white });
+        text(slide, st.text, { x, y: 4.55, w: colW - 0.4, h: 1.8, fontSize: 22, color: C.onDark });
       });
     } else if (s.type === 'table') {
       dark = true; bg(slide, 'dark'); header(slide, s);
@@ -234,18 +297,21 @@ function buildDeck(m, index) {
     } else if (s.type === 'compare') {
       dark = true; bg(slide, 'dark'); header(slide, s);
       const pw = (CW - 0.4) / 2;
+      const rows = Math.max(s.left.points.length, s.right.points.length);
+      const ph = 2.0 + rows * 0.48;
+      const py = place(ph);
       // The left panel carries the emphasis, as it did before the decks went dark.
       [['left', MX, true], ['right', MX + pw + 0.4, false]].forEach(([side, x, isAlt]) => {
         const p = s[side];
-        slide.addShape(pres.shapes.ROUNDED_RECTANGLE, { x, y: 2.2, w: pw, h: 4.35, rectRadius: 0.15, fill: { color: isAlt ? C.panelAlt : C.panel }, line: { color: isAlt ? C.violetD : C.panelLine, width: 1 } });
-        text(slide, p.title, { x: x + 0.45, y: 2.55, w: pw - 0.9, h: 0.6, fontSize: 24, bold: true, color: C.white });
-        text(slide, p.sub, { x: x + 0.45, y: 3.2, w: pw - 0.9, h: 0.55, fontSize: 15, color: isAlt ? C.lavLine : C.onDark });
-        text(slide, p.points.map((pt, i) => ({ text: pt, options: { bullet: true, breakLine: i < p.points.length - 1, paraSpaceAfter: 8 } })),
-          { x: x + 0.45, y: 3.9, w: pw - 0.9, h: 2.4, fontSize: 17, color: C.onPanel });
+        slide.addShape(pres.shapes.ROUNDED_RECTANGLE, { x, y: py, w: pw, h: ph, rectRadius: 0.15, fill: { color: isAlt ? C.panelAlt : C.panel }, line: { color: isAlt ? C.cyan : C.panelLine, width: 1 } });
+        text(slide, p.title, { x: x + 0.45, y: py + 0.35, w: pw - 0.9, h: 0.65, fontFace: TITLE_FONT, fontSize: 25, bold: true, color: C.white });
+        text(slide, p.sub, { x: x + 0.45, y: py + 1.08, w: pw - 0.9, h: 0.55, fontSize: 20, color: isAlt ? C.cyan : C.muted });
+        text(slide, p.points.map((pt, i) => ({ text: pt, options: { bullet: true, breakLine: i < p.points.length - 1, paraSpaceAfter: 10 } })),
+          { x: x + 0.45, y: py + 1.8, w: pw - 0.9, h: ph - 2.0, fontSize: 22, color: C.onPanel });
       });
     } else if (s.type === 'rings') {
       dark = true; bg(slide, 'dark'); header(slide, s);
-      const fills = ['121A3A', '1B1248', '2A1A6B', '4C1D95', C.violet];
+      const fills = ['141D30', '16263B', '183246', '1A4055', C.cyan];
       let [x, y, w, h] = [MX, 2.15, 7.0, 4.5];
       s.rings.forEach((label, i) => {
         const last = i === s.rings.length - 1;
@@ -287,8 +353,8 @@ function buildDeck(m, index) {
     } else if (s.type === 'cheatsheet') {
       const cs = m.cheatsheet;
       dark = true; bg(slide, 'dark');
-      text(slide, s.eyebrow.toUpperCase(), { x: MX, y: 0.5, w: CW, h: 0.3, fontSize: 12, bold: true, charSpacing: 2, color: C.violetL });
-      text(slide, cs.big_idea, { x: MX, y: 0.85, w: CW, h: 1.1, fontSize: cs.big_idea.length > 60 ? 26 : 30, bold: true, color: C.white });
+      text(slide, s.eyebrow.toUpperCase(), { x: MX, y: 0.52, w: CW, h: 0.32, fontSize: 15, bold: true, charSpacing: 2.6, color: C.cyan });
+      text(slide, cs.big_idea, { x: MX, y: 0.95, w: CW, h: 1.3, fontFace: TITLE_FONT, fontSize: cs.big_idea.length > 60 ? 32 : 38, bold: true, color: C.white });
       const pw = (CW - 0.4) / 2;
       [['Ask on every project', cs.ask, true, MX], ['Rules of thumb', cs.rules, false, MX + pw + 0.4]].forEach(([label, items, isAlt, x]) => {
         slide.addShape(pres.shapes.ROUNDED_RECTANGLE, { x, y: 2.2, w: pw, h: 4.45, rectRadius: 0.15, fill: { color: isAlt ? C.panelAlt : C.panel }, line: { color: isAlt ? C.violetD : C.panelLine, width: 1 } });
@@ -298,7 +364,7 @@ function buildDeck(m, index) {
       });
     } else if (s.type === 'check') {
       dark = 'accent'; bg(slide, 'accent');
-      statementBlock(slide, { eyebrow: s.eyebrow || 'Check your map', eyebrowColor: C.lav, title: m.check.question, titleColor: C.white, titlePt: 36, sub: m.check.prompt, subColor: 'F1EDFF' });
+      statementBlock(slide, { eyebrow: s.eyebrow || 'Check your map', eyebrowColor: C.lav, title: m.check.question, titleColor: C.white, titlePt: 44, sub: m.check.prompt, subColor: C.onDark });
       notes += `\n\nAnswer key:\n${m.check.answers.map((a) => `- ${a}`).join('\n')}`;
     }
     footer(slide, dark);
@@ -312,7 +378,7 @@ function buildDeck(m, index) {
     slide.addImage({ path: LOGO_WHITE, x: MX, y: 0.6, w: 1.9, h: 0.7 });
     const done = !next;
     text(slide, done ? 'COURSE COMPLETE' : `NEXT · ${partCaps(next)}`, { x: MX, y: 2.35, w: CW, h: 0.35, fontSize: 14, bold: true, charSpacing: 3, color: C.violetL });
-    text(slide, done ? 'Don’t just use AI. Own it.' : next.title, { x: MX, y: 2.75, w: CW, h: 1.4, fontSize: 44, bold: true, color: C.white, fit: 'shrink' });
+    text(slide, done ? 'Don’t just use AI. Own it.' : next.title, { x: MX, y: 2.75, w: CW, h: 1.5, fontFace: TITLE_FONT, fontSize: 52, bold: true, color: C.white, fit: 'shrink' });
     slide.addShape(pres.shapes.ROUNDED_RECTANGLE, { x: MX, y: 4.85, w: CW, h: 1.2, rectRadius: 0.12, fill: { color: C.navy2 }, line: { color: C.edge, width: 1 } });
     text(slide, [{ text: done ? 'Keep going: ' : 'Before next session: ', options: { bold: true, color: C.white } }, { text: m.homework, options: { color: 'E6E9F3' } }],
       { x: MX + 0.4, y: 4.85, w: CW - 0.8, h: 1.2, fontSize: 17, valign: 'middle' });
@@ -488,12 +554,12 @@ function buildPage(m, index) {
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>${esc(m.title)} — ExplAIn ${partName(m)}</title>
   <meta name="description" content="${esc(clip(`ExplAIn ${partName(m)}: ${m.summary}`))}">
-  <meta name="theme-color" content="#0B1026">
-  <link rel="icon" type="image/png" href="assets/icon.png">
-  <link rel="apple-touch-icon" href="assets/icon.png">
+  <meta name="theme-color" content="#eef0f3">
+  <link rel="icon" type="image/png" href="assets/icon-cobalt.png">
+  <link rel="apple-touch-icon" href="assets/icon-cobalt.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">${gated ? `
+  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400..700&family=JetBrains+Mono:wght@400..500&display=swap" rel="stylesheet">${gated ? `
   <link rel="stylesheet" href="assets/listen.css">` : ''}
   <!-- Generated by course/_build/build.js from course/content/${partSlug(m)}.json — edit the JSON, not this file. -->
   <style>
@@ -506,20 +572,20 @@ ${m.web_deck ? DECK_CSS : ''}
 <body>
   <nav class="site-nav" aria-label="Primary">
     <div class="shell nav-inner">
-      <a class="logo" href="index.html" aria-label="ExplAIn home"><img src="assets/logo-white.png" alt="ExplAIn" width="545" height="201"></a>
+      <a class="logo" href="index.html" aria-label="ExplAIn home"><img src="assets/logo-ink.png" alt="ExplAIn" width="545" height="201"></a>
       <div class="nav-links">
-        <a href="digital-course.html">Digital course</a>
-        <a href="syllabus.html">Full course syllabus</a>
+        <a href="syllabus.html">Syllabus</a>
+        <a href="index.html#pricing">Pricing</a>
         <a href="articles.html">Articles</a>
         <a href="about.html">About</a>
-        <a class="btn btn-primary" href="digital-course.html#join">Join the waitlist</a>
+        <a class="btn btn-primary" href="index.html#join">Join the waitlist</a>
       </div>
     </div>
   </nav>
 
   <header class="hero">
     <div class="shell hero-inner">
-      <a class="back" href="digital-course.html#curriculum">← All modules</a>
+      <a class="back" href="syllabus.html">← The syllabus</a>
       <p class="eyebrow">${esc(partName(m))} · ${esc(m.label)}</p>
       <h1>${esc(m.title)}</h1>
       <p class="hero-lead">${esc(m.quote)}</p>${m.web_deck ? `
@@ -545,7 +611,7 @@ ${mapSection}
             <p class="eyebrow">Applied exercise</p>
             <h2>${esc(noDot(m.exercise.title))}</h2>
             <p>${esc(m.exercise.prompt)}</p>
-            <div class="actions"><a class="btn btn-primary" href="digital-course.html#pricing">Get the workbook <span aria-hidden="true">→</span></a>${worksheet}</div>
+            <div class="actions"><a class="btn btn-primary" href="index.html#pricing">Get the workbook <span aria-hidden="true">→</span></a>${worksheet}</div>
           </div>
           <ul class="products">${m.exercise.items.map((it) => `<li>${esc(it)}</li>`).join('')}</ul>
         </div>
@@ -571,7 +637,7 @@ ${guest}
           ${next ? `<div><small>Next · ${esc(partName(next))}</small><h3>${esc(next.title)}</h3></div>` : `<div><small>Course complete</small><h3>Don’t just use AI. Own it</h3></div>`}
           <div class="next-actions">
             ${prev ? `<a class="btn btn-outline" href="${partSlug(prev)}.html">← ${esc(partName(prev))}</a>` : `<a class="btn btn-outline" href="syllabus.html">Full syllabus</a>`}
-            ${next ? `<a class="btn btn-primary" href="${partSlug(next)}.html">${esc(partName(next))} <span aria-hidden="true">→</span></a>` : `<a class="btn btn-primary" href="digital-course.html#pricing">Get the workbook <span aria-hidden="true">→</span></a>`}
+            ${next ? `<a class="btn btn-primary" href="${partSlug(next)}.html">${esc(partName(next))} <span aria-hidden="true">→</span></a>` : `<a class="btn btn-primary" href="index.html#pricing">Get the workbook <span aria-hidden="true">→</span></a>`}
           </div>
         </div>
       </div>
@@ -580,11 +646,11 @@ ${guest}
 
   <footer>
     <div class="shell footer-inner">
-      <a href="index.html" aria-label="ExplAIn home"><img src="assets/logo-white.png" alt="ExplAIn" width="545" height="201"></a>
-      <span>Know more. Build better. Go further.</span>
-      <span>Don’t just use AI. <b>Own it.</b></span>
+      <a href="index.html" aria-label="ExplAIn home"><img src="assets/logo-ink.png" alt="ExplAIn" width="545" height="201"></a>
+      <span>© 2026 ExplAIn</span>
     </div>
   </footer>
+  <script src="assets/nav.js" defer></script>
   <script>${CHECK_JS}
   </script>
 ${m.web_deck ? `  <script>${DECK_JS}
@@ -598,6 +664,7 @@ ${m.web_deck ? `  <script>${DECK_JS}
 
 // ---------------------------------------------------------------- Printable cheat sheets
 const SHEETS = path.join(COURSE, 'cheatsheets');
+const SLIDES = path.join(COURSE, 'slides');
 const SHEET_CSS = `
   :root { color-scheme: light; }
   :root { --navy: #0b1026; --violet: #7c3aed; --blue: #3b82f6; --lav: #ede9fe; --muted: #5d6679; --line: #e2e6ef; }
@@ -733,31 +800,31 @@ function buildCertificateTemplate() {
   const t = (value, o) => slide.addText(value, { fontFace: FONT, margin: 0, isTextBox: true, align: 'center', valign: 'middle', x: 0.9, w: 9.89, ...o });
 
   // Corner diamonds and frame
-  slide.addShape(pres.shapes.RECTANGLE, { x: -1.25, y: 6.45, w: 2.45, h: 2.45, rotate: 45, fill: { type: 'none' }, line: { color: C.blue, width: 26, transparency: 87 } });
-  slide.addShape(pres.shapes.RECTANGLE, { x: 10.49, y: 6.45, w: 2.45, h: 2.45, rotate: 45, fill: { type: 'none' }, line: { color: C.violet, width: 26, transparency: 87 } });
-  slide.addShape(pres.shapes.ROUNDED_RECTANGLE, { x: 0.35, y: 0.35, w: 10.99, h: 7.57, rectRadius: 0.22, fill: { type: 'none' }, line: { color: 'D9DEEA', width: 1 } });
-  slide.addShape(pres.shapes.ROUNDED_RECTANGLE, { x: 0.44, y: 0.44, w: 10.81, h: 7.39, rectRadius: 0.17, fill: { type: 'none' }, line: { color: 'EBE7FD', width: 1 } });
+  slide.addShape(pres.shapes.RECTANGLE, { x: -1.25, y: 6.45, w: 2.45, h: 2.45, rotate: 45, fill: { type: 'none' }, line: { color: '0B0C0E', width: 26, transparency: 94 } });
+  slide.addShape(pres.shapes.RECTANGLE, { x: 10.49, y: 6.45, w: 2.45, h: 2.45, rotate: 45, fill: { type: 'none' }, line: { color: '0B0C0E', width: 26, transparency: 94 } });
+  slide.addShape(pres.shapes.ROUNDED_RECTANGLE, { x: 0.35, y: 0.35, w: 10.99, h: 7.57, rectRadius: 0.22, fill: { type: 'none' }, line: { color: 'D5D9E0', width: 1 } });
+  slide.addShape(pres.shapes.ROUNDED_RECTANGLE, { x: 0.44, y: 0.44, w: 10.81, h: 7.39, rectRadius: 0.17, fill: { type: 'none' }, line: { color: 'E2E5EA', width: 1 } });
 
-  slide.addImage({ path: LOGO_NAVY, x: 11.69 / 2 - 0.8, y: 0.8, w: 1.6, h: 0.59 });
-  t('CERTIFICATE', { y: 1.65, h: 0.7, fontSize: 36, bold: true, charSpacing: 8, color: '5B3FD9' });
-  t('OF COMPLETION', { y: 2.35, h: 0.3, fontSize: 11, bold: true, charSpacing: 6, color: '3B4A8A' });
-  t('This certifies that', { y: 2.95, h: 0.3, fontSize: 11, color: '667085' });
-  t('Participant Name', { y: 3.3, h: 0.75, fontSize: 32, fontFace: 'Georgia', color: C.navy });
-  slide.addShape(pres.shapes.LINE, { x: 11.69 / 2 - 3, y: 4.1, w: 6, h: 0, line: { color: '7E8798', width: 0.75 } });
-  t('has successfully completed the professional course', { y: 4.3, h: 0.3, fontSize: 11, color: '667085' });
-  t('ExplAIn — Understanding and Building AI Systems', { y: 4.62, h: 0.45, fontSize: 17, bold: true, color: C.navy });
-  t('20 LEARNING HOURS · 8 LIVE SESSIONS · CAPSTONE COMPLETED', { y: 5.12, h: 0.3, fontSize: 9, bold: true, charSpacing: 1.5, color: C.violet });
-  t('Organization · Cohort', { y: 5.45, h: 0.3, fontSize: 10, color: '667085' });
+  slide.addImage({ path: path.join(ROOT, 'assets', 'logo-ink.png'), x: 11.69 / 2 - 0.8, y: 0.8, w: 1.6, h: 0.59 });
+  t('Certificate', { y: 1.65, h: 0.7, fontSize: 40, color: '0B0C0E' });
+  t('of completion', { y: 2.35, h: 0.3, fontSize: 13, color: '5D6470' });
+  t('This certifies that', { y: 2.95, h: 0.3, fontSize: 11, color: '5D6470' });
+  t('Participant Name', { y: 3.3, h: 0.75, fontSize: 32, fontFace: 'Georgia', color: '0B0C0E' });
+  slide.addShape(pres.shapes.LINE, { x: 11.69 / 2 - 3, y: 4.1, w: 6, h: 0, line: { color: '8E939C', width: 0.75 } });
+  t('has successfully completed the professional course', { y: 4.3, h: 0.3, fontSize: 11, color: '5D6470' });
+  t('ExplAIn — Understanding and Building AI Systems', { y: 4.62, h: 0.45, fontSize: 17, bold: true, color: '0B0C0E' });
+  t('20 learning hours · 8 live sessions · Capstone completed', { y: 5.12, h: 0.3, fontSize: 10, color: '1F2DE6' });
+  t('Organization · Cohort', { y: 5.45, h: 0.3, fontSize: 10, color: '5D6470' });
 
   const sig = (x, value, label) => {
-    slide.addText(value, { fontFace: FONT, margin: 0, isTextBox: true, align: 'center', x, y: 6.3, w: 2.9, h: 0.3, fontSize: 11, color: C.navy });
-    slide.addShape(pres.shapes.LINE, { x, y: 6.66, w: 2.9, h: 0, line: { color: '7E8798', width: 0.75 } });
-    slide.addText(label, { fontFace: FONT, margin: 0, isTextBox: true, align: 'center', x, y: 6.72, w: 2.9, h: 0.3, fontSize: 10, bold: true, color: C.navy });
+    slide.addText(value, { fontFace: FONT, margin: 0, isTextBox: true, align: 'center', x, y: 6.3, w: 2.9, h: 0.3, fontSize: 11, color: '0B0C0E' });
+    slide.addShape(pres.shapes.LINE, { x, y: 6.66, w: 2.9, h: 0, line: { color: '8E939C', width: 0.75 } });
+    slide.addText(label, { fontFace: FONT, margin: 0, isTextBox: true, align: 'center', x, y: 6.72, w: 2.9, h: 0.3, fontSize: 10, bold: true, color: '0B0C0E' });
   };
   sig(1.6, 'DD Month YYYY', 'Date');
   sig(7.19, 'Katia Stainfeld Huri', 'Course creator & instructor');
-  slide.addImage({ path: path.join(ROOT, 'assets', 'icon.png'), x: 11.69 / 2 - 0.45, y: 6.15, w: 0.9, h: 0.9 });
-  t('CERTIFICATE ID  EXP-0000-000', { y: 7.45, h: 0.25, fontSize: 7, charSpacing: 3, color: '9AA3B5' });
+  slide.addImage({ path: path.join(ROOT, 'assets', 'icon-cobalt.png'), x: 11.69 / 2 - 0.45, y: 6.15, w: 0.9, h: 0.9 });
+  t('Certificate ID  EXP-0000-000', { y: 7.45, h: 0.25, fontSize: 8, color: '5D6470' });
   slide.addNotes('Replace the participant name, organization, date and certificate ID. For many certificates at once, use course/certificate/index.html instead.');
 
   fs.mkdirSync(path.join(COURSE, 'certificate'), { recursive: true });
@@ -771,6 +838,7 @@ function buildHub() {
         <td><span class="num">${m.num}</span></td>
         <td><b>${m.part ? `Part ${m.part} · ` : ''}${esc(m.title)}</b><small>${esc(m.quote)}</small></td>
         <td><a href="${partSlug(m)}/${deckName(m)}">Slides (.pptx)</a></td>
+        <td><a href="slides/${printStem(m)}.pdf">Slides + notes (.pdf)</a></td>
         <td><a href="${partSlug(m)}/${scriptName(m)}">Facilitator script (.docx)</a></td>
         <td><a href="../${partSlug(m)}.html">Module page</a> · <a href="workbook.html#${anchorOf(m)}">Workbook</a></td>
       </tr>`).join('');
@@ -811,9 +879,9 @@ function buildHub() {
   <header><div class="shell"><img src="../assets/logo-white.png" alt="ExplAIn"><span>Course materials · instructor</span></div></header>
   <main class="shell">
     <h1>Course materials</h1>
-    <p class="lead">Ten modules. Modules 00 and 01 run 1 hour each; the rest run 2 hours. Each has a slide deck with speaker notes, a facilitator script and a public module page.</p>
+    <p class="lead">Ten modules. Modules 00 and 01 run 1 hour each; the rest run 2 hours. Each has a slide deck with speaker notes, the same deck as a print-ready PDF, a facilitator script and a public module page.</p>
     <div class="wrap"><table>
-      <tr><th></th><th>Module</th><th>Deck</th><th>Script</th><th>Participants</th></tr>${rows}
+      <tr><th></th><th>Module</th><th>Deck</th><th>Printable</th><th>Script</th><th>Participants</th></tr>${rows}
     </table></div>
     <div class="extras">
       <a href="workbook.html">Course workbook<span>One fillable form for every exercise, the capstone and a printable summary.</span></a>
@@ -854,9 +922,15 @@ const ONLY = argv.find((a) => /^module-/.test(a)) || null;
       fs.writeFileSync(path.join(moduleDir(m), 'deck.html'), buildWebDeck(m, { esc, mapBoxes: MAP_BOXES, partName, partSlug, clip }));
       console.log(`✓ ${partName(m)}: free web deck at course/${partSlug(m)}/deck.html`);
     }
-    console.log(PAGES_ONLY ? `✓ ${partSlug(m)}.html` : `✓ ${partName(m)}: ${deckName(m)}, ${scriptName(m)}, ${partSlug(m)}.html`);
+    if (!PAGES_ONLY) {
+      fs.mkdirSync(SLIDES, { recursive: true });
+      fs.writeFileSync(path.join(SLIDES, `${printStem(m)}.html`),
+        buildPrintDeck(m, modules[i + 1], { esc, mapBoxes: MAP_BOXES, partName, partCaps, noDot }));
+    }
+    console.log(PAGES_ONLY ? `✓ ${partSlug(m)}.html` : `✓ ${partName(m)}: ${deckName(m)}, ${scriptName(m)}, ${printStem(m)}.pdf, ${partSlug(m)}.html`);
   }
   if (!PAGES_ONLY) {
+    console.log(`✓ ${buildAboutSlide()}`);
     console.log(`✓ ${buildCheatsheets()} cheat sheets in course/cheatsheets/`);
     await buildCertificateTemplate();
     console.log('✓ course/certificate/ExplAIn-Certificate-Template.pptx');

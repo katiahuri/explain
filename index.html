@@ -1,362 +1,509 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-type="software" data-radius="soft" data-ground="sage" data-buttons="tonal" data-motion>
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>ExplAIn — Don’t Just Use AI. Own It.</title>
-  <meta name="description" content="A practical AI course for technical professionals. Ten modules, a workbook, cheat sheets and a capstone that turn you from AI builder into AI owner.">
-  <meta name="theme-color" content="#0B1026">
-  <meta property="og:title" content="ExplAIn — Don’t just use AI. Own it.">
-  <meta property="og:description" content="Understand the system around the model, then design, evaluate and build with confidence.">
-  <meta property="og:type" content="website">
-  <link rel="icon" type="image/png" href="assets/icon.png">
-  <link rel="apple-touch-icon" href="assets/icon.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/site.css">
-  <link rel="stylesheet" href="assets/listen.css">
-  <script>document.documentElement.classList.add('js');</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ExplAIn: an AI course for technical professionals</title>
+<meta name="description" content="Ten self-paced modules on how AI products really work, from tokens to agents and evals. About 20 hours, from $79, Module 00 free.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="ExplAIn: an AI course for technical professionals">
+<meta property="og:description" content="Ten modules on the system around the model. Self-paced, about 20 hours, from $79.">
+<meta property="og:image" content="assets/og-card.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="assets/icon-cobalt.png" type="image/png">
+<meta name="theme-color" content="#eef0f3">
+<!-- <link rel="canonical" href="https://[the client's domain]/"> -->
+<meta name="site-kind" content="software">
+<meta name="page-type" content="software">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400..700&family=JetBrains+Mono:wght@400..500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/kit/system.css">
+<link rel="stylesheet" href="assets/kit/ui/cards.css">
+<link rel="stylesheet" href="assets/kit/motion/motion.css">
+<link rel="stylesheet" href="assets/kit/backgrounds/backgrounds.css">
+<link rel="stylesheet" href="assets/kit/layout/layout.css">
+<link rel="stylesheet" href="assets/kit/icons/icon.css">
+<style>
+:root {
+  --p-bg: #eef0f3; --p-surface: #e2e5ea; --p-ink: #0b0c0e; --p-muted: #5d6470;
+  --p-accent: #1f2de6; --p-accent-ink: #ffffff; --p-action: #1f2de6; --p-action-ink: #ffffff;
+  --p-inv-bg: #0b0c0e; --p-inv-surface: #17181a; --p-inv-ink: #eef0f3; --p-inv-muted: #8e8f92;
+  --p-inv-accent: #eef0f3; --p-inv-accent-ink: #0b0c0e; --p-inv-action: #eef0f3; --p-inv-action-ink: #0b0c0e;
+  --font-display: "Onest", system-ui, sans-serif;
+  --font-text: "Onest", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --display-weight: 400;
+  --display-tracking: -0.035em;
+  --display-tracking-xl: -0.04em;
+}
+</style>
+<link rel="stylesheet" href="assets/kit/ui/base.css">
+<link rel="stylesheet" href="assets/kit/ui/window/fragment.css">
+<link rel="stylesheet" href="assets/kit/ui/checklist/fragment.css">
+<link rel="stylesheet" href="assets/kit/ui/files/fragment.css">
+<link rel="stylesheet" href="assets/kit/ui/notify/fragment.css">
+<link rel="stylesheet" href="assets/kit/ui/doc/fragment.css">
+<link rel="stylesheet" href="assets/kit/moments/liquid-type/moment.css">
+<script>document.documentElement.classList.add('m-enter');setTimeout(()=>document.documentElement.classList.add('m-enter-done'),700)</script>
+<script src="assets/kit/backgrounds/backgrounds.js"></script>
+<script>document.documentElement.classList.add('mo-js');setTimeout(()=>document.documentElement.classList.add('mo-safe'),2500)</script>
+<link rel="modulepreload" href="assets/kit/moments/moments.js">
+<link rel="modulepreload" href="assets/kit/moments/lib.js">
+<link rel="modulepreload" href="assets/kit/moments/liquid-type/moment.js">
+<link rel="modulepreload" href="assets/kit/moments/line-carries-colour/moment.js">
+<link rel="stylesheet" href="assets/kit/moments/line-carries-colour/moment.css">
+<script>document.documentElement.classList.add('sc-js');setTimeout(()=>document.documentElement.classList.add('sc-safe'),2500)</script>
+<link rel="stylesheet" href="assets/kit/scenes/scenes.css">
+<link rel="stylesheet" href="assets/kit/scenes/parts-lock-into-the-whole/scene.css">
+<!-- page CSS: only what sits inside a visual, and one --p-h per card group -->
+<style>
+  .nav__logo img { display: block; height: 30px; width: auto; }
+  .footer .nav__logo img { height: 34px; }
+  /* hero: the module window on the lit frame, the workbook card over its lower-left */
+  .hero__art > .ly-piece--note { left: var(--s-6); bottom: var(--s-6); width: 320px; z-index: 2; }
+  .hero__proof { font-size: var(--t-small); color: var(--muted); }
+  .hero__proof a { color: var(--ink); }
+  @media (max-width: 1023px) { .hero__art > .ly-piece--note { left: var(--s-4); bottom: var(--s-4); width: 290px; } }
+  /* the syllabus: ten modules as ruled rows in two groups */
+  .mods { list-style: none; margin: 0; padding: 0; }
+  .mods > li { display: grid; grid-template-columns: 56px minmax(0, 1fr); gap: var(--s-4); padding-block: var(--s-5); border-bottom: 1px solid color-mix(in oklab, var(--ink) 13%, transparent); }
+  .mods__num { font: 500 var(--t-body)/1.6 var(--font-mono); color: var(--muted); }
+  .mods h3 { margin: 0; font-size: var(--t-card); line-height: 1.3; }
+  .mods p { margin: var(--s-1) 0 0; }
+  .mods .mods__topics { color: var(--muted); font-size: var(--t-body); }
+  @media (max-width: 639px) { .mods > li { grid-template-columns: 32px minmax(0, 1fr); gap: var(--s-3); padding-block: var(--s-3); } .mods h3 { font-size: 17px; } }
+  .free-tag { display: inline-block; margin-right: var(--s-2); padding: 0 var(--s-2); border-radius: var(--r-sm); background: var(--p-accent); color: var(--p-accent-ink); font: 500 var(--t-label)/1.6 var(--font-text); vertical-align: 3px; }
+  @media (min-width: 1024px) { .mods__body { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: var(--s-5); } .mods p { margin: 0; } }
+  /* the module screen inside the scene (the client's reader, drawn as HTML) */
+  .xm { font-size: 14px; }
+  .xm .pl__bar { display: flex; align-items: center; gap: 14px; padding: 0 16px; color: var(--muted); }
+  .xm .pl__bar b { color: var(--ink); font-weight: 500; }
+  .xm .dots { display: inline-flex; gap: 5px; margin-right: 6px; } .xm .dots i { width: 9px; height: 9px; border-radius: 50%; background: color-mix(in oklab, var(--ink) 18%, transparent); }
+  .xm .tab { padding: 4px 10px; border-radius: 6px; } .xm .tab.on { background: var(--surface); color: var(--ink); }
+  .xm .pl__side { padding: 14px 12px; display: grid; align-content: start; gap: 2px; color: var(--muted); }
+  .xm .pl__side span { padding: 6px 8px; border-radius: 6px; white-space: nowrap; } .xm .pl__side span.on { background: var(--surface); color: var(--ink); }
+  .xm .pl__side small { margin: 6px 8px 4px; font-size: 13px; }
+  .xm .pl__main { padding: 18px 20px; display: grid; align-content: start; gap: 12px; }
+  .xm .pl__title { font-size: 18px; font-weight: 500; letter-spacing: -0.01em; margin: 0; }
+  .xm__prompt { margin: 0; font: 400 15px/1.4 var(--font-mono); color: var(--ink); }
+  .xm__caret { display: inline-block; width: 2px; height: 1.1em; margin-left: 3px; vertical-align: -3px; background: var(--action); }
+  .xm table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+  .xm th { text-align: left; font-weight: 400; color: var(--muted); padding: 6px 0; border-bottom: 1px solid color-mix(in oklab, var(--ink) 12%, transparent); font-size: 13px; }
+  .xm td { padding: 8px 0; border-bottom: 1px solid color-mix(in oklab, var(--ink) 12%, transparent); }
+  .xm .n { text-align: right; } .xm th + th, .xm td + td { padding-left: 14px; }
+  .xm .bar { position: relative; display: block; height: 8px; border-radius: 4px; background: var(--surface); overflow: clip; width: 100%; }
+  .xm .bar b { position: absolute; inset: 0; width: calc(var(--v) * 100%); background: var(--action); border-radius: 4px; }
+  .xm .talk { background: color-mix(in oklab, var(--action) 12%, transparent); border-radius: 4px; padding: 0 4px; margin: 0 -4px; }
+  .xm .pl__insp { padding: 16px 14px; display: grid; align-content: start; gap: 10px; }
+  .xm .pl__insp h4 { margin: 0; font: 500 13px/1.4 var(--font-text); color: var(--muted); }
+  .xm .note { display: grid; gap: 4px; padding: 10px; border-radius: 8px; background: var(--surface); font-size: 13px; }
+  .xm .note b { font-weight: 500; display: flex; align-items: center; gap: 6px; }
+  .xm .note b i { min-width: 20px; height: 20px; padding: 0 4px; border-radius: 10px; display: grid; place-items: center; font-size: 11px; font-style: normal; background: var(--action); color: #fff; }
+  .xm .agent b i { background: var(--ink); color: var(--bg); }
+  @media (max-width: 767px) { .xm .tab:last-child { display: none; } .xm .pl__main { padding: 16px; } }
+  /* the format cards */
+  #format .panel { --p-h: 300px; }
+  @media (max-width: 639px) { #format .panel { --p-h: 190px; } #format .card p { margin-bottom: 0; } }
+  .ep { position: absolute; inset: var(--s-6) var(--s-6) auto var(--s-6); display: grid; grid-template-columns: 72px minmax(0, 1fr); gap: var(--s-4); align-items: center; padding: var(--s-4); background: #fff; color: #16181a; border-radius: var(--r-md); box-shadow: 0 0 0 1px rgb(0 0 0 / .07), 0 18px 40px -24px rgb(0 0 0 / .45); }
+  .ep img { width: 72px; height: 72px; border-radius: 50%; object-fit: cover; }
+  .ep b { display: block; font-weight: 500; font-size: 16px; }
+  .ep small { display: block; font-size: 13px; color: #4f5560; }
+  .ep__bar { grid-column: 1 / -1; display: grid; grid-template-columns: 32px minmax(0, 1fr) auto; gap: var(--s-3); align-items: center; font: 400 13px/1 var(--font-mono); color: #4f5560; }
+  .ep__play { width: 32px; height: 32px; border-radius: 50%; background: var(--p-action); display: grid; place-items: center; }
+  .ep__play svg { width: 12px; height: 12px; fill: #fff; }
+  .ep__line { height: 4px; border-radius: 2px; background: #dfe2e7; position: relative; }
+  .ep__line i { position: absolute; inset: 0 auto 0 0; width: 9%; border-radius: 2px; background: var(--p-action); }
+  @media (max-width: 639px) { .ep { inset: var(--s-4) var(--s-4) auto var(--s-4); } }
+  .cert { position: absolute; inset: var(--s-6) var(--s-6) auto var(--s-6); border-radius: var(--r-sm); box-shadow: 0 0 0 1px rgb(0 0 0 / .07), 0 18px 40px -24px rgb(0 0 0 / .45); width: calc(100% - 2 * var(--s-6)); height: auto; }
+  @media (max-width: 639px) { .cert { inset: var(--s-4) var(--s-4) auto var(--s-4); width: calc(100% - 2 * var(--s-4)); } }
+  /* the statement */
+  #map .mo-lt__type { margin-bottom: var(--s-6); }
+  /* the two band grounds hold exactly their section's screens */
+  /* the plans: one-time prices, no switch */
+  .plan__note { margin-top: var(--s-7); }
+  /* the waitlist form's radio pair */
+  .choices { display: flex; gap: var(--s-5); flex-wrap: wrap; }
+  .choices label { display: inline-flex; align-items: center; gap: var(--s-2); min-height: 44px; font-weight: 400; font-size: var(--t-body); }
+  .choices input { margin: 0; width: 20px; height: 20px; accent-color: var(--p-action); }
+  .form fieldset { border: 0; margin: 0; padding: 0; }
+  .form legend { padding: 0; margin-bottom: var(--s-2); }
+  .join__art { --p-h: 520px; }
+  @media (max-width: 639px) { .join__art { --p-h: 260px; margin-top: var(--s-6); } }
+  .legal__grid { flex: 1 1 100%; align-items: center; }
+  .legal__grid > .span-4 { display: inline-flex; align-items: center; min-height: 44px; }
+  .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+  .form-status[data-type="error"] { color: color-mix(in oklab, #d92d20 72%, var(--ink)); }
+</style>
 </head>
 <body>
-  <nav class="site-nav" aria-label="Primary">
-    <div class="shell nav-inner">
-      <a class="logo" href="index.html" aria-label="ExplAIn home"><img src="assets/logo-white.png" alt="ExplAIn" width="545" height="201"></a>
-      <div class="nav-links">
-        <a href="digital-course.html">Digital course</a>
-        <a href="syllabus.html">Full course syllabus</a>
-        <a href="articles.html">Articles</a>
-        <a href="about.html">About</a>
-        <a class="btn btn-primary btn-sm" href="#join">Join the waitlist</a>
-      </div>
+<!-- type: software (an online AI course for technical professionals; site-kind software)
+     deal: hero collage, palette cool-grey-cobalt (soot-pale-lime dealt first, skipped: its lime clashes with the
+     violet-blue "AI" in ExplAIn's own logo; the cobalt picks up that logo's blue), type onest, nav nav-centre,
+     close close-type, footer footer-columns, rhythm space, buttons tonal, mark ring (not used: the client's logo),
+     lit ground sage; effect: the big scene parts-lock-into-the-whole in #module (it replaces the dealt
+     fluted-glass and silk-folds: a scene is the page's one effect, card panels take the lit ground);
+     pricing (with the questions as its second screen) on ground-surface for its moment
+     moments: line-carries-colour in #pricing, liquid-type in #map (its own statement section)
+     screens at 1440: hero 1, syllabus 2, module 1 (the scene, 2 live), format 2, map 1, pricing 2 (plans, questions), join 1, footer 1 -->
+<header class="nav nav--centre">
+  <div class="wrap nav__bar">
+    <a class="skip-link" href="#top">Skip to content</a>
+    <a class="nav__logo" href="#top"><img src="assets/logo-ink.png" alt="ExplAIn" width="545" height="201"></a>
+    <nav class="nav__links" aria-label="Main">
+      <div class="nav__item"><a class="nav__link" href="syllabus.html">Syllabus</a></div>
+      <div class="nav__item"><a class="nav__link" href="#pricing">Pricing</a></div>
+      <div class="nav__item"><a class="nav__link" href="articles.html">Articles</a></div>
+      <div class="nav__item"><a class="nav__link" href="about.html">About</a></div>
+    </nav>
+    <div class="nav__actions">
+      <a class="btn btn--primary" href="#join">Join the waitlist</a>
     </div>
-  </nav>
+    <button class="nav__toggle" type="button" aria-expanded="false" aria-label="Menu">
+      <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M2 5h14M2 13h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+</header>
 
-  <header class="hero" id="top">
-    <div class="shell hero-inner">
-      <h1>Understand AI.<br>Apply it. Own it.</h1>
-      <p class="hero-lead">Most courses teach the tool. ExplAIn teaches the system underneath.</p>
-      <div class="hero-actions">
-        <a class="btn btn-primary btn-lg" href="#join">Join the waitlist</a>
-        <a class="btn btn-ghost" href="digital-course.html">See what’s inside</a>
+<main id="top">
+  <section class="hero hero--collage" data-enter aria-labelledby="hero-h">
+    <div class="wrap"><div class="hero-text grid hero__grid">
+      <div class="hero__text span-5">
+        <h1 id="hero-h">An AI course for technical professionals</h1>
+        <p class="hero__lead">Ten modules on the system around the model: context, retrieval, tools, agents and evals. Self-paced, about 20 hours, from $79.</p>
+        <div class="btn-row"><a class="btn btn--primary" href="#join">Join the waitlist<svg class="m-arrow" viewBox="0 0 12 12" aria-hidden="true"><path class="m-arrow__stem" d="M1 6h8"/><path class="m-arrow__head" d="M4.5 2.5 8 6l-3.5 3.5"/></svg></a><a class="btn btn--secondary" href="#syllabus">Read the syllabus</a></div>
+        <p class="hero__proof">Module 00 is open now: <a class="link" href="module-00.html">read and hear it free</a>.</p>
       </div>
-      <div class="hero-episode" id="episode">
-        <div class="hero-episode-head">
-          <img src="assets/guests/simone-vale.jpg" width="300" height="300" decoding="async"
-               alt="Simone Vale, the guest on episode one">
-          <div>
-            <h2>How we got here</h2>
-            <p class="hero-episode-meta">Episode 00 with Simone Vale, 17 minutes</p>
-          </div>
-        </div>
-        <div class="listen" data-listen="00-how-we-got-here">
-          <div class="listen-lock" data-listen-lock>
-            <p class="listen-lock-head"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2h-1V7a5 5 0 0 0-5-5Zm0 2a3 3 0 0 1 3 3v3H9V7a3 3 0 0 1 3-3Z"/></svg> Hear the whole episode &mdash; one email</p>
-            <p class="listen-note">The remaining 15 minutes are yours for an email address. One email, no spam, unsubscribe anytime. Enter it once and the episode plays anywhere on the site, on this browser.</p>
-            <form novalidate>
-              <input type="hidden" name="source" value="episode-00-home">
-              <div class="listen-row">
-                <label class="listen-hp" for="listen-email-home">Email address</label>
-                <input id="listen-email-home" type="email" name="email" placeholder="you@company.com" autocomplete="email" required>
-                <button type="submit">Hear the rest</button>
+      <div class="hero__art frame--lit span-6 start-7" role="img" aria-label="The ExplAIn module list with the first two modules done and module 02 in progress, and the module 04 workbook checklist">
+        <div class="ly-piece ly-piece--main" aria-hidden="true">
+          <div class="ui ui-panel ui-win" data-ui="window" data-open="Next" data-work="Reading" data-done="Done">
+            <div class="ui-win__bar">
+              <span class="ui-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+              <span class="ui-win__crumb">ExplAIn <i>/</i> <b>Modules</b></span>
+              <span class="ui-spacer"></span>
+              <span class="ui-win__search" aria-hidden="true"><svg class="ui-icon" viewBox="0 0 16 16"><circle cx="7" cy="7" r="4.5"/><path d="m10.5 10.5 3 3"/></svg><span class="ui-win__ph">Search</span><span class="ui-kbd">/</span></span>
+            </div>
+            <div class="ui-win__body">
+              <nav class="ui-win__side" aria-hidden="true">
+                <span class="ui-win__nav"><svg class="ui-icon" viewBox="0 0 16 16"><path d="M3 3.5h10M3 8h10M3 12.5h10"/></svg>Modules<em>10</em></span>
+                <span class="ui-win__nav"><svg class="ui-icon" viewBox="0 0 16 16"><path d="M4 2.5h5l3 3v8H4z"/><path d="M9 2.5v3h3"/></svg>Workbook</span>
+                <span class="ui-win__nav"><svg class="ui-icon" viewBox="0 0 16 16"><path d="M3 3h10v10H3z"/><path d="M6 6h4M6 9h4"/></svg>Cheat sheets<em>10</em></span>
+                <span class="ui-win__nav"><svg class="ui-icon" viewBox="0 0 16 16"><path d="m3.5 8.4 2.8 2.8 6.2-6.4"/></svg>Capstone</span>
+              </nav>
+              <div class="ui-win__main">
+                <div class="ui-win__cols" aria-hidden="true"><span>Module</span><span>Covers</span><span>Status</span><span>Time</span></div>
+                <ul class="ui-win__rows">
+                  <li class="ui-win__row" data-row><span class="ui-avatar" data-tone="1">00</span><span class="ui-win__who">The history</span><span class="ui-win__sub">How we got here</span><span class="ui-win__st is-done" data-st>Done</span><span class="ui-win__age">2h</span></li>
+                  <li class="ui-win__row" data-row><span class="ui-avatar" data-tone="2">01</span><span class="ui-win__who">The map</span><span class="ui-win__sub">What is an AI system?</span><span class="ui-win__st is-done" data-st>Done</span><span class="ui-win__age">2h</span></li>
+                  <li class="ui-win__row" data-row><span class="ui-avatar" data-tone="3">02</span><span class="ui-win__who">Inside the model</span><span class="ui-win__sub">Tokens, embeddings, attention</span><span class="ui-win__st" data-st>Next</span><span class="ui-win__age">2h</span></li>
+                  <li class="ui-win__row" data-row><span class="ui-avatar" data-tone="4">03</span><span class="ui-win__who">Learning</span><span class="ui-win__sub">Training and inference</span><span class="ui-win__st" data-st>Next</span><span class="ui-win__age">2h</span></li>
+                  <li class="ui-win__row" data-row><span class="ui-avatar" data-tone="5">04</span><span class="ui-win__who">Probability</span><span class="ui-win__sub">Sampling and hallucination</span><span class="ui-win__st" data-st>Next</span><span class="ui-win__age">2h</span></li>
+                  <li class="ui-win__row" data-row><span class="ui-avatar" data-tone="1">05</span><span class="ui-win__who">Context</span><span class="ui-win__sub">Context engineering</span><span class="ui-win__st" data-st>Next</span><span class="ui-win__age">2h</span></li>
+                  <li class="ui-win__row" data-row><span class="ui-avatar" data-tone="2">06</span><span class="ui-win__who">Knowledge</span><span class="ui-win__sub">Retrieval and memory</span><span class="ui-win__st" data-st>Next</span><span class="ui-win__age">2h</span></li>
+                </ul>
               </div>
-              <input class="listen-hp" type="text" name="company_website" tabindex="-1" autocomplete="off" aria-hidden="true">
-            </form>
-            <p class="listen-status" data-listen-status role="status"></p>
-          </div>
-          <audio class="listen-audio" controls preload="none" data-listen-audio hidden></audio>
-        </div>
-        <p class="hero-episode-note">The first 90 seconds play now. No email until you want the rest.</p>
-      </div>
-    </div>
-  </header>
-
-  <section class="section white" id="outcomes">
-    <div class="shell reveal">
-      <div class="section-head center">
-        <h2>From AI builder to <span class="grad-text">AI owner</span></h2>
-        <p class="lead">Builders make AI work. Owners know why it works, and where it breaks.</p>
-      </div>
-      <div class="shift">
-        <div class="shift-col">
-          <p class="shift-tag">Builder</p>
-          <ul>
-            <li>Swaps the model when an answer comes back wrong</li>
-            <li>Rewrites the prompt and hopes it holds</li>
-            <li>Calls the whole product “the AI”</li>
-            <li>Ships on a demo that worked once</li>
-          </ul>
-        </div>
-        <p class="shift-arrow" aria-hidden="true">→</p>
-        <div class="shift-col owner">
-          <p class="shift-tag">Owner</p>
-          <ul>
-            <li>Names the part that failed, then fixes that part</li>
-            <li>Decides what enters the context, and in what order</li>
-            <li>Knows where the model ends and the system begins</li>
-            <li>Ships on a set of real cases that has to keep passing</li>
-          </ul>
-        </div>
-      </div>
-      <div class="cta-row">
-        <a class="btn btn-primary btn-lg" href="#join">Join the waitlist</a>
-        <p class="cta-note">One email. No payment now, and the founding price is held for you.</p>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" id="system-map">
-    <div class="shell reveal">
-      <div class="section-head center">
-        <h2>The model generates. The system does</h2>
-        <p class="lead">Nine parts decide whether AI works, and ten modules teach them. Point at a part to see which module it belongs to, and what that module covers.</p>
-      </div>
-      <div class="sysmap sysmap-split" data-sysmap>
-        <figure class="sysmap-stage">
-          <p class="sysmap-band">What it sees</p>
-          <div class="sysmap-row">
-            <a class="sysmap-box" data-mod="05" href="module-05.html" title="Module 05, Context engineering"><span class="sysmap-mod">05</span><h3>Context</h3><p>What the model sees right now</p></a>
-            <a class="sysmap-box" data-mod="06" href="module-06.html" title="Module 06, Retrieval, memory and fine-tuning"><span class="sysmap-mod">06</span><h3>Knowledge</h3><p>Documents and retrieval</p></a>
-            <a class="sysmap-box" data-mod="06" href="module-06.html" title="Module 06, Retrieval, memory and fine-tuning"><span class="sysmap-mod">06</span><h3>Memory and state</h3><p>What persists between turns</p></a>
-          </div>
-          <div class="sysmap-flow" aria-hidden="true"><span></span><span></span><span></span></div>
-          <div class="sysmap-core">
-            <p class="sysmap-core-head">The model <span>Generates the next token, and nothing else</span></p>
-            <div class="sysmap-core-row">
-              <a class="sysmap-chip" data-mod="02" href="module-02.html" title="Module 02, How a model sees the world"><span class="sysmap-mod">02</span><h3>What it reads</h3><p>Tokens, embeddings, attention</p></a>
-              <a class="sysmap-chip" data-mod="03" href="module-03.html" title="Module 03, How models learn"><span class="sysmap-mod">03</span><h3>How it learned</h3><p>Training shapes it, inference uses it</p></a>
-              <a class="sysmap-chip" data-mod="04" href="module-04.html" title="Module 04, Reasoning, sampling and hallucination"><span class="sysmap-mod">04</span><h3>How it answers</h3><p>Sampling, and why it hallucinates</p></a>
             </div>
           </div>
-          <div class="sysmap-flow one" aria-hidden="true"><span></span></div>
-          <p class="sysmap-band">What it does</p>
-          <div class="sysmap-row">
-            <a class="sysmap-box" data-mod="08" href="module-08.html" title="Module 08, Agents without the mythology"><span class="sysmap-mod">08</span><h3>Orchestration</h3><p>Steps and loops around calls</p></a>
-            <a class="sysmap-box" data-mod="07" href="module-07.html" title="Module 07, How models interact with the real world"><span class="sysmap-mod">07</span><h3>Tools and actions</h3><p>What it can do in the world</p></a>
-            <a class="sysmap-box" data-mod="01" href="module-01.html" title="Module 01, What is an AI system?"><span class="sysmap-mod">01</span><h3>Interface</h3><p>Where people meet it</p></a>
-          </div>
-          <p class="sysmap-band">Around all of it</p>
-          <div class="sysmap-row two">
-            <a class="sysmap-box wrap" data-mod="07" href="module-07.html" title="Module 07, How models interact with the real world"><span class="sysmap-mod">07</span><h3>Guardrails</h3><p>What it may see and do</p></a>
-            <a class="sysmap-box wrap" data-mod="09" href="module-09.html" title="Module 09, Building AI you can trust"><span class="sysmap-mod">09</span><h3>Evaluation</h3><p>How we know it works</p></a>
-          </div>
-          <p class="sysmap-band">The ground it stands on</p>
-          <a class="sysmap-box" data-mod="00" href="module-00.html" title="Module 00, How we got here"><span class="sysmap-mod">00</span><h3>How we got here</h3><p>Centuries of maths, two winters, and one architecture</p></a>
-        </figure>
-
-        <aside class="sysmap-aside">
-          <div class="sysmap-panel" data-sysmap-panel="01">
-            <p class="sysmap-panel-tag">Module 01, The map</p>
-            <h3 class="sysmap-panel-title">What is an AI system?</h3>
-            <blockquote class="sysmap-panel-quote">“The model generates. The system does.”</blockquote>
-            <ul class="sysmap-learn">
-              <li><b>One nesting map</b><span>AI, ML, deep learning, generative AI and LLMs, in their place.</span></li>
-              <li><b>Model vs product</b><span>Same model, different products, different failures.</span></li>
-              <li><b>Training vs inference</b><span>Why your chat doesn’t teach the model.</span></li>
-              <li><b>The system map</b><span>Eight boxes you’ll use for the rest of the course.</span></li>
+        </div>
+        <div class="ly-piece ly-piece--note" aria-hidden="true">
+          <div class="ui ui-panel ui-checks" data-ui="checklist" data-ui-loop>
+            <div class="ui-checks__head">
+              <div class="ui-title">Module 04 workbook</div>
+              <span class="ui-spacer"></span>
+              <div class="ui-meta" data-checks-count>1 of 4</div>
+            </div>
+            <div class="ui-checks__bar"><i data-checks-bar style="--k:0.25"></i></div>
+            <ul class="ui-checks__list">
+              <li class="ui-check is-done"><span class="ui-check__box"><svg viewBox="0 0 16 16"><path d="m4.5 8.2 2.3 2.3 4.7-5"/></svg></span><span class="ui-check__label">Token probabilities</span></li>
+              <li class="ui-check"><span class="ui-check__box"><svg viewBox="0 0 16 16"><path d="m4.5 8.2 2.3 2.3 4.7-5"/></svg></span><span class="ui-check__label">Sampling and temperature</span></li>
+              <li class="ui-check"><span class="ui-check__box"><svg viewBox="0 0 16 16"><path d="m4.5 8.2 2.3 2.3 4.7-5"/></svg></span><span class="ui-check__label">Why fluent text can be false</span></li>
+              <li class="ui-check"><span class="ui-check__box"><svg viewBox="0 0 16 16"><path d="m4.5 8.2 2.3 2.3 4.7-5"/></svg></span><span class="ui-check__label">Checks that decide what ships</span></li>
             </ul>
-            <a class="sysmap-panel-cta" href="module-01.html">Open module 01</a>
-            <p class="sysmap-hint">Hover any part of the map to read the module behind it.</p>
           </div>
-          <nav class="sysmap-rail" aria-label="All ten modules">
-            <p class="sysmap-rail-head">All ten modules</p>
-            <ul>
-              <li><a data-mod="00" href="module-00.html"><b>00</b> The history</a></li>
-              <li><a data-mod="01" href="module-01.html"><b>01</b> The map</a></li>
-              <li><a data-mod="02" href="module-02.html"><b>02</b> Inside the model</a></li>
-              <li><a data-mod="03" href="module-03.html"><b>03</b> Learning</a></li>
-              <li><a data-mod="04" href="module-04.html"><b>04</b> Probability</a></li>
-              <li><a data-mod="05" href="module-05.html"><b>05</b> Context</a></li>
-              <li><a data-mod="06" href="module-06.html"><b>06</b> Knowledge</a></li>
-              <li><a data-mod="07" href="module-07.html"><b>07</b> Tools</a></li>
-              <li><a data-mod="08" href="module-08.html"><b>08</b> Agents</a></li>
-              <li><a data-mod="09" href="module-09.html"><b>09</b> Evals</a></li>
-            </ul>
-          </nav>
-        </aside>
-      </div>
-    </div>
-  </section>
-
-  <section class="section white" id="mechanisms">
-    <div class="shell reveal">
-      <div class="section-head center">
-        <h2>Two things everyone gets wrong</h2>
-      </div>
-      <div class="mech">
-        <figure class="mech-card">
-          <p class="mech-tag">Module 03, Probability</p>
-          <p class="mech-prompt">The capital of France is<span class="caret" aria-hidden="true"></span></p>
-          <ul class="prob">
-            <li style="--p:71"><span class="tok">Paris</span><span class="bar"></span><span class="pct">71%</span></li>
-            <li style="--p:9"><span class="tok">located</span><span class="bar"></span><span class="pct">9%</span></li>
-            <li style="--p:6"><span class="tok">a</span><span class="bar"></span><span class="pct">6%</span></li>
-            <li style="--p:4"><span class="tok">now</span><span class="bar"></span><span class="pct">4%</span></li>
-            <li style="--p:2"><span class="tok">Lyon</span><span class="bar"></span><span class="pct">2%</span></li>
-          </ul>
-          <figcaption class="mech-note">Illustrative. The model ranks every possible next token, then sampling picks one. That is why fluent text can still be wrong.</figcaption>
-        </figure>
-        <figure class="mech-card">
-          <p class="mech-tag">Module 07, Agents</p>
-          <svg class="loop" viewBox="0 0 460 320" role="img" aria-label="An agent loop: a goal, the model decides, a tool acts, the result is observed, and round again.">
-            <circle class="loop-track" cx="230" cy="160" r="92"/>
-            <circle class="loop-run" cx="230" cy="160" r="92"/>
-            <g><circle class="loop-node" cx="230" cy="68" r="9"/><text class="loop-label" x="230" y="38" text-anchor="middle">Goal</text></g>
-            <g><circle class="loop-node" cx="322" cy="160" r="9"/><text class="loop-label" x="336" y="165" text-anchor="start">Model decides</text></g>
-            <g><circle class="loop-node" cx="230" cy="252" r="9"/><text class="loop-label" x="230" y="282" text-anchor="middle">Tool acts</text></g>
-            <g><circle class="loop-node" cx="138" cy="160" r="9"/><text class="loop-label" x="124" y="165" text-anchor="end">Observe</text></g>
-          </svg>
-          <figcaption class="mech-note">An agent is not a personality. It is this loop, with the model choosing the next step each time round.</figcaption>
-        </figure>
-      </div>
-    </div>
-  </section>
-
-
-  <section class="section white" id="curriculum">
-    <div class="shell reveal">
-      <div class="section-head">
-        <h2>Ten modules, one complete map</h2>
-        <p class="lead">One mental model each, one sentence you keep, and the failures it explains.</p>
-      </div>
-      <div class="modules">
-        <a class="module" href="module-00.html" style="--h:262"><span class="module-num">00</span><span class="module-tag">The history<span class="module-free">Free</span></span><blockquote>“Almost none of the maths is new”</blockquote><span class="module-go">Open module</span></a>
-        <a class="module" href="module-01.html" style="--h:268"><span class="module-num">01</span><span class="module-tag">The map</span><blockquote>“The model generates. The system does”</blockquote><span class="module-go">Open module</span></a>
-        <a class="module" href="module-02.html" style="--h:257"><span class="module-num">02</span><span class="module-tag">Inside the model</span><blockquote>“Context is the model’s working reality”</blockquote><span class="module-go">Open module</span></a>
-        <a class="module" href="module-03.html" style="--h:251"><span class="module-num">03</span><span class="module-tag">Learning</span><blockquote>“Training changes the model. Inference uses it”</blockquote><span class="module-go">Open module</span></a>
-        <a class="module" href="module-04.html" style="--h:246"><span class="module-num">04</span><span class="module-tag">Probability</span><blockquote>“Fluency is not the same as truth”</blockquote><span class="module-go">Open module</span></a>
-        <a class="module" href="module-05.html" style="--h:240"><span class="module-num">05</span><span class="module-tag">Context</span><blockquote>“Construct the world the model reasons inside”</blockquote><span class="module-go">Open module</span></a>
-        <a class="module" href="module-06.html" style="--h:235"><span class="module-num">06</span><span class="module-tag">Knowledge</span><blockquote>“Information, state and behavior are different problems”</blockquote><span class="module-go">Open module</span></a>
-        <a class="module" href="module-07.html" style="--h:229"><span class="module-num">07</span><span class="module-tag">Tools</span><blockquote>“The model requests. Another system acts”</blockquote><span class="module-go">Open module</span></a>
-        <a class="module" href="module-08.html" style="--h:224"><span class="module-num">08</span><span class="module-tag">Agents</span><blockquote>“An agent is a loop with model-selected decisions”</blockquote><span class="module-go">Open module</span></a>
-        <a class="module" href="module-09.html" style="--h:218"><span class="module-num">09</span><span class="module-tag">Evals</span><blockquote>“A demo is not a system”</blockquote><span class="module-go">Open module</span></a>
-      </div>
-      <div style="margin-top:30px"><a class="text-link" href="syllabus.html">Read the full course syllabus</a></div>
-    </div>
-  </section>
-
-  <section class="section" id="founding">
-    <div class="shell reveal">
-      <div class="cta-band">
-        <div>
-          <h2>The founding price goes to the list</h2>
-          <p class="lead">The course opens soon. One email now gets you the launch date, a single-use founding code, and the first chapter before it is public.</p>
-        </div>
-        <div class="cta-band-act">
-          <a class="btn btn-primary btn-lg" href="#join">Join the waitlist</a>
-          <p class="cta-note">No payment now. Unsubscribe anytime.</p>
         </div>
       </div>
-    </div>
+    </div></div>
   </section>
 
-    <section class="section white" id="articles-teaser">
-    <div class="shell reveal">
-      <div class="section-head">
-        <h2>Articles</h2>
-      </div>
-      <div id="latest-articles" class="article-grid"></div>
-      <div style="margin-top:30px"><a class="text-link" href="articles.html">All articles</a></div>
-    </div>
-  </section>
-
-  <section class="signup" id="join">
-    <div class="shell reveal">
-      <div class="signup-panel">
-        <div class="signup-copy">
-          <h2>Be first in, at the founding price</h2>
-          <p class="lead">Get the date, the prices and your founding code before it’s public.</p>
-          <ul class="check-list">
-            <li>Launch dates and a single-use founding code</li>
-            <li>Team proposals and new articles</li>
-          </ul>
+  <section class="section g2" id="syllabus" aria-labelledby="syllabus-h">
+    <div class="wrap">
+      <div class="group">
+        <div class="section-head">
+          <h2 id="syllabus-h">The syllabus, module by module. <span class="muted">One part of an AI system each.</span></h2>
         </div>
+        <ol class="mods">
+          <li><span class="mods__num">00</span><div class="mods__body"><h3><a class="link" href="module-00.html">How we got here</a></h3><p class="mods__topics"><span class="free-tag">Free</span> Old maths, two AI winters, and the 2017 architecture.</p></div></li>
+          <li><span class="mods__num">01</span><div class="mods__body"><h3><a class="link" href="module-01.html">What is an AI system?</a></h3><p class="mods__topics">Model against product, training against inference, the system map.</p></div></li>
+          <li><span class="mods__num">02</span><div class="mods__body"><h3><a class="link" href="module-02.html">How a model sees the world</a></h3><p class="mods__topics">Tokens, embeddings, attention and the context window.</p></div></li>
+          <li><span class="mods__num">03</span><div class="mods__body"><h3><a class="link" href="module-03.html">How models learn</a></h3><p class="mods__topics">Pretraining, post-training, and where change lives.</p></div></li>
+          <li><span class="mods__num">04</span><div class="mods__body"><h3><a class="link" href="module-04.html">Reasoning, sampling and hallucination</a></h3><p class="mods__topics">Token probabilities, temperature, and why fluent text can be false.</p></div></li>
+        </ol>
+      </div>
+      <div class="group">
+        <ol class="mods" start="5">
+          <li><span class="mods__num">05</span><div class="mods__body"><h3><a class="link" href="module-05.html">Context engineering</a></h3><p class="mods__topics">What enters the context, in what order, and prompt injection.</p></div></li>
+          <li><span class="mods__num">06</span><div class="mods__body"><h3><a class="link" href="module-06.html">Retrieval, memory and fine-tuning</a></h3><p class="mods__topics">Semantic search, RAG with sources, and when to tune the model.</p></div></li>
+          <li><span class="mods__num">07</span><div class="mods__body"><h3><a class="link" href="module-07.html">How models interact with the real world</a></h3><p class="mods__topics">The tool loop, permissions by risk, and MCP.</p></div></li>
+          <li><span class="mods__num">08</span><div class="mods__body"><h3><a class="link" href="module-08.html">Agents without the mythology</a></h3><p class="mods__topics">Workflow or agent, the agent loop, and compounding errors.</p></div></li>
+          <li><span class="mods__num">09</span><div class="mods__body"><h3><a class="link" href="module-09.html">Building AI you can trust</a></h3><p class="mods__topics">Golden sets, three ways to grade, and regressions.</p></div></li>
+        </ol>
+        <p style="margin-top: var(--s-6)"><a class="link" href="syllabus.html">Read the full syllabus</a></p>
+      </div>
+    </div>
+  </section>
 
-        <form class="signup-form signup-card" novalidate>
-          <div class="fields">
-            <h3>Get first access</h3>
-            <p class="card-sub">No payment now. Unsubscribe anytime.</p>
-            <div class="field">
-              <label for="su-name">Name</label>
-              <input id="su-name" name="first_name" type="text" autocomplete="given-name" required>
+  <section class="sc" id="module" data-big-scene="parts-lock-into-the-whole" data-big-scene-opts='{"hold":1}' style="--h: 1" aria-labelledby="pl-h">
+    <div class="sc__stage">
+      <p class="pl__word" aria-hidden="true">04</p>
+      <div class="pl__ui xm" data-ui role="img" aria-label="The ExplAIn reader open on module 04: the chapter's next-token probabilities, and the module's cheat sheet line">
+        <div class="pl__panel pl__bar"><span class="dots"><i></i><i></i><i></i></span><b>ExplAIn</b> <span class="tab on">Chapter</span><span class="tab">Episode</span><span class="tab">Workbook</span></div>
+        <div class="pl__panel pl__side"><small>Modules</small><span>00 The history</span><span>01 The map</span><span>02 Inside the model</span><span>03 Learning</span><span class="on">04 Probability</span><span>05 Context</span><span>06 Knowledge</span><span>07 Tools</span></div>
+        <div class="pl__panel pl__main">
+          <p class="pl__title">Module <span class="pl__title-word">04</span></p>
+          <p class="xm__prompt">The capital of France is<span class="xm__caret"></span></p>
+          <table>
+            <thead><tr><th>Next token</th><th>Probability</th><th class="n">Share</th></tr></thead>
+            <tbody>
+              <tr><td>Paris</td><td><span class="bar"><b data-layer="1" data-ink="x" style="--v:.71"></b></span></td><td class="n" data-layer="1">71%</td></tr>
+              <tr><td>located</td><td><span class="bar"><b data-layer="1" data-ink="x" style="--v:.09"></b></span></td><td class="n" data-layer="1">9%</td></tr>
+              <tr><td>a</td><td><span class="bar"><b data-layer="1" data-ink="x" style="--v:.06"></b></span></td><td class="n" data-layer="1">6%</td></tr>
+              <tr><td class="talk" data-layer="2">Lyon</td><td><span class="bar"><b data-layer="1" data-ink="x" style="--v:.02"></b></span></td><td class="n" data-layer="1">2%</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="pl__panel pl__insp">
+          <h4>Margin notes</h4>
+          <div class="note" data-layer="2"><b><i>04</i>Sampling</b>Sampling picks one token from this spread. Sometimes it picks Lyon.</div>
+          <div class="note agent" data-layer="3"><b><i>&#10003;</i>Cheat sheet</b>Fluency is not the same as truth.</div>
+        </div>
+      </div>
+      <div class="pl__spec">
+        <h2 id="pl-h">Every module, built the same way</h2>
+        <dl><div><dt>Chapter</dt><dd>About two hours</dd></div><div><dt>Episode</dt><dd>One per chapter</dd></div><div><dt>Cheat sheet</dt><dd>One printable page</dd></div><div><dt>Workbook</dt><dd>One section each</dd></div></dl>
+      </div>
+    </div>
+  </section>
+
+  <section class="section g2" id="format" aria-labelledby="format-h">
+    <div class="wrap">
+      <div class="group">
+        <div class="section-head">
+          <h2 id="format-h">What you get with each module. <span class="muted">A chapter, an episode, a cheat sheet and a workbook page.</span></h2>
+        </div>
+        <div class="grid">
+          <article class="card card--row card--open span-6">
+            <h3>Read ten chapters in full</h3>
+            <p>Each chapter comes as a PDF with its cheat sheet, plus one workbook for all ten.</p>
+            <div class="panel">
+              <div class="stage stage--fade-b"><div class="at-rise fit" style="--fit-max:400px;--ax:max(24px, 50% - 200px);--ay:40px;--ay-sm:16px" data-ui-loop>
+                <div class="ui ui-files" data-ui="files" data-reading="Opening {n} of {total}">
+                  <div class="ui-files__status"><span class="ui-dot"></span><span data-files-status>5 files ready</span></div>
+                  <ul class="ui-files__grid">
+                    <li class="ui-file is-done"><span class="ui-file__icon"><img data-icon="pdf" src="assets/kit/icons/pdf.svg" alt=""></span><span class="ui-file__name">Module 04 chapter</span><span class="ui-file__kind">PDF</span><span class="ui-file__bar"><i></i></span><span class="ui-file__check"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4.5 8.2 2.3 2.3 4.7-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></li>
+                    <li class="ui-file is-done"><span class="ui-file__icon"><img data-icon="pdf" src="assets/kit/icons/pdf.svg" alt=""></span><span class="ui-file__name">Module 04 cheat sheet</span><span class="ui-file__kind">PDF</span><span class="ui-file__bar"><i></i></span><span class="ui-file__check"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4.5 8.2 2.3 2.3 4.7-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></li>
+                    <li class="ui-file is-done"><span class="ui-file__icon"><img data-icon="pdf" src="assets/kit/icons/pdf.svg" alt=""></span><span class="ui-file__name">Workbook</span><span class="ui-file__kind">PDF form</span><span class="ui-file__bar"><i></i></span><span class="ui-file__check"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4.5 8.2 2.3 2.3 4.7-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></li>
+                    <li class="ui-file is-done"><span class="ui-file__icon"><img data-icon="pdf" src="assets/kit/icons/pdf.svg" alt=""></span><span class="ui-file__name">Capstone brief</span><span class="ui-file__kind">PDF</span><span class="ui-file__bar"><i></i></span><span class="ui-file__check"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4.5 8.2 2.3 2.3 4.7-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></li>
+                  </ul>
+                </div>
+              </div></div>
             </div>
-            <div class="field">
-              <label for="su-email">Email address</label>
-              <input id="su-email" name="email" type="email" autocomplete="email" placeholder="you@company.com" required>
+          </article>
+          <article class="card card--row card--open span-6">
+            <h3>Hear each chapter as an episode</h3>
+            <p>Two voices talk the chapter through. Episode 00 runs 17 minutes and is free.</p>
+            <div class="panel" role="img" aria-label="Episode 00, How we got here, with Simone Vale, 17 minutes">
+              <div class="ep" aria-hidden="true">
+                <img src="assets/guests/simone-vale.jpg" alt="" width="300" height="300" data-source="client" data-subject="the guest on episode 00">
+                <div><b>How we got here</b><small>Episode 00 with Simone Vale</small></div>
+                <div class="ep__bar"><span class="ep__play"><svg viewBox="0 0 12 12"><path d="M3 1.5v9l7.5-4.5z"/></svg></span><span class="ep__line"><i></i></span><span>1:30 / 17:00</span></div>
+              </div>
             </div>
-            <fieldset class="field">
-              <legend>I’m signing up for</legend>
+          </article>
+        </div>
+      </div>
+      <div class="grid">
+        <article class="card card--row card--open span-6">
+          <h3>Keep a cheat sheet per module</h3>
+          <p>One printable page each. Module 07's opens with the line to remember.</p>
+          <div class="panel">
+            <div class="stage stage--fade-b"><div class="at-corner to-edge" style="--ax:32px;--ay:32px">
+              <div class="ui ui-doc" data-ui="doc">
+                <article class="ui-doc__page">
+                  <div class="ui-doc__label">Cheat sheet, module 07</div>
+                  <div class="ui-doc__title">How models interact with the real world</div>
+                  <div class="ui-doc__text"><mark class="ui-doc__mark is-on">The model requests. Another system acts.</mark> Tools are ordinary code that your app runs.</div>
+                  <div class="ui-doc__text">The tool loop: describe, request, execute, return. Know who does each step.</div>
+                  <div class="ui-doc__text">Permissions by risk: <mark class="ui-doc__mark" data-kind="Rule" data-msg="Each level gets its own control." data-where="Module 07, permissions">read, write, irreversible, never exposed</mark>.</div>
+                  <div class="ui-doc__text">MCP is an open protocol for connecting apps to tools and data.</div>
+                </article>
+                <aside class="ui-doc__note ui-panel is-on" aria-live="polite">
+                  <div class="ui-doc__kind"><span class="ui-doc__dot"></span><span data-doc-kind>Key line</span></div>
+                  <div class="ui-doc__msg" data-doc-msg>The model never runs the tool itself.</div>
+                  <div class="ui-doc__where" data-doc-where>Module 07, the tool loop</div>
+                </aside>
+              </div>
+            </div></div>
+          </div>
+        </article>
+        <article class="card card--row card--open span-6">
+          <h3>Earn a certificate with the capstone</h3>
+          <p>Map an AI product you use. The certificate carries its own unique ID.</p>
+          <div class="panel">
+            <img class="cert" src="assets/certificate.png" width="1684" height="1190" loading="lazy" alt="An ExplAIn certificate of completion with the course title, 20 learning hours and a certificate ID" data-source="client" data-subject="the course certificate">
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section statement" id="map" data-moment="liquid-type" aria-labelledby="map-h">
+    <div class="wrap">
+      <h2 id="map-h" class="mo-lt__type">The model generates. The system does.</h2>
+      <p class="t-lead measure">Nine parts decide whether an AI product works, from what the model sees to how you test it. Each module teaches one of them.</p>
+    </div>
+  </section>
+
+  <section class="section ground-surface g2" id="pricing" data-moment="line-carries-colour" data-moment-opts='{"from": "base"}' aria-labelledby="pricing-h">
+    <div class="wrap">
+      <div class="group">
+      <div class="section-head">
+        <h2 id="pricing-h">Pricing. <span class="muted">One payment, yours to keep.</span></h2>
+      </div>
+      <div class="grid">
+        <article class="card card--plan span-4">
+          <h3>The Book</h3>
+          <p class="muted">All ten chapters, written in full</p>
+          <p class="price">$79</p>
+          <ul>
+            <li>Ten chapters as one PDF</li>
+            <li>The workbook, as one working form</li>
+            <li>Ten printable cheat sheets</li>
+            <li>Capstone brief and certificate</li>
+          </ul>
+          <a class="link" href="module-00.html">Read Module 00 first</a>
+        </article>
+        <article class="card card--plan is-featured span-4">
+          <h3>The Book + Audio</h3>
+          <p class="muted">Everything written, plus ten episodes</p>
+          <p class="price">$99</p>
+          <ul>
+            <li>Everything in The Book</li>
+            <li>Ten audio episodes, one per chapter</li>
+            <li>$99 credit toward 1:1 consulting</li>
+          </ul>
+          <a class="btn btn--primary" href="#join">Join the waitlist</a>
+        </article>
+        <article class="card card--plan span-4">
+          <h3>Company program</h3>
+          <p class="muted">Eight live sessions for one team</p>
+          <p class="price">Priced per team</p>
+          <ul>
+            <li>Eight weekly sessions, two hours each</li>
+            <li>Examples from your own products</li>
+            <li>Capstone on a real internal use case</li>
+          </ul>
+          <a class="link" href="#join" data-interest="team">Ask about team training</a>
+        </article>
+      </div>
+      <p class="plan__note">Waitlist members get a single-use founding code at launch: 35% off The Book and The Book + Audio.</p>
+      </div>
+      <div class="group" id="questions">
+        <div class="grid">
+          <div class="span-5 stack-4">
+            <h3>Questions before you join</h3>
+            <p class="muted">What people ask about the course.</p>
+            <a class="link" href="about.html">About Katia</a>
+          </div>
+          <div class="faq span-6 start-7">
+          <div class="faq__item"><h3>Do I need to code along?</h3><p>No. The exercises are decisions and designs, not implementations.</p></div>
+          <div class="faq__item"><h3>Do I need advanced maths?</h3><p>No. The course explains the ideas without derivations.</p></div>
+          <div class="faq__item"><h3>Is it tied to one AI vendor?</h3><p>No. Every module is tool-agnostic, so it holds when the models change.</p></div>
+          <div class="faq__item"><h3>Can I get a refund?</h3><p>No, all sales are final. That is why Module 00 is free: read it before you buy.</p></div>
+          <div class="faq__item"><h3>Can my company buy seats?</h3><p>Yes. Choose “My team” when you join the list.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="join" aria-labelledby="join-h">
+    <div class="wrap">
+      <div class="grid grid--top">
+        <div class="span-5 stack-4">
+          <h2 id="join-h">The waitlist and its founding code</h2>
+          <p>One email now gets you the launch date and a single-use code for 35% off. No payment now.</p>
+          <form class="form signup-form" action="/api/signup" method="post" data-endpoint="" novalidate>
+            <div class="field field--full"><label for="su-name">Name</label>
+              <input id="su-name" name="first_name" type="text" autocomplete="given-name" required aria-describedby="su-name-err">
+              <p class="field__error" id="su-name-err" hidden>Write the name we should greet you by.</p></div>
+            <div class="field field--full"><label for="su-email">Email</label>
+              <input id="su-email" name="email" type="email" autocomplete="email" inputmode="email" required aria-describedby="su-email-err">
+              <p class="field__error" id="su-email-err" hidden>Write an email address with an @, like name@company.com.</p></div>
+            <fieldset class="field field--full">
+              <legend>Signing up for</legend>
               <div class="choices">
-                <label><input type="radio" name="interest" value="individual" checked><span>Myself</span></label>
-                <label><input type="radio" name="interest" value="team"><span>My team</span></label>
+                <label><input type="radio" name="interest" value="individual" checked>Myself</label>
+                <label><input type="radio" name="interest" value="team">My team</label>
               </div>
             </fieldset>
             <input type="hidden" name="source" value="home">
             <div class="hp" aria-hidden="true"><label>Company website <input name="company_website" tabindex="-1" autocomplete="off"></label></div>
-            <button class="btn btn-primary btn-block" type="submit">Join the waitlist</button>
-            <p class="micro">Unsubscribe anytime.</p>
-          </div>
-          <p class="form-status" role="status" aria-live="polite"></p>
-        </form>
+            <div class="btn-row"><button class="btn btn--primary" type="submit">Join the waitlist</button></div>
+            <p class="form__status form-status" role="status" data-form-status></p>
+          </form>
+        </div>
+        <div class="panel frame--lit span-6 start-7 join__art" role="img" aria-label="The three emails the waitlist sends: the launch date, the founding code and a new article">
+          <div class="stage stage--fade-b"><div class="at-rise fit" style="--fit-max:380px;--ax:32px;--ay:48px;--ay-sm:24px" data-ui-loop>
+            <div class="ui ui-notify" data-ui="notify" aria-hidden="true">
+              <ul class="ui-notify__list" data-notify-list>
+                <li class="ui-note"><span class="ui-note__ico"><svg class="ui-icon" viewBox="0 0 16 16"><path d="M2.5 4h11v8h-11z"/><path d="m2.5 4 5.5 4.5L13.5 4"/></svg></span><span class="ui-note__text"><span class="ui-note__title">ExplAIn opens on launch day<time>first</time></span><span class="ui-note__body">The date, the prices and the first chapter</span></span></li>
+                <li class="ui-note"><span class="ui-note__ico"><svg class="ui-icon" viewBox="0 0 16 16"><path d="M2.5 6.5h11v6h-11z"/><path d="M8 6.5v6M2.5 6.5 8 3.5l5.5 3"/></svg></span><span class="ui-note__text"><span class="ui-note__title">Your founding code<time>launch</time></span><span class="ui-note__body">Single use, 35% off either book</span></span></li>
+                <li class="ui-note"><span class="ui-note__ico"><svg class="ui-icon" viewBox="0 0 16 16"><path d="M4 2.5h5l3 3v8H4z"/><path d="M9 2.5v3h3"/></svg></span><span class="ui-note__text"><span class="ui-note__title">New article<time>later</time></span><span class="ui-note__body">Your RAG answer is wrong: retrieval or the model?</span></span></li>
+              </ul>
+            </div>
+          </div></div>
+        </div>
       </div>
     </div>
   </section>
+</main>
 
-  <footer>
-    <div class="shell">
-      <div class="footer-top">
-        <div>
-          <img src="assets/logo-white.png" alt="ExplAIn" width="545" height="201">
-          <p>Practical AI education for people who want the system, not only the interface.</p>
-        </div>
-        <div class="footer-col">
-          <h4>Course</h4>
-          <ul>
-            <li><a href="digital-course.html">Digital course</a></li>
-            <li><a href="syllabus.html">Full course syllabus</a></li>
-            <li><a href="module-00.html">Start with Module 00</a></li>
-            <li><a href="#join">Join the waitlist</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <h4>More</h4>
-          <ul>
-            <li><a href="articles.html">Articles</a></li>
-            <li><a href="about.html">About</a></li>
-            <li><a href="https://www.linkedin.com/in/katia-stainfeld-huri-6a268478" target="_blank" rel="noopener">LinkedIn</a></li>
-            <li><a href="digital-course.html#pricing">For teams</a></li>
-          </ul>
-        </div>
+<footer class="footer closing" id="contact" aria-labelledby="close-h">
+  <div class="wrap">
+    <div class="closing__cta close--type">
+      <div class="section-head">
+        <h2 id="close-h">Get the launch date and the founding code</h2>
+        <p>No payment now. Unsubscribe anytime.</p>
       </div>
-      <div class="footer-bottom">
-        <span>© 2026 ExplAIn · Understand / Apply / Build / Go further</span>
-        <span>Don’t just use AI. <b>Own it.</b></span>
+      <a class="btn btn--primary btn--xl btn--wide" href="#join">Join the waitlist<svg class="m-arrow" viewBox="0 0 12 12" aria-hidden="true"><path class="m-arrow__stem" d="M1 6h8"/><path class="m-arrow__head" d="M4.5 2.5 8 6l-3.5 3.5"/></svg></a>
+    </div>
+    <div class="closing__links">
+      <div class="grid">
+        <div class="span-4 stack-4">
+          <a class="nav__logo" href="#top"><img src="assets/logo-ink.png" alt="ExplAIn" width="545" height="201"></a>
+          <p class="footer__lede">How AI products work, for people who build them.</p>
+        </div>
+        <div class="span-2 footer__col"><h3>Course</h3><ul><li><a href="#syllabus">Syllabus</a></li><li><a href="#format">Format</a></li></ul></div>
+        <div class="span-2 footer__col"><h3>Buy</h3><ul><li><a href="#pricing">Pricing</a></li><li><a href="#join">Waitlist</a></li></ul></div>
+        <div class="span-2 footer__col"><h3>Read</h3><ul><li><a href="module-00.html">Module 00</a></li><li><a href="articles.html">Articles</a></li></ul></div>
+        <div class="span-2 footer__col"><h3>About</h3><ul><li><a href="about.html">About Katia</a></li><li><a href="https://www.linkedin.com/in/katia-stainfeld-huri-6a268478" rel="noopener">LinkedIn</a></li></ul></div>
+      </div>
+      <div class="footer__legal">
+        <div class="grid legal__grid">
+          <span class="span-4">&copy; 2026 ExplAIn</span>
+          <a class="span-2 footer__col legal__a" href="privacy.html">Privacy</a>
+          <a class="span-2 footer__col legal__a" href="terms.html">Terms</a>
+        </div>
+        <div class="socials"></div>
       </div>
     </div>
-  </footer>
+  </div>
+</footer>
 
-  <script src="assets/site.js"></script>
-  <script src="assets/listen.js" defer></script>
-  <script src="assets/sysmap.js" defer></script>
-  <script src="content/articles.js"></script>
-  <script>
-    // Latest three articles, from the same data the articles page uses.
-    const posts = (window.EXPLAIN_ARTICLES || []).slice(0, 3);
-    const host = document.getElementById('latest-articles');
-    if (posts.length) {
-      host.innerHTML = posts.map((a, i) => `
-        <a class="post" href="article-${a.slug}.html">
-          <div class="post-art ${'abc'[i]}"></div>
-          <div class="post-body">
-            <div class="post-meta"><span class="tag">${a.tag}</span><span>${a.minutes} min read</span></div>
-            <h3>${a.title}</h3>
-            <p>${a.dek}</p>
-            <span class="more">Read the article</span>
-          </div>
-        </a>`).join('');
-    } else {
-      host.closest('section').remove();
-    }
-  </script>
+<script src="assets/site.js"></script>
+<script type="module" src="assets/kit/system.js"></script>
+<script type="module" src="assets/kit/motion/motion.js"></script>
+<script type="module" src="assets/kit/layout/layout.js"></script>
+<script type="module" src="assets/kit/scenes/scenes.js"></script>
 </body>
 </html>

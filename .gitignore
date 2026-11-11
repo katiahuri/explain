@@ -14,6 +14,8 @@ course/_build/*
 !course/_build/package-lock.json
 course/certificate/
 course/dist/
+# The printable decks: every slide plus its speaker notes. Paid product, never deployed.
+course/slides/
 
 # Podcast: raw scripts, episode dialogue and rendered audio. Generated, and big.
 course/podcast/
@@ -37,3 +39,16 @@ email-drafts/
 
 # Your own copy of the site numbers. Not shared, not deployed.
 dashboard.html
+
+# generated launch videos (/brag) - never deployed
+brag-output*/
+
+# Instagram content packs (generated media, never deployed)
+instagram/
+
+# Forsatech client material — not ExplAIn, not for the public repo
+course/forsatech/
+
+# taste-skill build state (check shots, browser profiles) and the redesign working copies
+.taste-skill/
+redesign/

@@ -1,0 +1,44 @@
+<!doctype html>
+<!-- The social card every page shares (assets/og-card.png, 1200x630). scripts/og-card.py screenshots this page
+     in headless Edge, so the card is set in the site's own face and colours. Edit the words here. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500&display=block" rel="stylesheet">
+<style>
+  html, body { margin: 0; width: 1200px; height: 630px; overflow: hidden; }
+  body { box-sizing: border-box; padding: 72px 80px; background: #eef0f3; color: #0b0c0e; font-family: Onest, sans-serif;
+         display: grid; grid-template-columns: 1fr 360px; gap: 56px; align-items: start; }
+  .logo { height: 54px; display: block; }
+  h1 { margin: 64px 0 0; font-weight: 400; font-size: 70px; line-height: 1.04; letter-spacing: -0.04em; }
+  p { margin: 28px 0 0; font-size: 28px; line-height: 1.4; color: #5d6470; }
+  .facts { margin-top: 36px; display: flex; gap: 12px; }
+  .facts span { padding: 10px 18px; border-radius: 12px; background: #ffffff; border: 1px solid #d5d9e0; font-size: 22px; font-weight: 500; }
+  .facts span.on { background: #1f2de6; border-color: #1f2de6; color: #fff; }
+  .mods { margin-top: 6px; background: #fff; border: 1px solid #d5d9e0; border-radius: 20px; padding: 18px 22px; }
+  .mods div { display: flex; gap: 14px; padding: 9px 0; border-bottom: 1px solid #e2e5ea; font-size: 19px; }
+  .mods div:last-child { border-bottom: 0; }
+  .mods b { font: 500 17px/1.6 ui-monospace, Consolas, monospace; color: #5d6470; }
+</style>
+</head>
+<body>
+  <div>
+    <img class="logo" src="../assets/logo-ink.png" alt="">
+    <h1>An AI course for technical professionals</h1>
+    <p>The system around the model: context, retrieval, tools, agents and evals.</p>
+    <div class="facts"><span>10 modules</span><span>About 20 hours</span><span class="on">Module 00 free</span></div>
+  </div>
+  <div class="mods">
+    <div><b>00</b>How we got here</div>
+    <div><b>01</b>What is an AI system?</div>
+    <div><b>02</b>How a model sees the world</div>
+    <div><b>03</b>How models learn</div>
+    <div><b>04</b>Sampling and hallucination</div>
+    <div><b>05</b>Context engineering</div>
+    <div><b>06</b>Retrieval and memory</div>
+    <div><b>07</b>Tools in the real world</div>
+    <div><b>08</b>Agents without the mythology</div>
+    <div><b>09</b>Building AI you can trust</div>
+  </div>
+</body>
+</html>

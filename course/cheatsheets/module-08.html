@@ -78,7 +78,7 @@
     </div>
     <div class="grid">
       <section class="box flags"><h2>Red flags</h2><ul><li>It’s called an agent, but nobody can say what the model decides</li><li>No step limit or budget, so a stuck run keeps retrying the same action</li><li>One person approves hundreds of actions a day without reading them</li><li>More agents are added before a simple workflow was tried and measured</li></ul></section>
-      <section class="box"><h2>Key terms</h2><dl><dt>Workflow</dt><dd>Code fixes the order of steps; the model only fills in some of them.</dd><dt>Agent loop</dt><dd>The model picks the next action, the system runs it, and the result feeds the next turn.</dd><dt>Router</dt><dd>One model decision that sends an input down one of several fixed paths.</dd><dt>State</dt><dd>What a run carries forward: goal, history, notes and changes made in other systems.</dd><dt>Blast radius</dt><dd>How much damage one wrong action can do before anyone can stop or undo it.</dd></dl></section>
+      <section class="box"><h2>Key terms</h2><dl><dt>Workflow</dt><dd>Code fixes the order of steps; the model only fills in some of them.</dd><dt>Agent loop</dt><dd>The model picks the next action, the system runs it, and the result feeds the next turn.</dd><dt>Router</dt><dd>One model decision that sends an input down one of several fixed paths.</dd><dt>Retry budget</dt><dd>A hard cap on repeated attempts, so a failing step cannot consume the run.</dd><dt>Blast radius</dt><dd>How much damage one wrong action can do before anyone can stop or undo it.</dd></dl></section>
     </div>
     <section class="tool">
       <small>Decision guide</small>

@@ -92,10 +92,11 @@ async function speak(text, voice, file) {
 }
 
 (async () => {
+  // Before an episode is written, fall back to the guest's audition_lines in
+  // cast.json, so casting does not have to wait on the script.
   const script = path.join(ROOT, 'course/podcast/scripts', `${episode.number}-${episode.slug}.md`);
-  if (!fs.existsSync(script)) die(`No script for episode ${episode.number} yet.`);
-  const lines = guestLines(script);
-  if (!lines.length) die('No guest turns found in that script.');
+  const lines = fs.existsSync(script) ? guestLines(script) : (episode.guest.audition_lines || []);
+  if (!lines.length) die(`No script and no audition_lines for episode ${episode.number}.`);
 
   fs.mkdirSync(SCRATCH, { recursive: true });
   fs.mkdirSync(path.join(ROOT, 'course/podcast/dist'), { recursive: true });

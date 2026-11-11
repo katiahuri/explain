@@ -1,58 +1,33 @@
-/* The email gate in front of the free episode. One stylesheet, because the
-   same panel appears on the home page, the syllabus and the module page, each
-   of which otherwise carries its own CSS. Tokens are declared here too, so the
-   panel looks right on the module pages, which never load assets/site.css. */
+/* The email gate in front of the free episode. One stylesheet, because the same panel appears on several
+   pages, some of which never load assets/site.css. The colours are the site's: a cool grey ground, a
+   near-black ink and one cobalt accent. */
 .listen { max-width: 480px; margin-top: 14px; }
 .listen-audio { width: 100%; max-width: 460px; }
-.listen-lock { padding: 18px 20px; border: 1px solid #e4e8f1; border-radius: 18px; background: #f8fafc; }
-.listen-lock-head { display: flex; align-items: center; gap: 9px; margin: 0 0 6px; color: #0b1026; font-size: 14px; font-weight: 600; }
-.listen-lock-head svg { width: 15px; height: 15px; fill: #7c3aed; flex: none; }
-.listen-note { margin: 0 0 14px; color: #667085; font-size: 13.5px; line-height: 1.6; }
+.listen-lock { padding: 18px 20px; border: 1px solid #d5d9e0; border-radius: 12px; background: #ffffff; }
+.listen-lock-head { display: flex; align-items: center; gap: 9px; margin: 0 0 6px; color: #0b0c0e; font-size: 15px; font-weight: 500; }
+.listen-lock-head svg { width: 15px; height: 15px; fill: #1f2de6; flex: none; }
+.listen-note { margin: 0 0 14px; color: #5d6470; font-size: 15px; line-height: 1.6; }
 .listen-row { display: flex; flex-wrap: wrap; gap: 10px; }
-.listen-row input[type="email"] { flex: 1 1 200px; min-width: 0; height: 46px; padding: 0 15px; border: 1px solid #d6dbe7; border-radius: 12px; color: #0b1026; background: #fff; font: inherit; font-size: 15px; transition: border-color .2s ease, box-shadow .2s ease; }
-.listen-row input[type="email"]:focus { border-color: #7c3aed; box-shadow: 0 0 0 4px rgba(124, 58, 237, .14); outline: none; }
-.listen-row input[aria-invalid="true"] { border-color: #dc2626; }
-.listen-row button { flex: none; height: 46px; padding: 0 22px; border: 0; border-radius: 12px; color: #fff; background: linear-gradient(135deg, #7c3aed, #3b82f6); font: inherit; font-size: 15px; font-weight: 600; cursor: pointer; }
-.listen-row button:hover { filter: brightness(1.08); }
+.listen-row input[type="email"] { flex: 1 1 200px; min-width: 0; height: 48px; padding: 0 15px; border: 1px solid #c4c9d2; border-radius: 12px; color: #0b0c0e; background: #fff; font: inherit; font-size: 16px; transition: border-color .15s ease; }
+.listen-row input[type="email"]:focus { border-color: #1f2de6; box-shadow: 0 0 0 3px #e4e6fb; outline: none; }
+.listen-row input[aria-invalid="true"] { border: 2px solid #b42318; }
+.listen-row button { flex: none; height: 48px; padding: 0 22px; border: 0; border-radius: 12px; color: #fff; background: #1f2de6; font: inherit; font-size: 16px; font-weight: 500; cursor: pointer; }
+.listen-row button:hover { background: #1621a8; }
 .listen-row button[disabled] { opacity: .6; cursor: progress; }
 .listen-hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
-.listen-status { min-height: 18px; margin: 10px 0 0; color: #667085; font-size: 13px; }
-.listen-status[data-type="error"] { color: #dc2626; }
+.listen-status { min-height: 18px; margin: 10px 0 0; color: #5d6470; font-size: 14px; }
+.listen-status[data-type="error"] { color: #b42318; }
 
-@media (prefers-color-scheme: dark) {
-  .listen-lock { border-color: #26315c; background: #0e1533; }
-  .listen-lock-head { color: #f2f5ff; }
-  .listen-lock-head svg { fill: #c8b9ff; }
-  .listen-note, .listen-status { color: #a3adca; }
-  .listen-row input[type="email"] { color: #fff; border-color: #2f3a6e; background: #121a3a; }
-  .listen-row input::placeholder { color: #7c87a8; }
-}
-
-/* The player now opens the page, inside a hero that is dark in both themes,
-   so it carries its own colours rather than the light-section ones above. */
-.hero-episode {
-  max-width: 580px;
-  margin-top: 36px;
-  padding: 22px 24px 20px;
-  border: 1px solid rgba(255, 255, 255, .14);
-  border-radius: 20px;
-  background: rgba(8, 12, 32, .55);
-}
+/* The player when it opens a page: a white card on the page ground */
+.hero-episode { max-width: 580px; margin-top: 36px; padding: 22px 24px 20px; border: 1px solid #d5d9e0; border-radius: 20px; background: #ffffff; }
 .hero-episode-head { display: flex; align-items: center; gap: 15px; }
 .hero-episode-head img { width: 56px; height: 56px; border-radius: 50%; object-fit: cover; flex: none; }
-.hero-episode h2 { margin: 0; color: #fff; font-size: 21px; letter-spacing: -.01em; }
-.hero-episode-meta { margin: 4px 0 0; color: #9aa5c4; font-size: 13.5px; }
-.hero-episode-note { margin: 14px 0 0; color: #8c97b8; font-size: 13px; }
+.hero-episode h2 { margin: 0; color: #0b0c0e; font-size: 21px; font-weight: 500; letter-spacing: -.01em; }
+.hero-episode-meta { margin: 4px 0 0; color: #5d6470; font-size: 15px; }
+.hero-episode-note { margin: 14px 0 0; color: #5d6470; font-size: 14px; }
 .hero-episode .listen { max-width: none; margin-top: 18px; }
 .hero-episode .listen-audio { max-width: none; }
-
-/* Beats the dark-mode block above on specificity, in either theme. */
-.hero .listen-lock { border-color: rgba(255, 255, 255, .16); background: rgba(255, 255, 255, .05); }
-.hero .listen-lock-head { color: #fff; }
-.hero .listen-lock-head svg { fill: #c8b9ff; }
-.hero .listen-note, .hero .listen-status { color: #a3adca; }
-.hero .listen-row input[type="email"] { color: #fff; border-color: rgba(255, 255, 255, .22); background: rgba(8, 12, 32, .6); }
-.hero .listen-row input::placeholder { color: #8c97b8; }
+.hero .listen-lock { border-color: #d5d9e0; background: #eef0f3; }
 
 @media (max-width: 640px) {
   .hero-episode { margin-top: 28px; padding: 18px 18px 16px; }
