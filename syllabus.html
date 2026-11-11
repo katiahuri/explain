@@ -40,13 +40,10 @@
 </style>
 <link rel="stylesheet" href="assets/kit/ui/base.css">
 <link rel="stylesheet" href="assets/kit/ui/window/fragment.css">
-<link rel="stylesheet" href="assets/kit/moments/iris-opens/moment.css">
-<script>document.documentElement.classList.add('m-enter');setTimeout(()=>document.documentElement.classList.add('m-enter-done'),700)</script>
 <script src="assets/kit/backgrounds/backgrounds.js"></script>
 <script>document.documentElement.classList.add('mo-js');setTimeout(()=>document.documentElement.classList.add('mo-safe'),2500)</script>
 <link rel="modulepreload" href="assets/kit/moments/moments.js">
 <link rel="modulepreload" href="assets/kit/moments/lib.js">
-<link rel="modulepreload" href="assets/kit/moments/iris-opens/moment.js">
 <!-- page CSS: only what sits inside a visual -->
 <style>
   .nav__logo img { display: block; height: 30px; width: auto; }
@@ -71,7 +68,10 @@
   @media (max-width: 639px) { .mods > li { padding-block: var(--s-4); } }
   /* the act diagrams: drawn from each act's own module content */
   .act-art { display: grid; place-items: center; min-height: 420px; padding: var(--s-6); }
-  @media (max-width: 639px) { .act-art { min-height: 0; padding: var(--s-5); margin-top: var(--s-6); } }
+  .act-art { position: relative; }
+  .act-art::before { position: absolute; inset: 0; height: auto; z-index: 0; }
+  .act-art > * { position: relative; z-index: 1; }
+  @media (max-width: 639px) { .act-art { min-height: 0; padding: var(--s-6) var(--s-5); margin-top: var(--s-6); align-self: start; } #understand .grid, #build .grid { align-content: start; } }
   .nest { width: min(100%, 440px); }
   .nest div { border: 1.5px solid color-mix(in oklab, var(--ink) 28%, transparent); border-radius: var(--r-md); padding: 34px 14px 14px; position: relative; background: color-mix(in oklab, #fff 55%, transparent); }
   .nest div > span { position: absolute; top: 9px; left: 14px; font-size: 14px; font-weight: 500; }
@@ -117,6 +117,55 @@
   .fit-list li:first-child { padding-top: 0; }
   .fit-list li { padding-block: var(--s-3); border-bottom: 1px solid color-mix(in oklab, var(--ink) 13%, transparent); }
   @media (min-width: 640px) and (max-width: 1023px) { #understand, #build { --h: 2; } }
+
+  /* ---- the act diagrams in motion (assets/act-motion.js adds .act-motion, then .is-play on each run).
+     Words never hide; only the highlights start unlit and play through. Rest state: the finished picture. */
+  .nest div { transition: none; }
+  .nest div > span { white-space: nowrap; }
+  .act-motion .nest div { --lit: 0; }
+  .act-motion [data-play]:not(.is-played) .nest__core { background: #fff; border: 1.5px solid color-mix(in oklab, var(--ink) 28%, transparent); color: var(--ink); }
+  .is-play .nest > div { animation: nest-lit .5s ease both 0s; }
+  .is-play .nest > div > div { animation: nest-lit .5s ease both .35s; }
+  .is-play .nest > div > div > div { animation: nest-lit .5s ease both .7s; }
+  .is-play .nest > div > div > div > div:not(.nest__core) { animation: nest-lit .5s ease both 1.05s; }
+  .is-play .nest .nest__core { animation: core-fill .5s ease both 1.4s; }
+  @keyframes nest-lit { 0% { border-color: color-mix(in oklab, var(--ink) 28%, transparent); } 45% { border-color: var(--p-action); box-shadow: 0 0 0 3px color-mix(in oklab, var(--p-action) 14%, transparent); } 100% { border-color: color-mix(in oklab, var(--ink) 28%, transparent); box-shadow: 0 0 0 0 transparent; } }
+  @keyframes core-fill { from { background: #fff; color: var(--ink); border-color: color-mix(in oklab, var(--ink) 28%, transparent); } to { background: var(--p-action); color: #fff; border-color: var(--p-action); } }
+
+  .ctx > div { position: relative; overflow: hidden; }
+  .ctx > div::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 3px; transform-origin: left; background: #c4c9d2; }
+  .ctx > .is-rule::before { background: var(--ink); }
+  .ctx > .is-data::before { background: var(--p-action); }
+  .ctx > .is-data em { color: var(--p-action); font-weight: 500; }
+  .act-motion [data-play]:not(.is-played) .ctx > div::before { transform: scaleX(0); }
+  .act-motion [data-play]:not(.is-played) .ctx > .is-data em { color: #4f5560; font-weight: 400; }
+  .is-play .ctx > div::before { animation: ctx-fill .4s cubic-bezier(.3,.7,.3,1) both; }
+  .is-play .ctx > div:nth-child(2)::before { animation-delay: .3s; }
+  .is-play .ctx > div:nth-child(3)::before { animation-delay: .6s; }
+  .is-play .ctx > div:nth-child(4)::before { animation-delay: .9s; }
+  .is-play .ctx > div:nth-child(5)::before { animation-delay: 1.2s; }
+  .is-play .ctx > div:nth-child(6)::before { animation-delay: 1.5s; }
+  .is-play .ctx > .is-data em { animation: ctx-flag .5s ease both 2s; }
+  @keyframes ctx-fill { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+  @keyframes ctx-flag { from { color: #4f5560; } to { color: var(--p-action); } }
+
+  .loop .arc { fill: none; stroke: var(--p-action); stroke-width: 3; stroke-linecap: round; stroke-dasharray: 100 100; stroke-dashoffset: 0; }
+  .loop .dot { fill: var(--p-action); opacity: 0; }
+  .act-motion .is-played .loop .dot { opacity: 1; }
+  .act-motion [data-play]:not(.is-played) .loop .arc { stroke-dashoffset: 100; }
+  .act-motion [data-play]:not(.is-played) .loop .nd { fill: #fff; stroke: var(--p-action); stroke-width: 2; }
+  .is-play .loop .arc { animation: loop-arc 3s linear both; }
+  .is-play .loop .st .nd { animation: loop-node .45s ease both; }
+  .is-play .loop .st2 .nd { animation-delay: .75s; }
+  .is-play .loop .st3 .nd { animation-delay: 1.5s; }
+  .is-play .loop .st4 .nd { animation-delay: 2.25s; }
+  .is-play .loop .st text { animation: loop-word .6s ease both; }
+  .is-play .loop .st2 text { animation-delay: .75s; }
+  .is-play .loop .st3 text { animation-delay: 1.5s; }
+  .is-play .loop .st4 text { animation-delay: 2.25s; }
+  @keyframes loop-arc { from { stroke-dashoffset: 100; } to { stroke-dashoffset: 0; } }
+  @keyframes loop-node { 0% { fill: #fff; stroke: var(--p-action); stroke-width: 2; r: 9px; } 50% { r: 12px; } 100% { fill: var(--p-action); stroke-width: 0; r: 9px; } }
+  @keyframes loop-word { 0% { fill: var(--ink); } 40% { fill: var(--p-action); } 100% { fill: var(--ink); } }
   .legal__grid { flex: 1 1 100%; align-items: center; }
   .legal__grid > .span-4 { display: inline-flex; align-items: center; min-height: 44px; }
 </style>
@@ -126,7 +175,7 @@
      the site's system is kept from index.html: palette cool-grey-cobalt, type onest, nav nav-centre, close close-type,
      footer footer-columns, buttons tonal, lit ground sage, the client's logo in the page's ink and cobalt
      deal for this page: hero split (one window, its loop), rhythm space with one ground-surface section for the moment
-     moments: iris-opens in #capstone
+     motion: the three act diagrams play their idea in view and on hover (assets/act-motion.js); the capstone moment was removed at the client's request
      screens at 1440: hero 1, understand 1, apply 1, build 1, capstone 1, fit 1, footer 1 -->
 <header class="nav nav--centre">
   <div class="wrap nav__bar">
@@ -148,7 +197,7 @@
 </header>
 
 <main id="top">
-  <section class="hero hero--split" data-enter aria-labelledby="hero-h">
+  <section class="hero hero--split" aria-labelledby="hero-h">
     <div class="wrap">
       <div class="hero-text grid hero-split">
         <div class="hero-copy span-5">
@@ -161,7 +210,7 @@
         </div>
         <div class="hero-visual frame frame--lit span-6 start-7" role="img" aria-label="The ExplAIn syllabus window: modules 00 to 06 grouped by act, and a card saying Module 00 is free">
           <div class="hv__win" aria-hidden="true">
-            <div class="ui ui-panel ui-win" data-ui="window" data-open="Next" data-work="Reading" data-done="Done" data-ui-loop>
+            <div class="ui ui-panel ui-win" data-ui="window" data-ui-still>
               <div class="ui-win__bar">
                 <span class="ui-dots" aria-hidden="true"><i></i><i></i><i></i></span>
                 <span class="ui-win__crumb">ExplAIn <i>/</i> <b>Syllabus</b></span>
@@ -177,13 +226,13 @@
                 <div class="ui-win__main">
                   <div class="ui-win__cols" aria-hidden="true"><span>Module</span><span>Act</span><span>Status</span><span>Time</span></div>
                   <ul class="ui-win__rows">
-                    <li class="ui-win__row" data-row><span class="ui-avatar" data-tone="1">00</span><span class="ui-win__who">The history</span><span class="ui-win__sub">Understand</span><span class="ui-win__st is-done" data-st>Done</span><span class="ui-win__age">2h</span></li>
-                    <li class="ui-win__row" data-row><span class="ui-avatar" data-tone="2">01</span><span class="ui-win__who">The map</span><span class="ui-win__sub">Understand</span><span class="ui-win__st" data-st>Next</span><span class="ui-win__age">2h</span></li>
-                    <li class="ui-win__row" data-row><span class="ui-avatar" data-tone="3">02</span><span class="ui-win__who">Inside the model</span><span class="ui-win__sub">Understand</span><span class="ui-win__st" data-st>Next</span><span class="ui-win__age">2h</span></li>
-                    <li class="ui-win__row" data-row><span class="ui-avatar" data-tone="4">03</span><span class="ui-win__who">Learning</span><span class="ui-win__sub">Understand</span><span class="ui-win__st" data-st>Next</span><span class="ui-win__age">2h</span></li>
-                    <li class="ui-win__row" data-row><span class="ui-avatar" data-tone="5">04</span><span class="ui-win__who">Probability</span><span class="ui-win__sub">Apply</span><span class="ui-win__st" data-st>Next</span><span class="ui-win__age">2h</span></li>
-                    <li class="ui-win__row" data-row><span class="ui-avatar" data-tone="1">05</span><span class="ui-win__who">Context</span><span class="ui-win__sub">Apply</span><span class="ui-win__st" data-st>Next</span><span class="ui-win__age">2h</span></li>
-                    <li class="ui-win__row" data-row><span class="ui-avatar" data-tone="2">06</span><span class="ui-win__who">Knowledge</span><span class="ui-win__sub">Apply</span><span class="ui-win__st" data-st>Next</span><span class="ui-win__age">2h</span></li>
+                    <li class="ui-win__row"><span class="ui-avatar" data-tone="1">00</span><span class="ui-win__who">The history</span><span class="ui-win__sub">Understand</span><span class="ui-win__st is-done">Free</span><span class="ui-win__age">2h</span></li>
+                    <li class="ui-win__row"><span class="ui-avatar" data-tone="2">01</span><span class="ui-win__who">The map</span><span class="ui-win__sub">Understand</span><span class="ui-win__st">At launch</span><span class="ui-win__age">2h</span></li>
+                    <li class="ui-win__row"><span class="ui-avatar" data-tone="3">02</span><span class="ui-win__who">Inside the model</span><span class="ui-win__sub">Understand</span><span class="ui-win__st">At launch</span><span class="ui-win__age">2h</span></li>
+                    <li class="ui-win__row"><span class="ui-avatar" data-tone="4">03</span><span class="ui-win__who">Learning</span><span class="ui-win__sub">Understand</span><span class="ui-win__st">At launch</span><span class="ui-win__age">2h</span></li>
+                    <li class="ui-win__row"><span class="ui-avatar" data-tone="5">04</span><span class="ui-win__who">Probability</span><span class="ui-win__sub">Apply</span><span class="ui-win__st">At launch</span><span class="ui-win__age">2h</span></li>
+                    <li class="ui-win__row"><span class="ui-avatar" data-tone="1">05</span><span class="ui-win__who">Context</span><span class="ui-win__sub">Apply</span><span class="ui-win__st">At launch</span><span class="ui-win__age">2h</span></li>
+                    <li class="ui-win__row"><span class="ui-avatar" data-tone="2">06</span><span class="ui-win__who">Knowledge</span><span class="ui-win__sub">Apply</span><span class="ui-win__st">At launch</span><span class="ui-win__age">2h</span></li>
                   </ul>
                 </div>
               </div>
@@ -195,7 +244,7 @@
     </div>
   </section>
 
-  <section class="section" id="understand" style="--hm: 2" aria-labelledby="understand-h">
+  <section class="section" id="understand" aria-labelledby="understand-h">
     <div class="wrap">
       <div class="section-head">
         <h2 id="understand-h">Act 1, understand the model. <span class="muted">What the thing actually is.</span></h2>
@@ -207,7 +256,7 @@
           <li><h3><span class="mods__num">02</span><a class="link" href="module-02.html">How a model sees the world</a></h3><p class="mods__quote">“Context is the model’s working reality.”</p><p class="mods__topics">Tokens, embeddings and attention, context windows, token cost.</p></li>
           <li><h3><span class="mods__num">03</span><a class="link" href="module-03.html">How models learn</a></h3><p class="mods__quote">“Training changes the model. Inference uses it.”</p><p class="mods__topics">Pretraining, why it is not a database, post-training, where change lives.</p></li>
         </ol>
-        <div class="act-art frame frame--lit span-6 start-7" role="img" aria-label="Module 01's nesting map: AI contains machine learning, which contains deep learning, then generative AI, then large language models">
+        <div class="act-art frame frame--lit span-6 start-7" data-play="2200" role="img" aria-label="Module 01's nesting map: AI contains machine learning, which contains deep learning, then generative AI, then large language models">
           <div class="nest" aria-hidden="true"><div><span>AI</span><div><span>Machine learning</span><div><span>Deep learning</span><div><span>Generative AI</span><div class="nest__core">LLMs</div></div></div></div></div></div>
         </div>
       </div>
@@ -220,7 +269,7 @@
       <div class="section-head">
         <h2 id="apply-h">Act 2, apply it. <span class="muted">Where it goes wrong, and what you do.</span></h2>
       </div>
-      <div class="ctx-strip ui ui-panel" role="img" aria-label="Module 05's anatomy of a context: system and user instructions, history and examples, then retrieved documents and tool results, which are data and not orders">
+      <div class="ctx-strip ui ui-panel" data-play="2800" role="img" aria-label="Module 05's anatomy of a context: system and user instructions, history and examples, then retrieved documents and tool results, which are data and not orders">
         <div class="ctx-bar" aria-hidden="true"><span class="ui-dots"><i></i><i></i><i></i></span>Context window <b>module 05</b></div>
         <div class="ctx" aria-hidden="true">
           <div class="is-rule">System instructions<em>instruction</em></div>
@@ -240,7 +289,7 @@
     </div>
   </section>
 
-  <section class="section" id="build" style="--hm: 2" aria-labelledby="build-h">
+  <section class="section" id="build" aria-labelledby="build-h">
     <div class="wrap">
       <div class="section-head">
         <h2 id="build-h">Act 3, build with it. <span class="muted">Making it act, and proving it works.</span></h2>
@@ -251,21 +300,22 @@
           <li><h3><span class="mods__num">08</span><a class="link" href="module-08.html">Agents without the mythology</a></h3><p class="mods__quote">“An agent is a loop with model-selected decisions.”</p><p class="mods__topics">Workflow or agent, the agent loop, compounding errors, autonomy by design.</p></li>
           <li><h3><span class="mods__num">09</span><a class="link" href="module-09.html">Building AI you can trust</a></h3><p class="mods__quote">“A demo is not a system.”</p><p class="mods__topics">Golden sets, three ways to grade, regressions, quality against cost and latency.</p></li>
         </ol>
-        <div class="act-art frame frame--lit span-6 start-7" role="img" aria-label="Module 08's agent loop: a goal, the model decides, a tool acts, the result is observed, and round again">
+        <div class="act-art frame frame--lit span-6 start-7" data-play="3400" role="img" aria-label="Module 08's agent loop: a goal, the model decides, a tool acts, the result is observed, and round again">
           <svg class="loop" viewBox="0 0 460 320" aria-hidden="true">
             <circle class="tr" cx="230" cy="160" r="96"/>
-            <path class="arc" d="M230 64 A96 96 0 0 1 326 160"/>
-            <circle class="nd" cx="230" cy="64" r="9"/><text x="230" y="36" text-anchor="middle">Goal</text>
-            <circle class="nd" cx="326" cy="160" r="9"/><text x="342" y="165">Model decides</text>
-            <circle class="nd" cx="230" cy="256" r="9"/><text x="230" y="288" text-anchor="middle">Tool acts</text>
-            <circle class="nd" cx="134" cy="160" r="9"/><text x="118" y="165" text-anchor="end">Observe</text>
+            <path class="arc" pathLength="100" d="M230 64 A96 96 0 1 1 229.99 64"/>
+            <g class="st st1"><circle class="nd" cx="230" cy="64" r="9"/><text x="230" y="36" text-anchor="middle">Goal</text></g>
+            <g class="st st2"><circle class="nd" cx="326" cy="160" r="9"/><text x="342" y="165">Model decides</text></g>
+            <g class="st st3"><circle class="nd" cx="230" cy="256" r="9"/><text x="230" y="288" text-anchor="middle">Tool acts</text></g>
+            <g class="st st4"><circle class="nd" cx="134" cy="160" r="9"/><text x="118" y="165" text-anchor="end">Observe</text></g>
+            <circle class="dot" r="6"><animateMotion dur="3s" begin="indefinite" fill="freeze" calcMode="linear" path="M230 64 A96 96 0 1 1 229.99 64"/></circle>
           </svg>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="section ground-surface" id="capstone" data-moment="iris-opens" data-moment-opts='{"from": "base"}' aria-labelledby="capstone-h">
+  <section class="section ground-surface" id="capstone" aria-labelledby="capstone-h">
     <div class="wrap">
       <div class="section-head">
         <h2 id="capstone-h">The capstone, a map of a real AI product. <span class="muted">Answer eight questions about a product you use.</span></h2>
@@ -344,6 +394,7 @@
   </div>
 </footer>
 
+<script src="assets/act-motion.js" defer></script>
 <script type="module" src="assets/kit/system.js"></script>
 <script type="module" src="assets/kit/motion/motion.js"></script>
 <script type="module" src="assets/kit/layout/layout.js"></script>

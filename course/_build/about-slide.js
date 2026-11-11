@@ -19,7 +19,7 @@ if (!slide) throw new Error('no bio slide in module-00.json');
 
 const EN = [
   'Good morning. I am Katia. Before I tell you what we are doing in this hour, two minutes on why I am the one standing here.',
-  'I have been doing this for fifteen years. Computer science, B.Sc. and M.Sc., and from there the whole stack: frontend, backend, data engineering, data science, and all the way down to inference optimization, which means making a model run fast and cheap on real hardware. Deep learning and computer vision. Three patents. A startup that was acquired for its team. I have led teams of engineers, analysts and data scientists. I trained and taught neural networks before it was cool.',
+  'I have been doing this for almost twenty years. Computer science, B.Sc. and M.Sc., and from there the whole stack: frontend, backend, data engineering, data science, and all the way down to inference optimization, which means making a model run fast and cheap on real hardware. Deep learning and computer vision. Three patents. A startup that was acquired for its team. I have led teams of engineers, analysts and data scientists. I trained and taught neural networks before it was cool.',
   'I am not telling you this for the CV. I am telling you so you know where today’s examples come from, and so you know you can ask me the questions that are not on the slide.',
   'And why I built this course. I kept seeing the same thing: strong engineers, using AI every day, shipping with it, and still guessing. Not because they could not understand it. Because nobody ever showed them the layer beneath the interface.',
   'So that is what you get here. Not prompts. Prompts expire, and the trick that worked in January is useless by June. The system underneath does not expire.',
