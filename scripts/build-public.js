@@ -33,7 +33,7 @@ const ORIGIN = (env('SITE_ORIGIN')
 
 const FILES = [
   'index.html', 'digital-course.html', 'articles.html', 'about.html', 'syllabus.html',
-  'content/articles.js', 'course/module-00/worksheet.html', 'course/module-00/deck.html',
+  'content/articles.js', 'favicon.ico', 'course/module-00/worksheet.html', 'course/module-00/deck.html',
   'course/module-01/worksheet.html',
 ];
 // The cheat sheets are paid: they ship with The Book, not with the public site.
@@ -82,7 +82,7 @@ function jsonLd(url, rel, title, description) {
     '@type': 'Organization',
     name: 'ExplAIn',
     url: `${ORIGIN}/`,
-    logo: assetUrl('logo.png'),
+    logo: assetUrl('logo-ink.png'),
     sameAs: ['https://www.linkedin.com/in/katia-stainfeld-huri-6a268478'],
   };
   const course = () => ({
