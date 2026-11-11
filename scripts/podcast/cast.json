@@ -11,12 +11,15 @@
   "host": {
     "name": "Lexi Stark",
     "role": "Host. Thirty. Millennial roots, Gen Z attitude, zero patience for AI buzzwords. Smart and funny, and the joke is always at the hype's expense - never at the listener's, and never at the material's. She does not explain the topic. She interrogates it, and she is the one who says the thing the listener is too polite to say.",
-    "open": "Hey, I'm Lexi Stark. I explain AI, question the hype, and occasionally judge your prompts. Welcome to ExplAIn.",
+    "open": "Hey, I am Lexi Stark. I explain AI, question the hype, and occasionally judge your prompts. Welcome to ExplAIn.",
+    "appearance": "Portrait: assets/guests/lexi-stark.jpg. Thirty. Sharp dark-brown blunt bob just past the jaw with a slight centre part, pale warm skin, straight brows, minimal matte makeup, small silver stud earrings. Deep ink-navy fine-gauge rollneck, no jacket, with black wide-leg trousers. Unimpressed, faintly amused at one corner of the mouth, direct eye contact. Deliberately matte and low on detail, because that is what an image or video model can hold steady between separate generations - keep it word for word in every reel prompt.",
     "voice": {
       "azure": "en-US-AvaMultilingualNeural",
       "openai": "nova"
     },
-    "rate": "+2%"
+    "rate": "+2%",
+    "pronunciation_note": "Write the host's name as 'I am Lexi Stark', never 'I'm Lexi Stark'. The contraction makes the engine insert an audible gap before the surname.",
+    "voice_direction": "NEVER change her pitch. Tested on the LGTM commercial, 23 Oct 2026: a <prosody pitch> of +12%/-6% and wider already reads as a different woman, not as the same woman in a different mood. Pitch shifting a neural voice moves the formants, and formants are what identity perception keys on, so a pitch tag does not change her delivery, it recasts her. Shape a read with <break> and with a modest <prosody rate> on a single clause instead; those leave the timbre alone. That is how 'Love the song. Hate how accurate it is.' gets its amused-then-flat shape. say-variants.js in course/podcast/reels/lgtm-reaction/ is the harness for A/B-ing a read before committing one."
   },
   "episodes": [
     {

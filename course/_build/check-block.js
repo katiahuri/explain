@@ -49,7 +49,7 @@ const CHECK_CSS = `
     .chk { max-width: 760px; margin-inline: auto; padding: 36px 38px; border: 1px solid var(--line); border-radius: 26px; background: #fff; }
     .chk-q { color: var(--navy); font-size: clamp(19px, 2.2vw, 25px); font-weight: 600; line-height: 1.35; letter-spacing: -.02em; }
     .chk-p { margin-top: 12px; color: var(--muted); font-size: 15.5px; line-height: 1.6; }
-    .chk-label { display: block; margin: 24px 0 8px; color: var(--violet); font-size: 11px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
+    .chk-label { display: block; margin: 24px 0 8px; color: var(--violet); font-size: 11px; font-weight: 700;  }
     .chk-in { display: block; width: 100%; padding: 14px 16px; border: 1px solid var(--line); border-radius: 14px; background: var(--off-white); color: var(--navy); font: inherit; font-size: 15px; line-height: 1.55; resize: vertical; }
     .chk-in:focus { outline: 3px solid var(--violet); outline-offset: 2px; border-color: transparent; }
     .chk-in::placeholder { color: #9aa3b5; }
@@ -59,7 +59,7 @@ const CHECK_CSS = `
     .chk-a { margin-top: 26px; padding-top: 24px; border-top: 1px dashed var(--line); animation: chkIn .45s cubic-bezier(.2,.7,.2,1); }
     .chk-a[hidden] { display: none; }
     @keyframes chkIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
-    .chk-a-h { color: var(--violet); font-size: 11px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
+    .chk-a-h { color: var(--violet); font-size: 11px; font-weight: 700;  }
     .chk-a ul { margin: 16px 0 0; padding-left: 20px; }
     .chk-a li { margin-bottom: 11px; color: var(--muted); font-size: 15px; line-height: 1.6; }
     .chk-a li b { color: var(--navy); }
@@ -68,17 +68,7 @@ const CHECK_CSS = `
     .chk-cta a:hover { text-decoration: underline; }
     @media (max-width: 640px) { .chk { padding: 26px 22px; } }
     @media (prefers-reduced-motion: reduce) { .chk-a { animation: none; } }
-    @media (prefers-color-scheme: dark) {
-      .chk { background: #121a3a; border-color: #26315c; }
-      .chk-q, .chk-a li b { color: #f2f5ff; }
-      .chk-p, .chk-a li, .chk-cta { color: #a3adca; }
-      .chk-label, .chk-a-h { color: #c8b9ff; }
-      .chk-in { background: #0e1533; border-color: #2f3a6e; color: #f2f5ff; }
-      .chk-in::placeholder { color: #7c87a8; }
-      .chk-a { border-top-color: #26315c; }
-      .chk-cta { border-top-color: #26315c; }
-      .chk-cta a { color: #c8b9ff; }
-    }`;
+    `;
 
 const CHECK_JS = `
   // Reveal on request. The answer box is never stored or sent anywhere.

@@ -170,23 +170,23 @@ window.EXPLAIN_CHEATSHEETS = {
  "m03": {
   "big_idea": "Weights change only in training. Every other change lives in context, memory or state.",
   "ask": [
-   "Does this need new behavior from the model, or just new facts?",
+   "Does this need new behavior from the model, or just new facts in the context?",
    "How often does this information change, and who must be able to update it?",
-   "Should this change apply to one chat, one user or everyone?",
-   "Is this fact common, rare, private or newer than the model’s knowledge cutoff?",
-   "When the provider ships a new model version, what must we re-test or redo?"
+   "Should this change reach one request, one user, one tenant or everyone?",
+   "Is this fact frequent, rare, private or newer than the training cutoff?",
+   "When the provider ships a new version, what do we have to re-test or redo?"
   ],
   "rules": [
    "Keep facts that change in a source of truth fed into context, never in the weights.",
    "Consider fine-tuning for consistent style, format or a narrow task, not to add facts.",
-   "Treat the model’s recall of rare, private or recent facts as unreliable.",
-   "Treat user feedback as logged data: it changes nothing until someone acts on it."
+   "Never read a wrong answer to judge whether it knew. Check a source you control.",
+   "Treat user feedback as logged data: it changes nothing until someone runs training."
   ],
   "red_flags": [
    "“Users will correct it and it’ll learn over time”, with no pipeline behind it",
    "A plan to fine-tune on docs so the model “knows” current policies",
-   "Answers about recent events with no search tool or retrieval behind them",
-   "Nobody can say where a wrong fact came from: weights, prompt or data"
+   "A feature that treats the model’s own “I’m not sure” as a signal",
+   "A provider version upgrade with no re-test of prompts, formats and refusals"
   ],
   "terms": [
    {
@@ -198,8 +198,8 @@ window.EXPLAIN_CHEATSHEETS = {
     "def": "Further training that turns a text predictor into an assistant with set behaviors."
    },
    {
-    "term": "Fine-tuning",
-    "def": "Your own training run on your examples: a new model version to host and maintain."
+    "term": "Overfitting",
+    "def": "Memorising the training data instead of learning patterns that transfer."
    },
    {
     "term": "Memory",
@@ -218,8 +218,8 @@ window.EXPLAIN_CHEATSHEETS = {
     "If one user needs it across sessions → save it as memory, re-sent as context.",
     "If it’s a fact that changes, like a price or policy → fix the source of truth and retrieve it.",
     "If it records what happened, like an order or feedback → it’s application state.",
-    "If you need consistent behavior that prompts can’t get → consider a fine-tune, then evaluate.",
-    "If you need newer general knowledge in the weights → a new model version; until then, context."
+    "If you need behavior that prompts can’t get → consider a fine-tune, then evaluate it.",
+    "If the provider ships a new version → your parameters moved; re-test prompts and formats."
    ]
   }
  },
@@ -302,8 +302,8 @@ window.EXPLAIN_CHEATSHEETS = {
   ],
   "terms": [
    {
-    "term": "Context window",
-    "def": "Everything the model receives on one call: rules, examples, history, data, task."
+    "term": "Data leakage",
+    "def": "Private data reaching a prompt, a log or a reply that should not hold it."
    },
    {
     "term": "System instructions",
@@ -358,8 +358,8 @@ window.EXPLAIN_CHEATSHEETS = {
   ],
   "terms": [
    {
-    "term": "Embedding",
-    "def": "A list of numbers representing text, so similar meanings sit close together."
+    "term": "LoRA",
+    "def": "A cheap fine-tune: train small added weights, leave the base model alone."
    },
    {
     "term": "Chunking",
@@ -426,8 +426,8 @@ window.EXPLAIN_CHEATSHEETS = {
     "def": "An ID sent with a request so a retry doesn’t repeat the action, like a double booking."
    },
    {
-    "term": "Prompt injection",
-    "def": "Text in inputs or tool results written to steer the model against your instructions."
+    "term": "Schema validation",
+    "def": "Checking tool arguments against declared types and ranges before running."
    },
    {
     "term": "MCP server",
@@ -482,8 +482,8 @@ window.EXPLAIN_CHEATSHEETS = {
     "def": "One model decision that sends an input down one of several fixed paths."
    },
    {
-    "term": "State",
-    "def": "What a run carries forward: goal, history, notes and changes made in other systems."
+    "term": "Retry budget",
+    "def": "A hard cap on repeated attempts, so a failing step cannot consume the run."
    },
    {
     "term": "Blast radius",
@@ -530,8 +530,8 @@ window.EXPLAIN_CHEATSHEETS = {
     "def": "A small, curated, versioned set of real cases the team agrees defines “working”."
    },
    {
-    "term": "Grader",
-    "def": "Anything that scores an output: a code check, a human rater or a model judge."
+    "term": "Precision and recall",
+    "def": "How much of what it returned was right, and how much of the right it found."
    },
    {
     "term": "LLM-as-a-judge",

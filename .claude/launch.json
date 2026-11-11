@@ -18,6 +18,28 @@
         "--port=8421"
       ],
       "port": 8421
+    },
+    {
+      "name": "hitl-tune",
+      "runtimeExecutable": "python",
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "8431",
+        "--directory",
+        "instagram/human-in-the-loop/work"
+      ],
+      "port": 8431
+    },
+    {
+      "name": "course-preview",
+      "runtimeExecutable": "python",
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "8432"
+      ],
+      "port": 8432
     }
   ]
 }

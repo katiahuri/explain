@@ -47,19 +47,19 @@ const HAIR = {
 const BEHIND = new Set(['long', 'wavy', 'bob']);
 
 const LOOKS = {
-  'Simone Vale':  { skin: '#a9683f', hair: '#2b2320', style: 'curls', cloth: '#f1f5f9', bg: ['#7c3aed', '#3b82f6'] },
-  'Jax Ellery':   { skin: '#c98c5f', hair: '#241d1a', style: 'crop',  cloth: '#e2e8f0', bg: ['#1e40af', '#7c3aed'] },
-  'Zoya Kellan':  { skin: '#f0c9a6', hair: '#1f2430', style: 'bob',   cloth: '#0b1026', bg: ['#0891b2', '#4f46e5'] },
-  'Milo Renwick': { skin: '#e2b088', hair: '#8a5a2b', style: 'swept', cloth: '#1e293b', bg: ['#4c1d95', '#7c3aed'] },
-  'Maya Voss':    { skin: '#e8b48c', hair: '#7a2f3f', style: 'wavy',  cloth: '#0b1026', bg: ['#6d28d9', '#2563eb'] },
-  'Jules Akari':  { skin: '#e0a97e', hair: '#3b3f52', style: 'bun',   cloth: '#0b1026', bg: ['#9333ea', '#db2777'] },
+  'Simone Vale':  { skin: '#a9683f', hair: '#2b2320', style: 'curls', cloth: '#f1f5f9', bg: ['#1f2de6', '#1f2de6'] },
+  'Jax Ellery':   { skin: '#c98c5f', hair: '#241d1a', style: 'crop',  cloth: '#e2e8f0', bg: ['#1e40af', '#1f2de6'] },
+  'Zoya Kellan':  { skin: '#f0c9a6', hair: '#1f2430', style: 'bob',   cloth: '#0b0c0e', bg: ['#0891b2', '#1f2de6'] },
+  'Milo Renwick': { skin: '#e2b088', hair: '#8a5a2b', style: 'swept', cloth: '#1e293b', bg: ['#0b0c0e', '#1f2de6'] },
+  'Maya Voss':    { skin: '#e8b48c', hair: '#7a2f3f', style: 'wavy',  cloth: '#0b0c0e', bg: ['#1621a8', '#2563eb'] },
+  'Jules Akari':  { skin: '#e0a97e', hair: '#3b3f52', style: 'bun',   cloth: '#0b0c0e', bg: ['#1f2de6', '#5d6470'] },
   'Nika Soren':   { skin: '#7d4a2a', hair: '#17120f', style: 'long',  cloth: '#e2e8f0', bg: ['#0f766e', '#0ea5e9'] },
-  'Zane Imani':   { skin: '#8a5433', hair: '#17120f', style: 'buzz',  cloth: '#1e293b', bg: ['#1d4ed8', '#0ea5e9'] },
-  'Cleo Maren':   { skin: '#f2c9a8', hair: '#c9a227', style: 'bob',   cloth: '#0b1026', bg: ['#7c3aed', '#ec4899'] },
-  'Remy Calder':  { skin: '#d9a97e', hair: '#d9d4cf', style: 'crop',  cloth: '#1e293b', bg: ['#334155', '#2563eb'] },
-  'Veda Quinn':   { skin: '#c98c5f', hair: '#2b2320', style: 'long',  cloth: '#f1f5f9', bg: ['#0f766e', '#7c3aed'] },
+  'Zane Imani':   { skin: '#8a5433', hair: '#17120f', style: 'buzz',  cloth: '#1e293b', bg: ['#1621a8', '#0ea5e9'] },
+  'Cleo Bennett':   { skin: '#f2c9a8', hair: '#c9a227', style: 'bob',   cloth: '#0b0c0e', bg: ['#1f2de6', '#5d6470'] },
+  'Paul Harris':  { skin: '#d9a97e', hair: '#d9d4cf', style: 'crop',  cloth: '#1e293b', bg: ['#334155', '#2563eb'] },
+  'Veda Quinn':   { skin: '#c98c5f', hair: '#2b2320', style: 'long',  cloth: '#f1f5f9', bg: ['#0f766e', '#1f2de6'] },
 };
-const FALLBACK = { skin: '#e2b088', hair: '#2b2320', style: 'crop', cloth: '#1e293b', bg: ['#7c3aed', '#3b82f6'] };
+const FALLBACK = { skin: '#e2b088', hair: '#2b2320', style: 'crop', cloth: '#1e293b', bg: ['#1f2de6', '#1f2de6'] };
 
 const curls = (fill) => [[58, 55, 11], [70, 44, 12], [84, 42, 13], [98, 52, 12], [104, 64, 10], [56, 68, 9]]
   .map(([cx, cy, r]) => `<circle cx="${cx}" cy="${cy}" r="${r}" fill="${fill}"/>`).join('');
@@ -212,8 +212,8 @@ const TRANSCRIPT_CSS = !TRANSCRIPTS ? '' : `    .transcript { margin-top: 14px; 
     .transcript-body b { display: block; color: var(--navy); font-size: 12px; font-weight: 600; letter-spacing: .04em; }
 `;
 
-const TRANSCRIPT_DARK_CSS = !TRANSCRIPTS ? '' : `      .transcript summary { color: #c8b9ff; }
-      .transcript-body { background: #0e1533; border-color: #26315c; }
+const TRANSCRIPT_DARK_CSS = !TRANSCRIPTS ? '' : `      .transcript summary { color: #1f2de6; }
+      .transcript-body { background: #17181a; border-color: #d5d9e0; }
       .transcript-body p { color: #a3adca; }
       .transcript-body b { color: #e7ebfa; }
 `;
@@ -221,8 +221,8 @@ const TRANSCRIPT_DARK_CSS = !TRANSCRIPTS ? '' : `      .transcript summary { col
 const GUEST_CSS = `
     .guest { display: grid; grid-template-columns: 200px 1fr; gap: 40px; align-items: center; padding: 36px 40px; border: 1px solid var(--line); border-radius: 28px; background: #fff; }
     .guest-face { margin: 0; }
-    .guest-art { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; border-radius: 50%; box-shadow: 0 16px 38px rgba(11, 16, 38, .16); }
-    .guest-epithet { color: var(--violet); font-size: 12px; font-weight: 600; letter-spacing: .17em; text-transform: uppercase; }
+    .guest-art { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; border-radius: 50%; box-shadow: 0 16px 38px rgba(11, 12, 14, .16); }
+    .guest-epithet { color: var(--violet); font-size: 12px; font-weight: 600;  }
     .guest-body h2 { margin: 8px 0 12px; font-size: clamp(30px, 3.6vw, 40px); }
     .guest-line { color: var(--muted); font-size: 17px; line-height: 1.6; }
     .guest-ep { margin-top: 22px; color: var(--navy); font-size: 14px; font-weight: 600; }
@@ -239,13 +239,6 @@ ${TRANSCRIPT_CSS}    .guest-links { display: flex; flex-wrap: wrap; gap: 10px; m
       .guest-face { width: 148px; margin-inline: auto; }
       .guest-links { justify-content: center; }
     }
-    @media (prefers-color-scheme: dark) {
-      .guest, .guest-link { background: #121a3a; border-color: #26315c; }
-      .guest-body h2 { color: #f2f5ff; }
-      .guest-line, .guest-note { color: #a3adca; }
-      .guest-ep { color: #f2f5ff; }
-${TRANSCRIPT_DARK_CSS}      .guest-epithet { color: #c8b9ff; }
-      .guest-link { color: #f2f5ff; border-color: #2f3a6e; }
-    }`;
+    `;
 
 module.exports = { guestSection, GUEST_CSS, episodeFor, slugOf, nameSlug };

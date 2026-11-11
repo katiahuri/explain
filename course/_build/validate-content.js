@@ -8,7 +8,7 @@ const files = process.argv.slice(2).length
   ? process.argv.slice(2).map((f) => path.resolve(f))
   : fs.readdirSync(dir).filter((f) => /^module-\d\d(-part-\d)?\.json$/.test(f)).map((f) => path.join(dir, f));
 
-const SLIDE_TYPES = ['statement', 'cards', 'table', 'compare', 'steps', 'rings', 'map', 'exercise', 'myths', 'check'];
+const SLIDE_TYPES = ['statement', 'bio', 'cards', 'table', 'compare', 'steps', 'rings', 'map', 'exercise', 'myths', 'check'];
 let failures = 0;
 
 for (const file of files) {
@@ -66,6 +66,7 @@ for (const file of files) {
     if (['exercise', 'myths', 'check', 'map'].includes(s.type)) { if (s.type === 'myths' || s.type === 'map') max(s.title, 48, `${w}.title`); return; }
     if (s.type === 'statement') { max(s.title, 64, `${w}.title`); if (s.sub) max(s.sub, 110, `${w}.sub`); if (!['light', 'dark', 'accent'].includes(s.style)) err(`${w}.style: light | dark | accent`); if (s.pill) max(s.pill, 30, `${w}.pill`); return; }
     max(s.title, 52, `${w}.title`);
+    if (s.type === 'bio') { max(s.photo, 60, `${w}.photo`); if (s.sub) max(s.sub, 110, `${w}.sub`); count(s.points, 2, 4, `${w}.points`); (s.points || []).forEach((p, j) => max(p, 72, `${w}.points[${j}]`)); }
     if (s.type === 'cards') { count(s.cards, 2, 4, `${w}.cards`); (s.cards || []).forEach((c, j) => { max(c.title, 28, `${w}.cards[${j}].title`); max(c.text, 90, `${w}.cards[${j}].text`); }); }
     if (s.type === 'steps') { count(s.steps, 3, 4, `${w}.steps`); (s.steps || []).forEach((c, j) => { max(c.title, 26, `${w}.steps[${j}].title`); max(c.text, 80, `${w}.steps[${j}].text`); }); }
     if (s.type === 'table') { count(s.columns, 2, 3, `${w}.columns`); count(s.rows, 2, 6, `${w}.rows`); (s.rows || []).forEach((r, j) => { if (!Array.isArray(r) || r.length !== (s.columns || []).length) err(`${w}.rows[${j}]: needs ${(s.columns || []).length} cells`); (r || []).forEach((c, k) => max(c, 48, `${w}.rows[${j}][${k}]`)); }); }

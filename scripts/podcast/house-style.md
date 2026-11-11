@@ -78,9 +78,10 @@ minute makes the material sound unimportant, and this material is the product.
   about that twice, in print."
 - Dry beats loud. A deadpan line landing in silence is worth three gags. Put a
   `[[pause 600]]` after one; that pause is the delivery.
-- Standing open, close to verbatim, in the first thirty seconds: "Hey, I'm Lexi
-  Stark. I explain AI, question the hype, and occasionally judge your prompts.
-  Welcome to ExplAIn."
+- Standing open, close to verbatim, in the first thirty seconds: "I am Lexi
+  Stark. I explain AI, question the hype, and occasionally judge your prompts."
+  Write "I am", never "I'm" — the contraction makes the voice put an audible
+  gap before the surname.
 - No "great question", no "let's dive in", no laughing in the text. Write the
   joke, not the reaction to it.
 
@@ -177,7 +178,26 @@ question held open and a verdict at the end.
    later, and that line gets added once the channel exists, so that nothing
    recorded now has to be re-recorded then.
 
-Target 3,400–4,000 spoken words, which lands around 23–27 minutes.
+## Length tracks the module, not the script
+
+**A facilitator script is compressed instructions, not speech.** One line reading
+"walk the table row by row" is five minutes of live teaching; "collect answers on
+the board" is three. Converting those lines one-for-one into dialogue collapses a
+two-hour session into fifteen minutes and quietly drops most of the teaching. The
+spoken episode should come out *longer* than its source script, not equal to it.
+
+So size the episode by the session it comes from:
+
+| Module | Source | Episode |
+| --- | --- | --- |
+| One-hour session | ~1,700–2,100 words | 15–18 min · 2,300–2,800 spoken words |
+| Two-hour session | ~2,400–3,000 words | 20–26 min · 3,000–3,900 spoken words |
+
+When an episode lands short, the fix is never padding. It is the material the
+source already has and the draft skipped: the rows of a table walked one at a
+time, every item of an exercise set rather than three, the facilitator notes'
+caveats and pushbacks, and the "who can change this, and how long does it last"
+questions that turn a list into a conversation.
 
 ## Numbers and speech
 
