@@ -8,11 +8,9 @@
 <meta property="og:type" content="website">
 <meta property="og:title" content="ExplAIn syllabus: ten modules on how AI systems work">
 <meta property="og:description" content="Ten modules in three acts, about 20 hours, with a capstone and a certificate.">
-<meta property="og:image" content="assets/og-card.png">
-<meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="assets/icon-cobalt.png" type="image/png">
+<link rel="apple-touch-icon" href="assets/icon-cobalt.png">
 <meta name="theme-color" content="#eef0f3">
-<!-- <link rel="canonical" href="https://[the client's domain]/syllabus.html"> -->
 <meta name="site-kind" content="software">
 <meta name="page-type" content="software">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -109,7 +107,8 @@
   .ep__play svg { width: 12px; height: 12px; fill: #fff; }
   .ep__line { height: 4px; border-radius: 2px; background: #dfe2e7; position: relative; }
   .ep__line i { position: absolute; inset: 0 auto 0 0; width: 9%; border-radius: 2px; background: var(--p-action); }
-  #fit .panel { --p-h: 340px; display: grid; place-items: center; }
+  #fit .panel { --p-h: 340px; display: grid; place-items: center; background: none; border: 0; box-shadow: none; }
+  #fit .panel::before, #fit .panel::after { content: none; }
   #fit .panel > img { position: static; width: 300px; height: 300px; object-fit: cover; border-radius: 50%; }
   @media (max-width: 639px) { #fit .panel > img { width: 190px; height: 190px; } }
   @media (max-width: 639px) { #fit .panel { --p-h: 220px; } #fit .card { margin-top: var(--s-6); } }
@@ -354,8 +353,8 @@
         </div>
         <a class="card card--row card--open span-6 start-7" href="module-00.html">
           <h3>Start with Module 00, free</h3>
-          <p>How we got here: the chapter and a 17-minute episode with Simone Vale.</p>
-          <div class="panel"><img class="frame__img" src="assets/guests/simone-vale.jpg" alt="Simone Vale, the guest on episode 00" width="300" height="300" loading="lazy" data-source="client" data-subject="the guest on episode 00" style="object-position: 50% 30%"></div>
+          <p>How we got here: the chapter and its 17-minute episode. Taught by Katia.</p>
+          <div class="panel"><img class="frame__img" src="assets/katia.jpg" alt="Katia Stainfeld Huri, the course's creator and instructor" width="1000" height="1333" loading="lazy" data-source="client" data-subject="the instructor" style="object-position: 52% 31%"></div>
         </a>
       </div>
     </div>
