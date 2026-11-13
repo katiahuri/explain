@@ -58,14 +58,14 @@ const FOOTER = `
       <div class="footer-top">
         <div>
           <img src="assets/logo-ink.png" alt="ExplAIn" width="545" height="201">
-          <p>Practical AI education for people who want to understand the system, not only the interface.</p>
+          <p>How AI products work, for people who build them.</p>
         </div>
         <div class="footer-col">
           <h4>Course</h4>
           <ul>
-            <li><a href="digital-course.html">Digital course</a></li>
-            <li><a href="syllabus.html">Full course syllabus</a></li>
-            <li><a href="module-00.html">Start with Module 00</a></li>
+            <li><a href="syllabus.html">Syllabus</a></li>
+            <li><a href="module-00.html">Module 00, free</a></li>
+            <li><a href="index.html#pricing">Pricing</a></li>
             <li><a href="index.html#join">Join the waitlist</a></li>
           </ul>
         </div>
@@ -73,14 +73,14 @@ const FOOTER = `
           <h4>More</h4>
           <ul>
             <li><a href="articles.html">Articles</a></li>
-            
             <li><a href="about.html">About</a></li>
             <li><a href="https://www.linkedin.com/in/katia-stainfeld-huri-6a268478" target="_blank" rel="noopener">LinkedIn</a></li>
+            <li><a href="index.html#pricing">For teams</a></li>
           </ul>
         </div>
       </div>
       <div class="footer-bottom">
-        <span>© 2026 ExplAIn · Understand / Apply / Build / Go further</span>
+        <span>© 2026 ExplAIn</span>
         <span>Don’t just use AI. <b>Own it.</b></span>
       </div>
     </div>
@@ -128,7 +128,7 @@ const card = (issue, i) => `
             <div class="post-meta"><span class="tag">${esc(issue.tag)}</span><span>${prettyDate(issue.date)}</span><span>${issue.minutes} min read</span></div>
             <h3>${esc(issue.title)}</h3>
             <p>${esc(issue.dek)}</p>
-            <span class="more">Read the article →</span>
+            <span class="more">Read the article</span>
           </div>
         </a>`;
 
@@ -160,7 +160,7 @@ const FIGURES = {
   quad: `<figure class="quad" style="margin:34px 0">
         <div class="quad-grid">
           <p class="quad-axis quad-axis-x">Actually right &nbsp;·&nbsp; Actually wrong</p>
-          <div class="quad-cell"><span>Sounds sure · right</span><p>Fine — and invisible. You learn nothing about why it worked.</p></div>
+          <div class="quad-cell"><span>Sounds sure · right</span><p>Fine, and invisible. You learn nothing about why it worked.</p></div>
           <div class="quad-cell danger"><span>Sounds sure · wrong</span><p>The only cell that hurts. Fluent, confident, and false.</p></div>
           <div class="quad-cell"><span>Hedges · right</span><p>A useful signal, routinely ignored by everyone.</p></div>
           <div class="quad-cell"><span>Hedges · wrong</span><p>Caught early, if anyone is actually listening.</p></div>
@@ -194,7 +194,7 @@ const block = (b) => {
 
 // The archive
 fs.writeFileSync(path.join(ROOT, 'articles.html'),
-  head('Articles — how AI systems actually behave', 'Short, practical pieces on the parts of AI that decide whether a product works: context, probability, retrieval, tools and autonomy.', 'articles') + `
+  head('Articles: how AI systems actually behave', 'Short, practical pieces on the parts of AI that decide whether a product works: context, probability, retrieval, tools and autonomy.', 'articles') + `
   <header class="page-hero">
     <div class="shell inner">
       <p class="eyebrow light">Articles</p>
@@ -215,11 +215,11 @@ fs.writeFileSync(path.join(ROOT, 'articles.html'),
       <div class="signup-panel">
         <div class="signup-copy">
           <p class="eyebrow light">Subscribe</p>
-          <h2>Get each issue <span class="grad-text">by email</span></h2>
-          <p class="lead">The same list that gets launch dates and the founding price.</p>
+          <h2>Get the Dispatch by email</h2>
+          <p class="lead">One method per issue, from the course, that you can use the same week.</p>
           <ul class="check-list">
-            <li>A working method you can use the same week</li>
-            <li>No vendor news, no hype cycle commentary</li>
+            <li>One mechanism, one decision, one thing to try</li>
+            <li>The launch date and founding code come to the same list</li>
           </ul>
         </div>
 ${signupForm('articles')}
@@ -239,10 +239,10 @@ issues.forEach((issue, index) => {
     </div>` : '';
 
   fs.writeFileSync(path.join(ROOT, `article-${issue.slug}.html`),
-    head(`${issue.title} — ExplAIn`, issue.dek, 'articles') + `
+    head(`${issue.title} · ExplAIn`, issue.dek, 'articles') + `
   <article class="article">
     <div class="narrow">
-      <a class="text-link" href="articles.html" style="border:0; padding:0; color:#1f2de6; font-size:15px">← All articles</a>
+      <a class="text-link" href="articles.html" style="border:0; padding:0; display:inline-flex; align-items:center; min-height:44px; color:#1f2de6; font-size:15px">← All articles</a>
       <div class="meta" style="margin-top:26px"><span class="tag">${esc(issue.tag)}</span><span>${prettyDate(issue.date)}</span><span>${issue.minutes} min read</span></div>
       <h1 style="font-size:clamp(34px,4.6vw,56px)">${esc(issue.title)}</h1>
       <p class="lead" style="margin-top:18px; font-size:20px">${esc(issue.dek)}</p>
@@ -263,12 +263,12 @@ ${issue.module ? `
         <p class="bridge-title">${esc(issue.module.title)}</p>
         <p class="bridge-line">This article is the short version. The module adds the applied exercise,
           the cheat sheet and the podcast episode.</p>
-        <a class="bridge-cta" href="module-${esc(issue.module.num)}.html">Open Module ${esc(issue.module.num)} <span aria-hidden="true">→</span></a>
+        <a class="bridge-cta" href="module-${esc(issue.module.num)}.html">Open Module ${esc(issue.module.num)}</a>
       </aside>` : ''}
 
       <div class="article-cta">
         <p><b>${esc(data.name)} lands when there is something worth saying.</b>${esc(data.promise)}</p>
-        <a class="btn btn-primary" href="articles.html#join">Get the next one <span aria-hidden="true">→</span></a>
+        <a class="btn btn-primary" href="articles.html#join">Get the next one</a>
       </div>
     </div>
 ${keepReading}

@@ -25,6 +25,7 @@
 
     .site-nav { position: sticky; top: 0; z-index: 50; background: var(--ground); border-bottom: 1px solid var(--line); }
     .nav-inner { display: flex; align-items: center; justify-content: space-between; gap: 20px; min-height: 72px; }
+    .logo, footer a[aria-label="ExplAIn home"] { display: inline-flex; align-items: center; min-height: 44px; }
     .logo img { display: block; height: 30px; width: auto; }
     .nav-links { display: flex; align-items: center; gap: 32px; color: var(--ink); font-size: 15px; font-weight: 500; }
     .nav-links a:not(.btn) { text-decoration: none; }
@@ -41,7 +42,7 @@
     .hero-lead { margin: 20px 0 0; color: var(--muted); font-size: clamp(18px, 2vw, 21px); }
     .chips { display: flex; flex-wrap: wrap; gap: 10px; margin: 28px 0 0; padding: 0; list-style: none; }
     .chips li { padding: 6px 12px; border: 1px solid var(--line); border-radius: 8px; color: var(--ink); background: var(--card); font-size: 14px; }
-    .back { display: table; margin-bottom: 26px; color: var(--muted); font-size: 15px; text-decoration: none; }
+    .back { display: inline-flex; align-items: center; min-height: 44px; margin-bottom: 14px; color: var(--muted); font-size: 15px; text-decoration: none; }
     .back:hover { color: var(--accent); }
 
     .section { padding: 96px 0; }

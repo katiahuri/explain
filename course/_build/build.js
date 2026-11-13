@@ -526,7 +526,7 @@ function cheatSection(m) {
       <div class="shell">
         <div class="section-head"><p class="eyebrow">Cheat sheet</p><h2>${esc(noDot(cs.big_idea))}</h2></div>
         <p style="max-width:640px;color:var(--muted);font-size:17px;line-height:1.65">One page you keep: the questions to ask on every project, the rules of thumb, and ${esc(cs.tool.kind === 'decision' ? 'a decision guide' : cs.tool.kind === 'template' ? 'a template' : 'a checklist')} you can use on your own product. All ten come with The Book.</p>
-        <div class="actions" style="margin-top:22px"><a class="btn btn-primary" href="digital-course.html#pricing">Get the cheat sheets</a>${webDeck}</div>
+        <div class="actions" style="margin-top:22px"><a class="btn btn-primary" href="index.html#pricing">Get the cheat sheets</a>${webDeck}</div>
       </div>
     </section>`;
 }
@@ -552,7 +552,7 @@ function buildPage(m, index) {
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>${esc(m.title)} — ExplAIn ${partName(m)}</title>
+  <title>${esc(m.title)} · ExplAIn ${partName(m)}</title>
   <meta name="description" content="${esc(clip(`ExplAIn ${partName(m)}: ${m.summary}`))}">
   <meta name="theme-color" content="#eef0f3">
   <link rel="icon" type="image/png" href="assets/icon-cobalt.png">
@@ -589,7 +589,7 @@ ${m.web_deck ? DECK_CSS : ''}
       <p class="eyebrow">${esc(partName(m))} · ${esc(m.label)}</p>
       <h1>${esc(m.title)}</h1>
       <p class="hero-lead">${esc(m.quote)}</p>${m.web_deck ? `
-      <div class="actions" style="margin-top:28px"><a class="btn btn-primary" href="#deck">Read the free deck <span aria-hidden="true">↓</span></a> <a class="btn btn-ghost" href="digital-course.html#pricing">Get the workbook</a></div>` : ''}
+      <div class="actions" style="margin-top:28px"><a class="btn btn-primary" href="#deck">Read the free deck <span aria-hidden="true">↓</span></a> <a class="btn btn-ghost" href="index.html#pricing">Get the workbook</a></div>` : ''}
     </div>
   </header>
 
@@ -611,7 +611,7 @@ ${mapSection}
             <p class="eyebrow">Applied exercise</p>
             <h2>${esc(noDot(m.exercise.title))}</h2>
             <p>${esc(m.exercise.prompt)}</p>
-            <div class="actions"><a class="btn btn-primary" href="index.html#pricing">Get the workbook <span aria-hidden="true">→</span></a>${worksheet}</div>
+            <div class="actions"><a class="btn btn-primary" href="index.html#pricing">Get the workbook</a>${worksheet}</div>
           </div>
           <ul class="products">${m.exercise.items.map((it) => `<li>${esc(it)}</li>`).join('')}</ul>
         </div>
@@ -637,7 +637,7 @@ ${guest}
           ${next ? `<div><small>Next · ${esc(partName(next))}</small><h3>${esc(next.title)}</h3></div>` : `<div><small>Course complete</small><h3>Don’t just use AI. Own it</h3></div>`}
           <div class="next-actions">
             ${prev ? `<a class="btn btn-outline" href="${partSlug(prev)}.html">← ${esc(partName(prev))}</a>` : `<a class="btn btn-outline" href="syllabus.html">Full syllabus</a>`}
-            ${next ? `<a class="btn btn-primary" href="${partSlug(next)}.html">${esc(partName(next))} <span aria-hidden="true">→</span></a>` : `<a class="btn btn-primary" href="index.html#pricing">Get the workbook <span aria-hidden="true">→</span></a>`}
+            ${next ? `<a class="btn btn-primary" href="${partSlug(next)}.html">${esc(partName(next))} <span aria-hidden="true">→</span></a>` : `<a class="btn btn-primary" href="index.html#pricing">Get the workbook</a>`}
           </div>
         </div>
       </div>

@@ -29,15 +29,15 @@
     rows.forEach(function (r) { r.classList.remove('is-scan', 'is-pick'); });
     out.textContent = '';
     root.classList.remove('is-grown'); void root.offsetWidth; root.classList.add('is-grown');
-    await wait(1000);
+    await wait(1400);
     var k = pick();
     if (!reduce) {
-      var steps = rows.length * 2 + k, delay = 70;
-      for (var s = 0; s <= steps; s++) { mark(s % rows.length, 'is-scan'); await wait(delay); delay += 14; }
+      var steps = rows.length * 2 + k, delay = 100;
+      for (var s = 0; s <= steps; s++) { mark(s % rows.length, 'is-scan'); await wait(delay); delay += 20; }
     }
     mark(-1, 'is-scan'); mark(k, 'is-pick');
     var tok = rows[k].dataset.tok;
-    for (var c = 0; c <= tok.length; c++) { out.textContent = ' ' + tok.slice(0, c); await wait(55); }
+    for (var c = 0; c <= tok.length; c++) { out.textContent = ' ' + tok.slice(0, c); await wait(80); }
     if (log) log.textContent = 'Run ' + run + ': ' + tok + (tok === 'Paris' ? '.' : '. Fluent, and wrong.');
     if (again) again.disabled = false;
     busy = false;

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Reasoning, sampling and hallucination — ExplAIn Module 04</title>
+  <title>Reasoning, sampling and hallucination · ExplAIn Module 04</title>
   <meta name="description" content="ExplAIn Module 04: Explains why models can be impressive and wrong at the same time, and where a product must wrap the probabilistic model in deterministic…">
   <meta name="theme-color" content="#eef0f3">
   <link rel="icon" type="image/png" href="assets/icon-cobalt.png">
@@ -40,6 +40,7 @@
 
     .site-nav { position: sticky; top: 0; z-index: 50; background: var(--ground); border-bottom: 1px solid var(--line); }
     .nav-inner { display: flex; align-items: center; justify-content: space-between; gap: 20px; min-height: 72px; }
+    .logo, footer a[aria-label="ExplAIn home"] { display: inline-flex; align-items: center; min-height: 44px; }
     .logo img { display: block; height: 30px; width: auto; }
     .nav-links { display: flex; align-items: center; gap: 32px; color: var(--ink); font-size: 15px; font-weight: 500; }
     .nav-links a:not(.btn) { text-decoration: none; }
@@ -56,7 +57,7 @@
     .hero-lead { margin: 20px 0 0; color: var(--muted); font-size: clamp(18px, 2vw, 21px); }
     .chips { display: flex; flex-wrap: wrap; gap: 10px; margin: 28px 0 0; padding: 0; list-style: none; }
     .chips li { padding: 6px 12px; border: 1px solid var(--line); border-radius: 8px; color: var(--ink); background: var(--card); font-size: 14px; }
-    .back { display: table; margin-bottom: 26px; color: var(--muted); font-size: 15px; text-decoration: none; }
+    .back { display: inline-flex; align-items: center; min-height: 44px; margin-bottom: 14px; color: var(--muted); font-size: 15px; text-decoration: none; }
     .back:hover { color: var(--accent); }
 
     .section { padding: 96px 0; }
@@ -158,7 +159,7 @@
     .guest { display: grid; grid-template-columns: 200px 1fr; gap: 40px; align-items: center; padding: 36px 40px; border: 1px solid var(--line); border-radius: 28px; background: #fff; }
     .guest-face { margin: 0; }
     .guest-art { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; border-radius: 50%; box-shadow: 0 16px 38px rgba(11, 12, 14, .16); }
-    .guest-epithet { color: var(--violet); font-size: 12px; font-weight: 600;  }
+    .guest-epithet { color: var(--violet); font-size: 14px; font-weight: 600;  }
     .guest-body h2 { margin: 8px 0 12px; font-size: clamp(30px, 3.6vw, 40px); }
     .guest-line { color: var(--muted); font-size: 17px; line-height: 1.6; }
     .guest-ep { margin-top: 22px; color: var(--navy); font-size: 14px; font-weight: 600; }
@@ -169,7 +170,7 @@
     .guest-link[disabled] { opacity: .45; cursor: not-allowed; }
     .guest-link-icon { padding: 0 14px; }
     .guest-link svg { width: 19px; height: 19px; fill: currentColor; }
-    .guest-note { margin-top: 12px; color: var(--muted); font-size: 12.5px; }
+    .guest-note { margin-top: 12px; color: var(--muted); font-size: 14px; }
     @media (max-width: 760px) {
       .guest { grid-template-columns: 1fr; gap: 24px; padding: 28px 24px; text-align: center; }
       .guest-face { width: 148px; margin-inline: auto; }
@@ -180,7 +181,7 @@
     .chk { max-width: 760px; margin-inline: auto; padding: 36px 38px; border: 1px solid var(--line); border-radius: 26px; background: #fff; }
     .chk-q { color: var(--navy); font-size: clamp(19px, 2.2vw, 25px); font-weight: 600; line-height: 1.35; letter-spacing: -.02em; }
     .chk-p { margin-top: 12px; color: var(--muted); font-size: 15.5px; line-height: 1.6; }
-    .chk-label { display: block; margin: 24px 0 8px; color: var(--violet); font-size: 11px; font-weight: 700;  }
+    .chk-label { display: block; margin: 24px 0 8px; color: var(--violet); font-size: 14px; font-weight: 700;  }
     .chk-in { display: block; width: 100%; padding: 14px 16px; border: 1px solid var(--line); border-radius: 14px; background: var(--off-white); color: var(--navy); font: inherit; font-size: 15px; line-height: 1.55; resize: vertical; }
     .chk-in:focus { outline: 3px solid var(--violet); outline-offset: 2px; border-color: transparent; }
     .chk-in::placeholder { color: #9aa3b5; }
@@ -190,7 +191,7 @@
     .chk-a { margin-top: 26px; padding-top: 24px; border-top: 1px dashed var(--line); animation: chkIn .45s cubic-bezier(.2,.7,.2,1); }
     .chk-a[hidden] { display: none; }
     @keyframes chkIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
-    .chk-a-h { color: var(--violet); font-size: 11px; font-weight: 700;  }
+    .chk-a-h { color: var(--violet); font-size: 14px; font-weight: 700;  }
     .chk-a ul { margin: 16px 0 0; padding-left: 20px; }
     .chk-a li { margin-bottom: 11px; color: var(--muted); font-size: 15px; line-height: 1.6; }
     .chk-a li b { color: var(--navy); }
@@ -247,7 +248,7 @@
             <p class="eyebrow">Applied exercise</p>
             <h2>Where is probability acceptable?</h2>
             <p>Decide where probability is acceptable in six product scenarios and where verification must be deterministic.</p>
-            <div class="actions"><a class="btn btn-primary" href="index.html#pricing">Get the workbook <span aria-hidden="true">→</span></a></div>
+            <div class="actions"><a class="btn btn-primary" href="index.html#pricing">Get the workbook</a></div>
           </div>
           <ul class="products"><li>Writing for people</li><li>Data into systems</li><li>Money and actions</li></ul>
         </div>
@@ -259,7 +260,7 @@
       <div class="shell">
         <div class="section-head"><p class="eyebrow">Cheat sheet</p><h2>Treat every output as a likely guess until something outside the model checks it</h2></div>
         <p style="max-width:640px;color:var(--muted);font-size:17px;line-height:1.65">One page you keep: the questions to ask on every project, the rules of thumb, and a decision guide you can use on your own product. All ten come with The Book.</p>
-        <div class="actions" style="margin-top:22px"><a class="btn btn-primary" href="digital-course.html#pricing">Get the cheat sheets</a></div>
+        <div class="actions" style="margin-top:22px"><a class="btn btn-primary" href="index.html#pricing">Get the cheat sheets</a></div>
       </div>
     </section>
     <section class="section">
@@ -294,7 +295,7 @@
             <p class="chk-a-h">How we would answer</p>
             <ul><li><b>Mechanism</b> the fee was generated as a likely-looking number, not looked up. Confident tone says nothing about correctness.</li><li>Not a temperature problem: at temperature 0 it could repeat the same wrong number every time.</li><li><b>Tools</b> fetch the fee from the billing system and let the model only phrase it.</li><li><b>Guardrails</b> block any amount in the reply that doesn’t match the billing system’s value.</li><li><b>Evaluation</b> test fee questions before every release and monitor complaints about amounts.</li></ul>
             <p class="chk-cta">Every module ends on a question like this.
-              <a href="digital-course.html#join">Join the waitlist &rarr;</a></p>
+              <a href="index.html#join">Join the waitlist</a></p>
           </div>
         </div>
       </div>
@@ -312,11 +313,7 @@
             <p class="guest-line">investigates why machines sound absolutely certain even when they are spectacularly wrong.</p>
             <p class="guest-ep">Episode 04 · Reasoning, sampling and hallucination</p>
             <p class="guest-line">Included with the course.</p>
-            <div class="guest-links">
-              <button class="guest-link" type="button" disabled>Let’s chat</button>
-              <button class="guest-link guest-link-icon" type="button" disabled aria-label="Message Maya Voss on Telegram"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22.1 3.2 2.6 10.8c-1.1.4-1.1 2 .1 2.3l4.9 1.5 1.9 5.6c.3.9 1.5 1.1 2.1.3l2.6-2.9 5 3.7c.8.6 1.9.1 2.1-.8l3-16c.2-1-.9-1.8-1.8-1.3ZM9.6 14.6l9-6.4-7.3 7.8-.3 3.6Z"/></svg></button>
-            </div>
-            <p class="guest-note">Coming soon · an AI character from the show, not a real researcher.</p>
+            <p class="guest-note">An AI character from the show, not a real researcher.</p>
           </div>
         </article>
       </div>

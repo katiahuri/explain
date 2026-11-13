@@ -59,6 +59,7 @@ p { margin: 0; }
 /* Navigation: one fixed, opaque bar with a hairline; on a phone a menu button opens a full-screen sheet (assets/nav.js) */
 .site-nav { position: sticky; top: 0; z-index: 60; color: var(--ink); background: var(--ground); border-bottom: 1px solid var(--line); }
 .nav-inner { display: flex; align-items: center; justify-content: space-between; gap: 22px; min-height: 72px; }
+.logo { display: inline-flex; align-items: center; min-height: 44px; }
 .logo img { display: block; height: 30px; width: auto; }
 .nav-links { display: flex; align-items: center; gap: 32px; color: var(--ink); font-size: 15px; font-weight: 500; }
 .nav-links a:not(.btn) { position: relative; padding: 6px 0; text-decoration: none; }
@@ -511,6 +512,16 @@ footer { color: var(--text); background: var(--ground); border-top: 1px solid va
 }
 
 /* Legal pages */
+/* a table that stacks into labelled blocks on a phone, so nothing scrolls sideways */
+@media (max-width: 640px) {
+  .article-body table.stack, .article-body table.stack tbody, .article-body table.stack tr, .article-body table.stack td { display: block; width: 100%; }
+  .article-body table.stack tr:first-child { display: none; }
+  .article-body table.stack tr + tr { border-top: 1px solid var(--line); }
+  .article-body table.stack td { padding: 6px 16px; border: 0; }
+  .article-body table.stack td:first-child { padding-top: 14px; }
+  .article-body table.stack td:last-child { padding-bottom: 14px; }
+  .article-body table.stack td::before { content: attr(data-label); display: block; color: var(--muted); font-size: 14px; }
+}
 .legal-note { padding: 18px 22px; border-left: 2px solid var(--ink); border-radius: 0 var(--r-md) var(--r-md) 0; background: var(--card); color: var(--text); font-size: 16px; line-height: 1.6; }
 .legal-note code { padding: 1px 6px; border-radius: 5px; background: var(--surface); font-size: 14px; }
 .footer-legal a { color: inherit; text-decoration: none; }
