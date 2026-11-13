@@ -47,13 +47,19 @@
   .nav__logo img { display: block; height: 30px; width: auto; }
   .footer .nav__logo img { height: 34px; }
   /* hero: the syllabus window on the lit frame, one flat fact card over its lower-left */
-  .hero-visual { position: relative; overflow: hidden; }
-  .hero-visual > .hv__win { position: absolute; left: var(--s-7); top: var(--s-7); right: calc(-1 * var(--s-6)); }
-  .hero-visual > .hv__fact { position: absolute; left: var(--s-5); bottom: var(--s-5); width: 300px; z-index: 2; padding: var(--s-4); background: #fff; color: #16181a; border: 1px solid rgb(0 0 0 / .1); border-radius: var(--r-md); }
-  .hv__fact b { display: block; font-weight: 500; }
-  .hv__fact span { font-size: var(--t-small); color: #4f5560; }
-  @media (max-width: 1023px) { .hero-visual > .hv__win { left: var(--s-5); top: var(--s-5); } }
-  @media (max-width: 639px) { .hero-visual > .hv__win { left: var(--s-4); top: var(--s-4); } .hero-visual > .hv__fact { display: none; } }
+  /* hero: the three acts as a ruled list, each a jump to its section */
+  .acts { align-self: center; }
+  .acts__list { list-style: none; margin: 0; padding: 0; }
+  .acts__list a { display: grid; grid-template-columns: 4.5rem minmax(0, 1fr) auto; gap: var(--s-4); align-items: baseline; min-height: 44px; padding-block: var(--s-4); border-top: 1px solid color-mix(in oklab, var(--ink) 13%, transparent); color: var(--ink); text-decoration: none; }
+  .acts__list li:last-child a { border-bottom: 1px solid color-mix(in oklab, var(--ink) 13%, transparent); }
+  .acts__list a:hover b { text-decoration: underline; text-underline-offset: 3px; }
+  .acts__n { color: var(--muted); font-size: var(--t-small); }
+  .acts__list b { font-weight: 500; font-size: var(--t-card); }
+  .acts__m { color: var(--muted); font-size: var(--t-small); }
+  .acts__free { margin-top: var(--s-5); color: var(--muted); }
+  .acts__free .link { margin-left: var(--s-2); }
+  @media (max-width: 1023px) { .acts { margin-top: var(--s-6); } }
+  @media (max-width: 639px) { .acts__list a { grid-template-columns: 3.5rem minmax(0, 1fr); row-gap: var(--s-1); } .acts__m { grid-column: 2; } }
   /* the module rows inside each act */
   .mods { list-style: none; margin: 0; padding: 0; }
   .mods > li { padding-block: var(--s-5); border-bottom: 1px solid color-mix(in oklab, var(--ink) 13%, transparent); }
@@ -188,7 +194,7 @@
       <div class="nav__item"><a class="nav__link" href="about.html">About</a></div>
     </nav>
     <div class="nav__actions">
-      <a class="btn btn--primary" href="index.html#join">Join the waitlist</a>
+      <a class="btn btn--secondary" href="index.html#join">Join the waitlist</a>
     </div>
     <button class="nav__toggle" type="button" aria-expanded="false" aria-label="Menu">
       <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M2 5h14M2 13h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
@@ -208,37 +214,14 @@
             <a class="btn btn--secondary" href="module-00.html">Start Module 00 free</a>
           </div>
         </div>
-        <div class="hero-visual frame frame--lit span-6 start-7" role="img" aria-label="The ExplAIn syllabus window: modules 00 to 06 grouped by act, and a card saying Module 00 is free">
-          <div class="hv__win" aria-hidden="true">
-            <div class="ui ui-panel ui-win" data-ui="window" data-ui-still>
-              <div class="ui-win__bar">
-                <span class="ui-dots" aria-hidden="true"><i></i><i></i><i></i></span>
-                <span class="ui-win__crumb">ExplAIn <i>/</i> <b>Syllabus</b></span>
-                <span class="ui-spacer"></span>
-              </div>
-              <div class="ui-win__body">
-                <nav class="ui-win__side" aria-hidden="true">
-                  <span class="ui-win__nav"><svg class="ui-icon" viewBox="0 0 16 16"><circle cx="8" cy="8" r="5.5"/></svg>Understand<em>4</em></span>
-                  <span class="ui-win__nav"><svg class="ui-icon" viewBox="0 0 16 16"><path d="M3 8h10"/><path d="m9 4 4 4-4 4"/></svg>Apply<em>3</em></span>
-                  <span class="ui-win__nav"><svg class="ui-icon" viewBox="0 0 16 16"><path d="M3 13V6l5-3 5 3v7z"/></svg>Build<em>3</em></span>
-                  <span class="ui-win__nav"><svg class="ui-icon" viewBox="0 0 16 16"><path d="m3.5 8.4 2.8 2.8 6.2-6.4"/></svg>Capstone</span>
-                </nav>
-                <div class="ui-win__main">
-                  <div class="ui-win__cols" aria-hidden="true"><span>Module</span><span>Act</span><span>Status</span><span>Time</span></div>
-                  <ul class="ui-win__rows">
-                    <li class="ui-win__row"><span class="ui-avatar" data-tone="1">00</span><span class="ui-win__who">The history</span><span class="ui-win__sub">Understand</span><span class="ui-win__st is-done">Free</span><span class="ui-win__age">2h</span></li>
-                    <li class="ui-win__row"><span class="ui-avatar" data-tone="2">01</span><span class="ui-win__who">The map</span><span class="ui-win__sub">Understand</span><span class="ui-win__st">At launch</span><span class="ui-win__age">2h</span></li>
-                    <li class="ui-win__row"><span class="ui-avatar" data-tone="3">02</span><span class="ui-win__who">Inside the model</span><span class="ui-win__sub">Understand</span><span class="ui-win__st">At launch</span><span class="ui-win__age">2h</span></li>
-                    <li class="ui-win__row"><span class="ui-avatar" data-tone="4">03</span><span class="ui-win__who">Learning</span><span class="ui-win__sub">Understand</span><span class="ui-win__st">At launch</span><span class="ui-win__age">2h</span></li>
-                    <li class="ui-win__row"><span class="ui-avatar" data-tone="5">04</span><span class="ui-win__who">Probability</span><span class="ui-win__sub">Apply</span><span class="ui-win__st">At launch</span><span class="ui-win__age">2h</span></li>
-                    <li class="ui-win__row"><span class="ui-avatar" data-tone="1">05</span><span class="ui-win__who">Context</span><span class="ui-win__sub">Apply</span><span class="ui-win__st">At launch</span><span class="ui-win__age">2h</span></li>
-                    <li class="ui-win__row"><span class="ui-avatar" data-tone="2">06</span><span class="ui-win__who">Knowledge</span><span class="ui-win__sub">Apply</span><span class="ui-win__st">At launch</span><span class="ui-win__age">2h</span></li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="hv__fact" aria-hidden="true"><b>Module 00 is free</b><span>The chapter and its 17-minute episode, open now</span></div>
+        <div class="acts span-6 start-7">
+          <ol class="acts__list">
+            <li><a href="#understand"><span class="acts__n">Act 1</span><b>Understand the model</b><span class="acts__m">Modules 00 to 03</span></a></li>
+            <li><a href="#apply"><span class="acts__n">Act 2</span><b>Apply it</b><span class="acts__m">Modules 04 to 06</span></a></li>
+            <li><a href="#build"><span class="acts__n">Act 3</span><b>Build with it</b><span class="acts__m">Modules 07 to 09</span></a></li>
+            <li><a href="#capstone"><span class="acts__n">Then</span><b>The capstone</b><span class="acts__m">Map a real AI product</span></a></li>
+          </ol>
+          <p class="acts__free">Module 00 is free: the chapter and its 17-minute episode. <a class="link" href="module-00.html">Open it</a></p>
         </div>
       </div>
     </div>
