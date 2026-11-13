@@ -139,7 +139,7 @@ function listenGate(slug, source) {
   const id = `listen-${slug}`;
   return `<div class="listen" data-listen="${esc(slug)}">
               <div class="listen-lock" data-listen-lock>
-                <p class="listen-lock-head">${LOCK} Listen free — one email</p>
+                <p class="listen-lock-head">${LOCK} Listen free with one email</p>
                 <p class="listen-note">The episode is yours for an email address. Enter it once and it plays here and anywhere else on the site, on this browser.</p>
                 <form novalidate>
                   <input type="hidden" name="source" value="${esc(source)}">
@@ -170,7 +170,6 @@ function player(ep) {
             ${listenGate(slug, 'episode-00-module')}`;
 }
 
-const TELEGRAM = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22.1 3.2 2.6 10.8c-1.1.4-1.1 2 .1 2.3l4.9 1.5 1.9 5.6c.3.9 1.5 1.1 2.1.3l2.6-2.9 5 3.7c.8.6 1.9.1 2.1-.8l3-16c.2-1-.9-1.8-1.8-1.3ZM9.6 14.6l9-6.4-7.3 7.8-.3 3.6Z"/></svg>`;
 
 // ---------------------------------------------------------------- the section
 function guestSection(slug) {
@@ -187,11 +186,7 @@ function guestSection(slug) {
             <h2>${esc(g.name)}</h2>
             <p class="guest-line">${esc(g.editorial_line)}.</p>
             ${[player(ep), transcript(ep)].filter(Boolean).join(`\n            `)}
-            <div class="guest-links">
-              <button class="guest-link" type="button" disabled>Let’s chat</button>
-              <button class="guest-link guest-link-icon" type="button" disabled aria-label="Message ${esc(g.name)} on Telegram">${TELEGRAM}</button>
-            </div>
-            <p class="guest-note">Coming soon · an AI character from the show, not a real researcher.</p>
+            <p class="guest-note">An AI character from the show, not a real researcher.</p>
           </div>
         </article>
       </div>
@@ -222,7 +217,7 @@ const GUEST_CSS = `
     .guest { display: grid; grid-template-columns: 200px 1fr; gap: 40px; align-items: center; padding: 36px 40px; border: 1px solid var(--line); border-radius: 28px; background: #fff; }
     .guest-face { margin: 0; }
     .guest-art { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; border-radius: 50%; box-shadow: 0 16px 38px rgba(11, 12, 14, .16); }
-    .guest-epithet { color: var(--violet); font-size: 12px; font-weight: 600;  }
+    .guest-epithet { color: var(--violet); font-size: 14px; font-weight: 600;  }
     .guest-body h2 { margin: 8px 0 12px; font-size: clamp(30px, 3.6vw, 40px); }
     .guest-line { color: var(--muted); font-size: 17px; line-height: 1.6; }
     .guest-ep { margin-top: 22px; color: var(--navy); font-size: 14px; font-weight: 600; }
@@ -233,7 +228,7 @@ ${TRANSCRIPT_CSS}    .guest-links { display: flex; flex-wrap: wrap; gap: 10px; m
     .guest-link[disabled] { opacity: .45; cursor: not-allowed; }
     .guest-link-icon { padding: 0 14px; }
     .guest-link svg { width: 19px; height: 19px; fill: currentColor; }
-    .guest-note { margin-top: 12px; color: var(--muted); font-size: 12.5px; }
+    .guest-note { margin-top: 12px; color: var(--muted); font-size: 14px; }
     @media (max-width: 760px) {
       .guest { grid-template-columns: 1fr; gap: 24px; padding: 28px 24px; text-align: center; }
       .guest-face { width: 148px; margin-inline: auto; }

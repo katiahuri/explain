@@ -271,18 +271,18 @@ html:not([data-motion="off"]) .field :is(input, select, textarea):focus, .m-inpu
          :has([data-enter-media], .hero__bg, .hero__media, .hero__stage, .hero__art, .hero__window, .hero-visual, .ly-collage)) { opacity: 0; }
   /* the mark passed before motion.js arrived: the words fade in instead of appearing at once */
   html.m-enter.m-enter-done:not([data-motion="off"]) .hero[data-enter]:not([data-enter="off"], .is-entering, .is-entered)
-    :is(h1, h1 ~ *, :has(> h1) ~ *, :has(~ h1)) { transition: opacity 400ms var(--m-ease); }
+    :is(h1, h1 ~ *, :has(> h1) ~ *, :has(~ h1)) { transition: opacity 600ms var(--m-ease); }
   /* the settle: a photograph from 1.05 inside its frame (the hero clips one of its own), anything else from .98 */
   html.m-enter:not([data-motion="off"]) .hero[data-enter]:not([data-enter="off"], .is-still)
     :is(:is([data-enter-media], .hero__bg, .hero__media, .hero__stage, .hero__art, .hero__window, .hero-visual, .ly-collage):is(img, picture, video),
         :is([data-enter-media], .hero__bg, .hero__media, .hero__stage, .hero__art, .hero__window, .hero-visual, .ly-collage) > :is(img, picture, video, .frame__img)) {
-    transition: scale 1100ms var(--m-ease-enter), clip-path 1100ms var(--m-ease-enter);
+    transition: scale 1650ms var(--m-ease-enter), clip-path 1650ms var(--m-ease-enter);
   }
   /* the clip's resting value, kept below the waiting rule's weight so that one wins while it applies */
   .hero[data-enter] :is([data-enter-media], .hero__bg, .hero__media, .hero__stage, .hero__art, .hero__window, .hero-visual, .ly-collage):is(img, picture, video) { clip-path: inset(0); }
   html.m-enter:not([data-motion="off"]) .hero[data-enter]:not([data-enter="off"], .is-still)
     :is([data-enter-media], .hero__bg, .hero__media, .hero__stage, .hero__art, .hero__window, .hero-visual, .ly-collage):not(img, picture, video, :has(> :is(img, picture, video, .frame__img))) {
-    transition: scale 900ms var(--m-ease-enter);
+    transition: scale 1350ms var(--m-ease-enter);
   }
   html.m-enter:not(.m-enter-done, [data-motion="off"]) .hero[data-enter]:not([data-enter="off"], .is-entering, .is-entered)
     :is(:is([data-enter-media], .hero__bg, .hero__media, .hero__stage, .hero__art, .hero__window, .hero-visual, .ly-collage):is(img, picture, video),

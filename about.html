@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>About — ExplAIn</title>
+  <title>Who teaches ExplAIn · About</title>
   <meta name="description" content="ExplAIn is practical AI education by Katia Stainfeld Huri: almost 20 years in the industry, across deep learning, inference optimization, data platforms and production ML.">
   <meta name="theme-color" content="#eef0f3">
   <link rel="icon" type="image/png" href="assets/icon-cobalt.png">
@@ -13,7 +13,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Onest:wght@400..700&family=JetBrains+Mono:wght@400..500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/site.css">
   <style>
-    .about { display: grid; grid-template-columns: .8fr 1.2fr; gap: 56px; align-items: center; }
+    .about { display: grid; grid-template-columns: 1.2fr .8fr; gap: 56px; align-items: center; }
+    @media (min-width: 1001px) { .about > .portrait { order: 2; } }
     .portrait { position: relative; overflow: hidden; border-radius: 20px; color: var(--ink); background: var(--surface); }
     .portrait img { display: block; width: 100%; height: auto; }
     .portrait span { display: block; padding: 14px 20px; color: var(--muted); font-size: 14px; background: var(--card); }
@@ -28,10 +29,16 @@
     .linkedin:hover { border-color: var(--violet); transform: translateY(-1px); }
     .linkedin svg { width: 16px; height: 16px; fill: #0a66c2; }
     .creds { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
-    .creds span { padding: 8px 13px; border: 1px solid var(--line); border-radius: 8px; color: var(--text); background: #fff; font-size: 14px; font-weight: 500; }
+    .creds span, .creds a { padding: 8px 13px; border: 1px solid var(--line); border-radius: 8px; color: var(--text); background: #fff; font-size: 14px; font-weight: 500; }
     .belief { padding: 44px; border-radius: 20px; color: #fff; background: var(--ink); }
     .belief p { font-size: clamp(22px, 2.6vw, 30px); font-weight: 400; line-height: 1.35; letter-spacing: -.02em; }
     .belief small { display: block; margin-top: 16px; color: #c9ccd2; font-size: 15px; font-weight: 400; }
+    .about-proof { display: grid; grid-template-columns: 1.1fr .9fr; gap: 56px; align-items: start; }
+    .about-proof .lead { margin-top: 16px; }
+    .about-proof .btn { margin-top: 24px; }
+    .leaves-out { list-style: none; margin: 16px 0 0; padding: 0; }
+    .leaves-out li { padding: 14px 0; border-top: 1px solid var(--line); }
+    @media (max-width: 1000px) { .about-proof { grid-template-columns: 1fr; gap: 34px; } }
     @media (max-width: 1000px) { .about { grid-template-columns: 1fr; gap: 34px; } }
     @media (max-width: 640px) { .belief { padding: 28px 22px; } }
 
@@ -54,8 +61,8 @@
 
   <header class="page-hero">
     <div class="shell inner">
-      <h1>Built from the inside<br>of AI systems</h1>
-      <p class="lead">The gap in AI isn’t access to tools. It’s understanding what happens in between.</p>
+      <h1>Who teaches ExplAIn</h1>
+      <p class="lead">Katia Stainfeld Huri spent almost 20 years building software and neural networks. ExplAIn teaches the part she kept seeing engineers miss: the system between the model and the product.</p>
     </div>
   </header>
 
@@ -68,22 +75,21 @@
       <div>
         <h2>Why I built this course</h2>
         <div class="letter">
-          <p class="open">I trained, taught, patented and optimized neural networks before it was cool.</p>
-          <p>Almost 20 years of it, across the whole stack: frontend, backend, data engineering, data science, low-level systems. Three patents. A startup acquired for its core team. Teams of data analysts, engineers and scientists.</p>
-          <p>I have seen engineering from every side. And the same thing kept happening: strong engineers using AI every day, and still guessing — not because they couldn’t understand it, but because nobody ever showed them the layer beneath the interface.</p>
+          <p class="open">I trained, taught, patented and optimized neural networks, down to making ResNet and BERT inference run faster.</p>
+          <p>Almost 20 years of it, across the whole stack: frontend, backend, data engineering, data science, low-level systems. <a href="https://patents.justia.com/inventor/katia-huri" target="_blank" rel="noopener">Three patents</a>. A startup acquired for its core team. Teams of data analysts, engineers and scientists.</p>
+          <p>I have seen engineering from every side. And the same thing kept happening: strong engineers using AI every day, and still guessing. Not because they couldn’t understand it, but because nobody ever showed them the layer beneath the interface.</p>
           <p>So that’s what you get here. You’ll look at any AI product and explain how it actually works. You’ll know why it hallucinated, whether you need retrieval or fine-tuning, what belongs in a prompt and what belongs in code.</p>
           <p><strong>I won’t teach you prompts. Prompts expire.</strong> I’ll teach you the system underneath, and that doesn’t.</p>
-          <p>Come build the understanding that outlasts the tools.</p>
           <span class="signature">Katia<small>Founder &amp; instructor</small></span>
           <a class="linkedin" href="https://www.linkedin.com/in/katia-stainfeld-huri-6a268478" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.63-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14zM7.12 20.45H3.55V9h3.57v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z"/></svg>Connect on LinkedIn</a>
         </div>
         <div class="creds">
           <span>Almost 20 years in the industry</span>
-          <span>3 Patents</span>
-          <span>Frontend to Low-Level</span>
-          <span>Deep Learning &amp; Computer Vision</span>
-          <span>AI Inference Optimization</span>
-          <span>Led Data &amp; Engineering Teams</span>
+          <a href="https://patents.justia.com/inventor/katia-huri" target="_blank" rel="noopener">3 patents</a>
+          <span>Frontend to low-level</span>
+          <span>Deep learning and computer vision</span>
+          <span>AI inference optimization</span>
+          <span>Led data and engineering teams</span>
           <span>B.Sc. &amp; M.Sc. Computer Science</span>
         </div>
       </div>
@@ -92,14 +98,20 @@
 
   <section class="section">
     <div class="shell reveal">
-      <div class="section-head">
-        <h2>Everyone uses AI.<br>Few can explain it</h2>
-        <p class="lead">Teams ship AI features, then find nobody can say why the system behaved that way.</p>
-      </div>
-      <div class="grid cols-3">
-        <article class="card"><h3>Depth without the math lecture</h3><p>Enough mechanism to explain real behavior.</p></article>
-        <article class="card"><h3>Decisions, not demos</h3><p>What to verify, retrieve or automate.</p></article>
-        <article class="card"><h3>Knowledge that outlasts tools</h3><p>Vendors change. Mechanisms don’t.</p></article>
+      <div class="about-proof">
+        <div>
+          <h2>Every module ends on a call you have to make</h2>
+          <p class="lead">Module 01’s: a support bot quotes refund terms that changed last year. Name three places the old terms could come from, and say which one is the model.</p>
+          <p><a class="btn btn-outline" href="module-01.html#check">Try it in Module 01</a></p>
+        </div>
+        <div>
+          <h3>What the course leaves out</h3>
+          <ul class="leaves-out">
+            <li><b>Prompt collections.</b> Prompts expire. The system underneath doesn’t.</li>
+            <li><b>Transformer maths.</b> You get enough mechanism to explain behavior, without derivations.</li>
+            <li><b>One vendor’s tools.</b> Every module holds when the models change.</li>
+          </ul>
+        </div>
       </div>
     </div>
   </section>
@@ -113,20 +125,6 @@
     </div>
   </section>
 
-  <section class="section">
-    <div class="shell reveal">
-      <div class="section-head center">
-        <h2>Four principles behind every module</h2>
-      </div>
-      <div class="grid cols-4">
-        <article class="card"><h3>One idea per module</h3><p>A mental model, not a feature tour.</p></article>
-        <article class="card"><h3>Show the system</h3><p>Diagrams, so the parts stay nameable.</p></article>
-        <article class="card"><h3>End with a decision</h3><p>Exercises that force a trade-off.</p></article>
-        <article class="card"><h3>Stay tool-agnostic</h3><p>Nothing tied to one vendor.</p></article>
-      </div>
-    </div>
-  </section>
-
   <section class="signup" id="join">
     <div class="shell reveal">
       <div class="signup-panel">
@@ -134,7 +132,7 @@
           <h2>Learn it yourself, or bring it to your team</h2>
           <p class="lead">Join the list, or ask about the live program for your team.</p>
           <ul class="check-list">
-            <li>First-cohort dates and early-bird pricing</li>
+            <li>The launch date and a single-use code for 35% off</li>
             <li>Team proposals and new articles</li>
           </ul>
         </div>
@@ -142,7 +140,7 @@
         <form class="signup-form signup-card" novalidate>
           <div class="fields">
             <h3>Get in touch</h3>
-            <p class="card-sub">I’ll follow up.</p>
+            <p class="card-sub">Team questions get a reply within two business days.</p>
             <div class="field">
               <label for="su-name">Name</label>
               <input id="su-name" name="first_name" type="text" autocomplete="given-name" required>
@@ -160,7 +158,7 @@
             </fieldset>
             <input type="hidden" name="source" value="about">
             <div class="hp" aria-hidden="true"><label>Company website <input name="company_website" tabindex="-1" autocomplete="off"></label></div>
-            <button class="btn btn-primary btn-block" type="submit">Send</button>
+            <button class="btn btn-primary btn-block" type="submit">Send it to Katia</button>
             <p class="micro">Unsubscribe anytime.</p>
           </div>
           <p class="form-status" role="status" aria-live="polite"></p>
@@ -174,15 +172,15 @@
       <div class="footer-top">
         <div>
           <img src="assets/logo-ink.png" alt="ExplAIn" width="545" height="201">
-          <p>Practical AI education for people who want the system, not only the interface.</p>
+          <p>How AI products work, for people who build them.</p>
         </div>
         <div class="footer-col">
           <h4>Course</h4>
           <ul>
-            <li><a href="digital-course.html">Digital course</a></li>
-            <li><a href="syllabus.html">Full course syllabus</a></li>
-            <li><a href="module-00.html">Start with Module 00</a></li>
-            <li><a href="#join">Join the first cohort</a></li>
+            <li><a href="syllabus.html">Syllabus</a></li>
+            <li><a href="module-00.html">Module 00, free</a></li>
+            <li><a href="index.html#pricing">Pricing</a></li>
+            <li><a href="index.html#join">Join the waitlist</a></li>
           </ul>
         </div>
         <div class="footer-col">
@@ -191,7 +189,7 @@
             <li><a href="articles.html">Articles</a></li>
             <li><a href="about.html">About</a></li>
             <li><a href="https://www.linkedin.com/in/katia-stainfeld-huri-6a268478" target="_blank" rel="noopener">LinkedIn</a></li>
-            <li><a href="digital-course.html#pricing">For teams</a></li>
+            <li><a href="index.html#pricing">For teams</a></li>
           </ul>
         </div>
       </div>

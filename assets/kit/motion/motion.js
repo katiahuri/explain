@@ -333,7 +333,7 @@ function enter() {
   if (!hero || hero.classList.contains('is-entered') || hero.classList.contains('is-entering')) return;
   // still: the picture takes its place at once (no settle); otherwise the CSS settle and fade run out first
   const done = (still = false) => { if (still) hero.classList.add('is-still'); hero.classList.add('is-entered'); };
-  const late = () => setTimeout(done, 1150);
+  const late = () => setTimeout(done, 1700);
   // the head line did not run, reduced motion, a headless shot (it sees the hero at rest, as it sees the
   // final number, unless data-motion="live") or the visitor is already below the hero (a reload half way
   // down): the hero stands as written. The safety mark has passed: motion.css is fading the words in and
@@ -364,20 +364,20 @@ function enter() {
     // picture starts its CSS settle in the same frame
     hero.classList.add('is-entering');
     const lines = masks ? masks.lines : [[h1]];
-    const lineStep = Math.min(80, 240 / Math.max(1, lines.length - 1));
+    const lineStep = Math.min(120, 360 / Math.max(1, lines.length - 1));
     // a word starts wholly below its mask, which reaches .12em under the line: no tops show before it rises
     lines.forEach((ws, k) => ws.forEach(w => anims.push(w.animate(masks
       ? [{ transform: 'translateY(calc(100% + .2em))' }, { transform: 'none' }]
       : [{ transform: 'translateY(.35em)', opacity: 0 }, { transform: 'none', opacity: 1 }],
-      { duration: 700, delay: 80 + k * lineStep, easing: EASE, fill: 'both' }))));
+      { duration: 1050, delay: 80 + k * lineStep, easing: EASE, fill: 'both' }))));
     // a line above the h1 (a notice, a pill) comes with its first line; what follows starts as its
     // last line is half way up
-    const after = 80 + (lines.length - 1) * lineStep + 220;
+    const after = 80 + (lines.length - 1) * lineStep + 330;
     let k = 0;
     steps.forEach(el => {
       const above = !!(el.compareDocumentPosition(h1) & Node.DOCUMENT_POSITION_FOLLOWING);
       // the rise is added to whatever transform the part has of its own; the fade replaces its opacity
-      const t = { duration: 520, delay: above ? 40 : after + Math.min(k++, 6) * 60, easing: EASE, fill: 'both' };
+      const t = { duration: 780, delay: above ? 40 : after + Math.min(k++, 6) * 90, easing: EASE, fill: 'both' };
       anims.push(el.animate([{ opacity: 0 }, { opacity: 1 }], t), el.animate([{ transform: 'translateY(12px)' }, { transform: 'none' }], { ...t, composite: 'add' }));
     });
     // a panel the words sit on stands from the first paint (it was never hidden, so it never blinks);

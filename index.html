@@ -39,32 +39,33 @@
 <link rel="stylesheet" href="assets/kit/ui/base.css">
 <link rel="stylesheet" href="assets/kit/ui/window/fragment.css">
 <link rel="stylesheet" href="assets/kit/ui/checklist/fragment.css">
-<link rel="stylesheet" href="assets/kit/ui/files/fragment.css">
 <link rel="stylesheet" href="assets/kit/ui/notify/fragment.css">
-<link rel="stylesheet" href="assets/kit/ui/doc/fragment.css">
-<link rel="stylesheet" href="assets/kit/moments/liquid-type/moment.css">
 <script>document.documentElement.classList.add('m-enter');setTimeout(()=>document.documentElement.classList.add('m-enter-done'),700)</script>
 <script src="assets/kit/backgrounds/backgrounds.js"></script>
 <script>document.documentElement.classList.add('mo-js');setTimeout(()=>document.documentElement.classList.add('mo-safe'),2500)</script>
 <link rel="modulepreload" href="assets/kit/moments/moments.js">
 <link rel="modulepreload" href="assets/kit/moments/lib.js">
-<link rel="modulepreload" href="assets/kit/moments/liquid-type/moment.js">
-<link rel="modulepreload" href="assets/kit/moments/line-carries-colour/moment.js">
-<link rel="stylesheet" href="assets/kit/moments/line-carries-colour/moment.css">
 <!-- page CSS: only what sits inside a visual, and one --p-h per card group -->
 <style>
   .nav__logo img { display: block; height: 30px; width: auto; }
   .footer .nav__logo img { height: 34px; }
-  /* hero: the module window on the lit frame, the workbook card over its lower-left */
-  .hero__art > .ly-piece--note { left: var(--s-6); bottom: var(--s-6); width: 320px; z-index: 2; }
+  /* hero: module 04's sampling demo, live */
+  .hero__demo { align-self: center; min-width: 0; }
+  .hero__demo .sd-frame { padding: var(--s-5); }
+  .hero__cap { margin: var(--s-3) 0 0; font-size: var(--t-small); color: var(--muted); max-width: 60ch; }
+  .sd-foot { display: flex; align-items: center; gap: var(--s-4); flex-wrap: wrap; padding: 0 24px 22px; }
+  .sd-foot .sd-log { margin: 0; }
+  @media (max-width: 1023px) { .hero__demo { margin-top: var(--s-6); } }
+  @media (max-width: 639px) { .hero__demo .sd-frame { padding: var(--s-3); } .sd-foot { padding: 0 16px 16px; } }
   .hero__proof { font-size: var(--t-small); color: var(--muted); }
-  .hero__proof a { color: var(--ink); }
-  @media (max-width: 1023px) { .hero__art > .ly-piece--note { left: var(--s-4); bottom: var(--s-4); width: 290px; } }
+  .hero__proof a { display: inline-flex; align-items: center; min-height: 44px; color: var(--ink); }
   /* the syllabus: ten modules as ruled rows in two groups */
   .mods { list-style: none; margin: 0; padding: 0; }
   .mods > li { display: grid; grid-template-columns: 56px minmax(0, 1fr); gap: var(--s-4); padding-block: var(--s-5); border-bottom: 1px solid color-mix(in oklab, var(--ink) 13%, transparent); }
   .mods__num { font: 500 var(--t-body)/1.6 var(--font-mono); color: var(--muted); }
   .mods h3 { margin: 0; font-size: var(--t-card); line-height: 1.3; }
+  .mods h3 .link { display: inline; font-weight: 500; }
+  .mods h3 .link::after { content: none; }
   .mods p { margin: var(--s-1) 0 0; }
   .mods .mods__topics { color: var(--muted); font-size: var(--t-body); }
   @media (max-width: 639px) { .mods > li { grid-template-columns: 32px minmax(0, 1fr); gap: var(--s-3); padding-block: var(--s-3); } .mods h3 { font-size: 17px; } }
@@ -116,41 +117,44 @@
   .sd-win tr.is-scan td { background: #eef0f3; }
   .sd-win tr.is-pick td { background: #e4e6fb; }
   .sd-win tr.is-pick td:first-child { color: var(--p-action); font-weight: 500; }
-  .sd-js .bar b { width: 0; transition: width .9s cubic-bezier(.3,.7,.3,1); }
+  .sd-js .bar b { width: 0; transition: width 1.3s cubic-bezier(.3,.7,.3,1); }
   .sd-js.is-grown .bar b { width: calc(var(--v) * 100%); }
-  .sd-js.is-grown tr:nth-child(2) .bar b { transition-delay: .1s; }
-  .sd-js.is-grown tr:nth-child(3) .bar b { transition-delay: .2s; }
-  .sd-js.is-grown tr:nth-child(4) .bar b { transition-delay: .3s; }
+  .sd-js.is-grown tr:nth-child(2) .bar b { transition-delay: .15s; }
+  .sd-js.is-grown tr:nth-child(3) .bar b { transition-delay: .3s; }
+  .sd-js.is-grown tr:nth-child(4) .bar b { transition-delay: .45s; }
   .sd-note { margin: 4px 0 0; padding: 10px 12px; border-radius: 8px; background: #eef0f3; font-size: 14px; }
   .sd-note b { font-weight: 500; margin-right: 6px; }
   .sd-log { min-height: 1.5em; font-size: var(--t-small); }
-  .sd-spec { display: grid; gap: 0; margin: var(--s-4) 0 0; }
-  .sd-spec > div { display: flex; justify-content: space-between; gap: 16px; padding: 10px 0; border-top: 1px solid color-mix(in oklab, var(--ink) 13%, transparent); }
-  .sd-spec dt { color: var(--muted); } .sd-spec dd { margin: 0; color: var(--ink); }
-  @media (max-width: 1023px) { .sd-frame { padding: var(--s-5); margin-top: var(--s-6); } }
+  @media (max-width: 1023px) { .sd-frame { padding: var(--s-5); } }
   @media (max-width: 639px) { .sd-win .pl__main { padding: 16px; } .sd-win .xm__prompt { font-size: 16px; } .sd-tab:not(.on) { display: none; } }
   @media (prefers-reduced-motion: reduce) { .xm__caret { animation: none; } .sd-js .bar b { transition: none; } }
-  /* the format cards */
-  #format .panel { --p-h: 300px; }
-  @media (max-width: 639px) { #format .panel { --p-h: 190px; } #format .card p { margin-bottom: 0; } }
-  .ep { position: absolute; inset: var(--s-6) var(--s-6) auto var(--s-6); display: grid; grid-template-columns: 72px minmax(0, 1fr); gap: var(--s-4); align-items: center; padding: var(--s-4); background: #fff; color: #16181a; border-radius: var(--r-md); box-shadow: 0 0 0 1px rgb(0 0 0 / .07), 0 18px 40px -24px rgb(0 0 0 / .45); }
-  .ep img { width: 72px; height: 72px; border-radius: 50%; object-fit: cover; }
-  .ep b { display: block; font-weight: 500; font-size: 16px; }
-  .ep small { display: block; font-size: 13px; color: #4f5560; }
-  .ep__bar { grid-column: 1 / -1; display: grid; grid-template-columns: 32px minmax(0, 1fr) auto; gap: var(--s-3); align-items: center; font: 400 13px/1 var(--font-mono); color: #4f5560; }
-  .ep__play { width: 32px; height: 32px; border-radius: 50%; background: var(--p-action); display: grid; place-items: center; }
-  .ep__play svg { width: 12px; height: 12px; fill: #fff; }
-  .ep__line { height: 4px; border-radius: 2px; background: #dfe2e7; position: relative; }
-  .ep__line i { position: absolute; inset: 0 auto 0 0; width: 9%; border-radius: 2px; background: var(--p-action); }
-  @media (max-width: 639px) { .ep { inset: var(--s-4) var(--s-4) auto var(--s-4); } }
-  .cert { position: absolute; inset: var(--s-6) var(--s-6) auto var(--s-6); border-radius: var(--r-sm); box-shadow: 0 0 0 1px rgb(0 0 0 / .07), 0 18px 40px -24px rgb(0 0 0 / .45); width: calc(100% - 2 * var(--s-6)); height: auto; }
-  @media (max-width: 639px) { .cert { inset: var(--s-4) var(--s-4) auto var(--s-4); width: calc(100% - 2 * var(--s-4)); } }
-  /* the statement */
-  #map .mo-lt__type { margin-bottom: var(--s-6); font-size: clamp(34px, 4.4vw, 64px); line-height: 1.05; max-width: 20ch; }
-  @media (max-width: 639px) { #map .mo-lt__type { font-size: clamp(32px, 9vw, 40px); } }
+  /* the four parts of a module, ruled like the syllabus */
+  .parts { margin: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--s-7); }
+  .parts > div { display: grid; gap: var(--s-1); padding-block: var(--s-5); border-top: 1px solid color-mix(in oklab, var(--ink) 13%, transparent); }
+  .parts dt { font-size: var(--t-card); font-weight: 500; color: var(--ink); }
+  .parts dd { margin: 0; color: var(--muted); max-width: 46ch; }
+  .parts__free { margin-top: var(--s-5); color: var(--muted); }
+  .parts__free .link { margin-left: var(--s-2); }
+  @media (max-width: 767px) { .parts { grid-template-columns: 1fr; } .parts > div { padding-block: var(--s-4); } }
   /* the two band grounds hold exactly their section's screens */
-  /* the plans: one-time prices, no switch */
-  .plan__note { margin-top: var(--s-7); }
+  /* the plans: who it is for, then each price large beside what it buys */
+  .pr { display: flex; flex-direction: column; gap: var(--s-5); padding: var(--s-6); background: var(--card, #fff); border: 1px solid var(--line); border-radius: var(--r-lg); }
+  .pr__who { margin: 0; font: 500 var(--t-body)/1.4 var(--font-text); color: var(--muted); }
+  .pr__rows { margin: 0; display: grid; }
+  .pr__row { display: grid; grid-template-columns: 6.5rem minmax(0, 1fr); gap: var(--s-5); align-items: baseline; padding-block: var(--s-4); border-top: 1px solid var(--line); }
+  .pr__row:first-child { border-top: 0; padding-top: 0; }
+  .pr__amt { font: 400 clamp(36px, 3vw, 48px)/1 var(--font-display); letter-spacing: -0.03em; color: var(--ink); font-variant-numeric: tabular-nums; }
+  .pr__amt--word { font-size: clamp(26px, 2.2vw, 32px); }
+  .pr--team .pr__row { grid-template-columns: 1fr; gap: var(--s-3); }
+  .pr__rows dd { margin: 0; display: grid; gap: var(--s-1); }
+  .pr__rows dd b { font-weight: 500; font-size: var(--t-card); color: var(--ink); }
+  .pr__rows dd span { color: var(--muted); font-size: var(--t-body); line-height: 1.5; }
+  .pr__code { margin: 0; color: var(--ink); }
+  .pr .btn { align-self: flex-start; }
+  
+  .pr-grid { align-items: start; }
+  @media (max-width: 1023px) { .pr-grid > .pr { grid-column: 1 / -1; } }
+  @media (max-width: 639px) { .pr { padding: var(--s-5); } .pr__row { grid-template-columns: 1fr; gap: var(--s-2); } .pr .btn { align-self: stretch; } }
   /* the waitlist form's radio pair */
   .choices { display: flex; gap: var(--s-5); flex-wrap: wrap; }
   .choices label { display: inline-flex; align-items: center; gap: var(--s-2); min-height: 44px; font-weight: 400; font-size: var(--t-body); }
@@ -160,6 +164,7 @@
   .join__art { --p-h: 520px; }
   @media (max-width: 639px) { .join__art { --p-h: 260px; margin-top: var(--s-6); } }
   .legal__grid { flex: 1 1 100%; align-items: center; }
+  .card--plan .link, .legal__a, .nav__logo, #questions .link { display: inline-flex; align-items: center; min-height: 44px; }
   .legal__grid > .span-4 { display: inline-flex; align-items: center; min-height: 44px; }
   .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
   .form-status[data-type="error"] { color: color-mix(in oklab, #d92d20 72%, var(--ink)); }
@@ -170,10 +175,10 @@
      deal: hero collage, palette cool-grey-cobalt (soot-pale-lime dealt first, skipped: its lime clashes with the
      violet-blue "AI" in ExplAIn's own logo; the cobalt picks up that logo's blue), type onest, nav nav-centre,
      close close-type, footer footer-columns, rhythm space, buttons tonal, mark ring (not used: the client's logo),
-     lit ground sage; #module is a plain section running module 04's sampling demo (assets/sample-demo.js), which replaced
+     lit ground sage; the hero runs module 04's sampling demo (assets/sample-demo.js), which replaced
      the dealt scroll scene at the client's request;
      pricing (with the questions as its second screen) on ground-surface for its moment
-     moments: line-carries-colour in #pricing, liquid-type in #map (its own statement section)
+     moments: none
      screens at 1440: hero 1, syllabus 2, module 1 (the scene, 2 live), format 2, map 1, pricing 2 (plans, questions), join 1, footer 1 -->
 <header class="nav nav--centre">
   <div class="wrap nav__bar">
@@ -186,7 +191,7 @@
       <div class="nav__item"><a class="nav__link" href="about.html">About</a></div>
     </nav>
     <div class="nav__actions">
-      <a class="btn btn--primary" href="#join">Join the waitlist</a>
+      <a class="btn btn--secondary" href="#join">Join the waitlist</a>
     </div>
     <button class="nav__toggle" type="button" aria-expanded="false" aria-label="Menu">
       <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M2 5h14M2 13h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
@@ -198,67 +203,41 @@
   <section class="hero hero--collage" data-enter aria-labelledby="hero-h">
     <div class="wrap"><div class="hero-text grid hero__grid">
       <div class="hero__text span-5">
-        <h1 id="hero-h">An AI course for technical professionals</h1>
-        <p class="hero__lead">Ten modules on the system around the model: context, retrieval, tools, agents and evals. Self-paced, about 20 hours, from $79.</p>
-        <div class="btn-row"><a class="btn btn--primary" href="#join">Join the waitlist<svg class="m-arrow" viewBox="0 0 12 12" aria-hidden="true"><path class="m-arrow__stem" d="M1 6h8"/><path class="m-arrow__head" d="M4.5 2.5 8 6l-3.5 3.5"/></svg></a><a class="btn btn--secondary" href="#syllabus">Read the syllabus</a></div>
+        <h1 id="hero-h">Build AI products you understand, part by part</h1>
+        <p class="hero__lead">A self-paced course for engineers, data people and technical leads. Ten modules, about 20 hours, from $79.</p>
+        <div class="btn-row"><a class="btn btn--primary" href="#join">Get the launch date and 35% off<svg class="m-arrow" viewBox="0 0 12 12" aria-hidden="true"><path class="m-arrow__stem" d="M1 6h8"/><path class="m-arrow__head" d="M4.5 2.5 8 6l-3.5 3.5"/></svg></a><a class="btn btn--secondary" href="#syllabus">Read the syllabus</a></div>
         <p class="hero__proof">Module 00 is open now: <a class="link" href="module-00.html">read and hear it free</a>.</p>
       </div>
-      <div class="hero__art frame--lit span-6 start-7" role="img" aria-label="The ExplAIn module list with the first two modules done and module 02 in progress, and the module 04 workbook checklist">
-        <div class="ly-piece ly-piece--main" aria-hidden="true">
-          <div class="ui ui-panel ui-win" data-ui="window" data-open="Next" data-work="Reading" data-done="Done">
-            <div class="ui-win__bar">
-              <span class="ui-dots" aria-hidden="true"><i></i><i></i><i></i></span>
-              <span class="ui-win__crumb">ExplAIn <i>/</i> <b>Modules</b></span>
-              <span class="ui-spacer"></span>
-              <span class="ui-win__search" aria-hidden="true"><svg class="ui-icon" viewBox="0 0 16 16"><circle cx="7" cy="7" r="4.5"/><path d="m10.5 10.5 3 3"/></svg><span class="ui-win__ph">Search</span><span class="ui-kbd">/</span></span>
-            </div>
-            <div class="ui-win__body">
-              <nav class="ui-win__side" aria-hidden="true">
-                <span class="ui-win__nav"><svg class="ui-icon" viewBox="0 0 16 16"><path d="M3 3.5h10M3 8h10M3 12.5h10"/></svg>Modules<em>10</em></span>
-                <span class="ui-win__nav"><svg class="ui-icon" viewBox="0 0 16 16"><path d="M4 2.5h5l3 3v8H4z"/><path d="M9 2.5v3h3"/></svg>Workbook</span>
-                <span class="ui-win__nav"><svg class="ui-icon" viewBox="0 0 16 16"><path d="M3 3h10v10H3z"/><path d="M6 6h4M6 9h4"/></svg>Cheat sheets<em>10</em></span>
-                <span class="ui-win__nav"><svg class="ui-icon" viewBox="0 0 16 16"><path d="m3.5 8.4 2.8 2.8 6.2-6.4"/></svg>Capstone</span>
-              </nav>
-              <div class="ui-win__main">
-                <div class="ui-win__cols" aria-hidden="true"><span>Module</span><span>Covers</span><span>Status</span><span>Time</span></div>
-                <ul class="ui-win__rows">
-                  <li class="ui-win__row" data-row><span class="ui-avatar" data-tone="1">00</span><span class="ui-win__who">The history</span><span class="ui-win__sub">How we got here</span><span class="ui-win__st is-done" data-st>Done</span><span class="ui-win__age">2h</span></li>
-                  <li class="ui-win__row" data-row><span class="ui-avatar" data-tone="2">01</span><span class="ui-win__who">The map</span><span class="ui-win__sub">What is an AI system?</span><span class="ui-win__st is-done" data-st>Done</span><span class="ui-win__age">2h</span></li>
-                  <li class="ui-win__row" data-row><span class="ui-avatar" data-tone="3">02</span><span class="ui-win__who">Inside the model</span><span class="ui-win__sub">Tokens, embeddings, attention</span><span class="ui-win__st" data-st>Next</span><span class="ui-win__age">2h</span></li>
-                  <li class="ui-win__row" data-row><span class="ui-avatar" data-tone="4">03</span><span class="ui-win__who">Learning</span><span class="ui-win__sub">Training and inference</span><span class="ui-win__st" data-st>Next</span><span class="ui-win__age">2h</span></li>
-                  <li class="ui-win__row" data-row><span class="ui-avatar" data-tone="5">04</span><span class="ui-win__who">Probability</span><span class="ui-win__sub">Sampling and hallucination</span><span class="ui-win__st" data-st>Next</span><span class="ui-win__age">2h</span></li>
-                  <li class="ui-win__row" data-row><span class="ui-avatar" data-tone="1">05</span><span class="ui-win__who">Context</span><span class="ui-win__sub">Context engineering</span><span class="ui-win__st" data-st>Next</span><span class="ui-win__age">2h</span></li>
-                  <li class="ui-win__row" data-row><span class="ui-avatar" data-tone="2">06</span><span class="ui-win__who">Knowledge</span><span class="ui-win__sub">Retrieval and memory</span><span class="ui-win__st" data-st>Next</span><span class="ui-win__age">2h</span></li>
-                </ul>
+      <div class="hero__demo span-6 start-7">
+        <div class="sd-frame frame">
+              <div class="xm sd-win" data-sample role="img" aria-label="Module 04's sampling example: the prompt The capital of France is, the next-token probabilities Paris 71%, located 9%, a 6% and Lyon 2%, and the key line Fluency is not the same as truth">
+                <div class="pl__bar"><b>Module 04, sampling</b></div>
+                <div class="pl__main" aria-hidden="true">
+                  <p class="xm__prompt">The capital of France is<span class="xm__out"></span><span class="xm__caret"></span></p>
+                  <table>
+                    <thead><tr><th>Next token</th><th>Probability</th><th class="n">Share</th></tr></thead>
+                    <tbody>
+                      <tr data-tok="Paris" data-p="71"><td>Paris</td><td><span class="bar"><b style="--v:.71"></b></span></td><td class="n">71%</td></tr>
+                      <tr data-tok="located" data-p="9"><td>located</td><td><span class="bar"><b style="--v:.09"></b></span></td><td class="n">9%</td></tr>
+                      <tr data-tok="a" data-p="6"><td>a</td><td><span class="bar"><b style="--v:.06"></b></span></td><td class="n">6%</td></tr>
+                      <tr data-tok="Lyon" data-p="2"><td>Lyon</td><td><span class="bar"><b style="--v:.02"></b></span></td><td class="n">2%</td></tr>
+                    </tbody>
+                  </table>
+                  <p class="sd-note"><b>Key line</b> Fluency is not the same as truth.</p>
+                </div>
+                <div class="sd-foot"><button class="btn btn--secondary" type="button" data-sample-again>Sample again</button><p class="sd-log muted" data-runlog role="status" aria-live="polite"></p></div>
               </div>
-            </div>
-          </div>
         </div>
-        <div class="ly-piece ly-piece--note" aria-hidden="true">
-          <div class="ui ui-panel ui-checks" data-ui="checklist" data-ui-loop>
-            <div class="ui-checks__head">
-              <div class="ui-title">Module 04 workbook</div>
-              <span class="ui-spacer"></span>
-              <div class="ui-meta" data-checks-count>1 of 4</div>
-            </div>
-            <div class="ui-checks__bar"><i data-checks-bar style="--k:0.25"></i></div>
-            <ul class="ui-checks__list">
-              <li class="ui-check is-done"><span class="ui-check__box"><svg viewBox="0 0 16 16"><path d="m4.5 8.2 2.3 2.3 4.7-5"/></svg></span><span class="ui-check__label">Token probabilities</span></li>
-              <li class="ui-check"><span class="ui-check__box"><svg viewBox="0 0 16 16"><path d="m4.5 8.2 2.3 2.3 4.7-5"/></svg></span><span class="ui-check__label">Sampling and temperature</span></li>
-              <li class="ui-check"><span class="ui-check__box"><svg viewBox="0 0 16 16"><path d="m4.5 8.2 2.3 2.3 4.7-5"/></svg></span><span class="ui-check__label">Why fluent text can be false</span></li>
-              <li class="ui-check"><span class="ui-check__box"><svg viewBox="0 0 16 16"><path d="m4.5 8.2 2.3 2.3 4.7-5"/></svg></span><span class="ui-check__label">Checks that decide what ships</span></li>
-            </ul>
-          </div>
-        </div>
+        <p class="hero__cap">From Module 04. The model ranks every next word, then picks one, so a fluent answer can still be wrong.</p>
       </div>
     </div></div>
   </section>
 
-  <section class="section g2" id="syllabus" aria-labelledby="syllabus-h">
+  <section class="section" id="syllabus" aria-labelledby="syllabus-h">
     <div class="wrap">
       <div class="group">
         <div class="section-head">
-          <h2 id="syllabus-h">The syllabus, module by module. <span class="muted">One part of an AI system each.</span></h2>
+          <h2 id="syllabus-h">The syllabus</h2>
         </div>
         <ol class="mods">
           <li><span class="mods__num">00</span><div class="mods__body"><h3><a class="link" href="module-00.html">How we got here</a></h3><p class="mods__topics"><span class="free-tag">Free</span> Old maths, two AI winters, and the 2017 architecture.</p></div></li>
@@ -266,10 +245,6 @@
           <li><span class="mods__num">02</span><div class="mods__body"><h3><a class="link" href="module-02.html">How a model sees the world</a></h3><p class="mods__topics">Tokens, embeddings, attention and the context window.</p></div></li>
           <li><span class="mods__num">03</span><div class="mods__body"><h3><a class="link" href="module-03.html">How models learn</a></h3><p class="mods__topics">Pretraining, post-training, and where change lives.</p></div></li>
           <li><span class="mods__num">04</span><div class="mods__body"><h3><a class="link" href="module-04.html">Reasoning, sampling and hallucination</a></h3><p class="mods__topics">Token probabilities, temperature, and why fluent text can be false.</p></div></li>
-        </ol>
-      </div>
-      <div class="group">
-        <ol class="mods" start="5">
           <li><span class="mods__num">05</span><div class="mods__body"><h3><a class="link" href="module-05.html">Context engineering</a></h3><p class="mods__topics">What enters the context, in what order, and prompt injection.</p></div></li>
           <li><span class="mods__num">06</span><div class="mods__body"><h3><a class="link" href="module-06.html">Retrieval, memory and fine-tuning</a></h3><p class="mods__topics">Semantic search, RAG with sources, and when to tune the model.</p></div></li>
           <li><span class="mods__num">07</span><div class="mods__body"><h3><a class="link" href="module-07.html">How models interact with the real world</a></h3><p class="mods__topics">The tool loop, permissions by risk, and MCP.</p></div></li>
@@ -281,178 +256,61 @@
     </div>
   </section>
 
-  <section class="section" id="module" aria-labelledby="module-h">
+  <section class="section" id="format" aria-labelledby="format-h">
     <div class="wrap">
-      <div class="grid grid--top">
-        <div class="span-5 stack-4">
-          <h2 id="module-h">Module 04, run live. <span class="muted">How a model picks its next word.</span></h2>
-          <p>The model ranks every possible next token. Sampling then picks one, so the same prompt can end differently, and a fluent answer can still be wrong.</p>
-          <div class="btn-row"><button class="btn btn--secondary" type="button" data-sample-again>Sample again</button></div>
-          <p class="sd-log muted" data-runlog role="status" aria-live="polite"></p>
-          <dl class="sd-spec">
-            <div><dt>Chapter</dt><dd>About two hours</dd></div>
-            <div><dt>Episode</dt><dd>One per chapter</dd></div>
-            <div><dt>Cheat sheet</dt><dd>One printable page</dd></div>
-            <div><dt>Workbook</dt><dd>One section each</dd></div>
-          </dl>
-        </div>
-        <div class="span-7 start-6 sd-frame frame frame--lit">
-          <div class="xm sd-win" data-sample role="img" aria-label="The ExplAIn reader on module 04: the prompt The capital of France is, the next-token probabilities Paris 71%, located 9%, a 6% and Lyon 2%, and the cheat sheet line Fluency is not the same as truth">
-            <div class="pl__bar"><span class="dots"><i></i><i></i><i></i></span><b>ExplAIn</b> <span class="sd-tab on">Chapter 04</span><span class="sd-tab">Episode</span><span class="sd-tab">Workbook</span></div>
-            <div class="pl__main" aria-hidden="true">
-              <p class="xm__prompt">The capital of France is<span class="xm__out"></span><span class="xm__caret"></span></p>
-              <table>
-                <thead><tr><th>Next token</th><th>Probability</th><th class="n">Share</th></tr></thead>
-                <tbody>
-                  <tr data-tok="Paris" data-p="71"><td>Paris</td><td><span class="bar"><b style="--v:.71"></b></span></td><td class="n">71%</td></tr>
-                  <tr data-tok="located" data-p="9"><td>located</td><td><span class="bar"><b style="--v:.09"></b></span></td><td class="n">9%</td></tr>
-                  <tr data-tok="a" data-p="6"><td>a</td><td><span class="bar"><b style="--v:.06"></b></span></td><td class="n">6%</td></tr>
-                  <tr data-tok="Lyon" data-p="2"><td>Lyon</td><td><span class="bar"><b style="--v:.02"></b></span></td><td class="n">2%</td></tr>
-                </tbody>
-              </table>
-              <p class="sd-note"><b>Cheat sheet</b> Fluency is not the same as truth.</p>
-            </div>
-          </div>
-        </div>
+      <div class="section-head">
+        <h2 id="format-h">Every module comes in four parts</h2>
       </div>
+      <dl class="parts">
+        <div><dt>Slides</dt><dd>The module as a deck, one idea per slide.</dd></div>
+        <div><dt>Textbook</dt><dd>The chapter written in full, around diagrams.</dd></div>
+        <div><dt>Audio episode</dt><dd>Two AI voices talk the chapter through. Comes with The Book with audio.</dd></div>
+        <div><dt>A file for Claude</dt><dd>The chapter as a Markdown file, ready to load into Claude.</dd></div>
+      </dl>
+      <p class="parts__free">Module 00’s slides and episode are free. <a class="link" href="module-00.html">Open Module 00</a></p>
     </div>
   </section>
 
-  <section class="section g2" id="format" aria-labelledby="format-h">
-    <div class="wrap">
-      <div class="group">
-        <div class="section-head">
-          <h2 id="format-h">What you get with each module. <span class="muted">A chapter, an episode, a cheat sheet and a workbook page.</span></h2>
-        </div>
-        <div class="grid">
-          <article class="card card--row card--open span-6">
-            <h3>Read ten chapters in full</h3>
-            <p>Each chapter comes as a PDF with its cheat sheet, plus one workbook for all ten.</p>
-            <div class="panel">
-              <div class="stage stage--fade-b"><div class="at-rise fit" style="--fit-max:400px;--ax:max(24px, 50% - 200px);--ay:40px;--ay-sm:16px" data-ui-loop>
-                <div class="ui ui-files" data-ui="files" data-reading="Opening {n} of {total}">
-                  <div class="ui-files__status"><span class="ui-dot"></span><span data-files-status>5 files ready</span></div>
-                  <ul class="ui-files__grid">
-                    <li class="ui-file is-done"><span class="ui-file__icon"><img data-icon="pdf" src="assets/kit/icons/pdf.svg" alt=""></span><span class="ui-file__name">Module 04 chapter</span><span class="ui-file__kind">PDF</span><span class="ui-file__bar"><i></i></span><span class="ui-file__check"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4.5 8.2 2.3 2.3 4.7-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></li>
-                    <li class="ui-file is-done"><span class="ui-file__icon"><img data-icon="pdf" src="assets/kit/icons/pdf.svg" alt=""></span><span class="ui-file__name">Module 04 cheat sheet</span><span class="ui-file__kind">PDF</span><span class="ui-file__bar"><i></i></span><span class="ui-file__check"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4.5 8.2 2.3 2.3 4.7-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></li>
-                    <li class="ui-file is-done"><span class="ui-file__icon"><img data-icon="pdf" src="assets/kit/icons/pdf.svg" alt=""></span><span class="ui-file__name">Workbook</span><span class="ui-file__kind">PDF form</span><span class="ui-file__bar"><i></i></span><span class="ui-file__check"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4.5 8.2 2.3 2.3 4.7-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></li>
-                    <li class="ui-file is-done"><span class="ui-file__icon"><img data-icon="pdf" src="assets/kit/icons/pdf.svg" alt=""></span><span class="ui-file__name">Capstone brief</span><span class="ui-file__kind">PDF</span><span class="ui-file__bar"><i></i></span><span class="ui-file__check"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4.5 8.2 2.3 2.3 4.7-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></li>
-                  </ul>
-                </div>
-              </div></div>
-            </div>
-          </article>
-          <article class="card card--row card--open span-6">
-            <h3>Hear each chapter as an episode</h3>
-            <p>Two voices talk the chapter through. Episode 00 runs 17 minutes and is free.</p>
-            <div class="panel" role="img" aria-label="Episode 00, How we got here, with Simone Vale, 17 minutes">
-              <div class="ep" aria-hidden="true">
-                <img src="assets/guests/simone-vale.jpg" alt="" width="300" height="300" data-source="client" data-subject="the guest on episode 00">
-                <div><b>How we got here</b><small>Episode 00 with Simone Vale</small></div>
-                <div class="ep__bar"><span class="ep__play"><svg viewBox="0 0 12 12"><path d="M3 1.5v9l7.5-4.5z"/></svg></span><span class="ep__line"><i></i></span><span>1:30 / 17:00</span></div>
-              </div>
-            </div>
-          </article>
-        </div>
-      </div>
-      <div class="grid">
-        <article class="card card--row card--open span-6">
-          <h3>Keep a cheat sheet per module</h3>
-          <p>One printable page each. Module 07's opens with the line to remember.</p>
-          <div class="panel">
-            <div class="stage stage--fade-b"><div class="at-corner to-edge" style="--ax:32px;--ay:32px">
-              <div class="ui ui-doc" data-ui="doc">
-                <article class="ui-doc__page">
-                  <div class="ui-doc__label">Cheat sheet, module 07</div>
-                  <div class="ui-doc__title">How models interact with the real world</div>
-                  <div class="ui-doc__text"><mark class="ui-doc__mark is-on">The model requests. Another system acts.</mark> Tools are ordinary code that your app runs.</div>
-                  <div class="ui-doc__text">The tool loop: describe, request, execute, return. Know who does each step.</div>
-                  <div class="ui-doc__text">Permissions by risk: <mark class="ui-doc__mark" data-kind="Rule" data-msg="Each level gets its own control." data-where="Module 07, permissions">read, write, irreversible, never exposed</mark>.</div>
-                  <div class="ui-doc__text">MCP is an open protocol for connecting apps to tools and data.</div>
-                </article>
-                <aside class="ui-doc__note ui-panel is-on" aria-live="polite">
-                  <div class="ui-doc__kind"><span class="ui-doc__dot"></span><span data-doc-kind>Key line</span></div>
-                  <div class="ui-doc__msg" data-doc-msg>The model never runs the tool itself.</div>
-                  <div class="ui-doc__where" data-doc-where>Module 07, the tool loop</div>
-                </aside>
-              </div>
-            </div></div>
-          </div>
-        </article>
-        <article class="card card--row card--open span-6">
-          <h3>Earn a certificate with the capstone</h3>
-          <p>Map an AI product you use. The certificate carries its own unique ID.</p>
-          <div class="panel">
-            <img class="cert" src="assets/certificate.png" width="1684" height="1190" loading="lazy" alt="An ExplAIn certificate of completion with the course title, 20 learning hours and a certificate ID" data-source="client" data-subject="the course certificate">
-          </div>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <section class="section statement" id="map" data-moment="liquid-type" aria-labelledby="map-h">
-    <div class="wrap">
-      <h2 id="map-h" class="mo-lt__type">The model generates. The system does.</h2>
-      <p class="t-lead measure">Nine parts decide whether an AI product works, from what the model sees to how you test it. Each module teaches one of them.</p>
-    </div>
-  </section>
-
-  <section class="section ground-surface g2" id="pricing" data-moment="line-carries-colour" data-moment-opts='{"from": "base"}' aria-labelledby="pricing-h">
+  <section class="section ground-surface g2" id="pricing" aria-labelledby="pricing-h">
     <div class="wrap">
       <div class="group">
       <div class="section-head">
         <h2 id="pricing-h">Pricing</h2>
+        <p>One payment. Read Module 00 free before you buy.</p>
       </div>
-      <div class="grid">
-        <article class="card card--plan span-4">
-          <h3>The Book</h3>
-          <p class="muted">All ten chapters, written in full</p>
-          <p class="price">$79</p>
-          <ul>
-            <li>Ten chapters as one PDF</li>
-            <li>The workbook, as one working form</li>
-            <li>Ten printable cheat sheets</li>
-            <li>Capstone brief and certificate</li>
-          </ul>
-          <a class="link" href="module-00.html">Read Module 00 first</a>
+      <div class="grid pr-grid">
+        <article class="pr span-7">
+          <h3 class="pr__who">For you</h3>
+          <dl class="pr__rows">
+            <div class="pr__row"><dt class="pr__amt">$79</dt><dd><b>The Book</b><span>Slides, textbook and a file for Claude for all ten modules, plus the capstone.</span></dd></div>
+            <div class="pr__row"><dt class="pr__amt">$99</dt><dd><b>The Book with audio</b><span>Adds ten episodes and a $99 credit toward 1:1 consulting.</span></dd></div>
+          </dl>
+          <p class="pr__code">Join the waitlist and get 35% off either one at launch.</p>
+          <a class="btn btn--primary" href="#join">Get the founding code</a>
         </article>
-        <article class="card card--plan is-featured span-4">
-          <h3>The Book + Audio</h3>
-          <p class="muted">Everything written, plus ten episodes</p>
-          <p class="price">$99</p>
-          <ul>
-            <li>Everything in The Book</li>
-            <li>Ten audio episodes, one per chapter</li>
-            <li>$99 credit toward 1:1 consulting</li>
-          </ul>
-          <a class="btn btn--primary" href="#join">Join the waitlist</a>
-        </article>
-        <article class="card card--plan span-4">
-          <h3>Company program</h3>
-          <p class="muted">Eight live sessions for one team</p>
-          <p class="price">Priced per team</p>
-          <ul>
-            <li>Eight weekly sessions, two hours each</li>
-            <li>Examples from your own products</li>
-            <li>Capstone on a real internal use case</li>
-          </ul>
-          <a class="link" href="#join" data-interest="team">Ask about team training</a>
+        <article class="pr pr--team span-5">
+          <h3 class="pr__who">For your team</h3>
+          <dl class="pr__rows">
+            <div class="pr__row"><dt class="pr__amt pr__amt--word">Per team</dt><dd><b>Company program</b><span>Eight live two-hour sessions, built on your own products.</span></dd></div>
+          </dl>
+          <a class="btn btn--secondary" href="#join" data-interest="team">Ask about team training</a>
         </article>
       </div>
-      <p class="plan__note">Waitlist members get a single-use founding code at launch: 35% off The Book and The Book + Audio.</p>
       </div>
       <div class="group" id="questions">
         <div class="grid">
           <div class="span-5 stack-4">
             <h3>Questions before you join</h3>
-            <p class="muted">What people ask about the course.</p>
-            <a class="link" href="about.html">About Katia</a>
+            <a class="link" href="about.html">Who teaches it</a>
           </div>
           <div class="faq span-6 start-7">
           <div class="faq__item"><h3>Do I need to code along?</h3><p>No. The exercises are decisions and designs, not implementations.</p></div>
           <div class="faq__item"><h3>Do I need advanced maths?</h3><p>No. The course explains the ideas without derivations.</p></div>
           <div class="faq__item"><h3>Is it tied to one AI vendor?</h3><p>No. Every module is tool-agnostic, so it holds when the models change.</p></div>
           <div class="faq__item"><h3>Can I get a refund?</h3><p>No, all sales are final. That is why Module 00 is free: read it before you buy.</p></div>
+          <div class="faq__item"><h3>When does it open?</h3><p>On 1 January 2027.</p></div>
+          <div class="faq__item"><h3>What happens after I join the list?</h3><p>You get one email on launch day with the date, the prices and your founding code. You also get the Dispatch, the ExplAIn newsletter, every so often.</p></div>
+          <div class="faq__item"><h3>How long do I keep access?</h3><p>Forever.</p></div>
           <div class="faq__item"><h3>Can my company buy seats?</h3><p>Yes. Choose “My team” when you join the list.</p></div>
           </div>
         </div>
@@ -464,8 +322,8 @@
     <div class="wrap">
       <div class="grid grid--top">
         <div class="span-5 stack-4">
-          <h2 id="join-h">The waitlist and its founding code</h2>
-          <p>One email now gets you the launch date and a single-use code for 35% off. No payment now.</p>
+          <h2 id="join-h">Get the launch date and 35% off</h2>
+          <p>Leave your email. On launch day you get the date, the prices and a single-use code for 35% off. No payment now.</p>
           <form class="form signup-form" action="/api/signup" method="post" data-endpoint="" novalidate>
             <div class="field field--full"><label for="su-name">Name</label>
               <input id="su-name" name="first_name" type="text" autocomplete="given-name" required aria-describedby="su-name-err">
@@ -486,7 +344,7 @@
             <p class="form__status form-status" role="status" data-form-status></p>
           </form>
         </div>
-        <div class="panel frame--lit span-6 start-7 join__art" role="img" aria-label="The three emails the waitlist sends: the launch date, the founding code and a new article">
+        <div class="panel frame span-6 start-7 join__art" role="img" aria-label="The three emails the waitlist sends: the launch date, the founding code and a new article">
           <div class="stage stage--fade-b"><div class="at-rise fit" style="--fit-max:380px;--ax:32px;--ay:48px;--ay-sm:24px" data-ui-loop>
             <div class="ui ui-notify" data-ui="notify" aria-hidden="true">
               <ul class="ui-notify__list" data-notify-list>
@@ -502,15 +360,8 @@
   </section>
 </main>
 
-<footer class="footer closing" id="contact" aria-labelledby="close-h">
+<footer class="footer closing" id="contact">
   <div class="wrap">
-    <div class="closing__cta close--type">
-      <div class="section-head">
-        <h2 id="close-h">Get the launch date and the founding code</h2>
-        <p>No payment now. Unsubscribe anytime.</p>
-      </div>
-      <a class="btn btn--primary btn--xl btn--wide" href="#join">Join the waitlist<svg class="m-arrow" viewBox="0 0 12 12" aria-hidden="true"><path class="m-arrow__stem" d="M1 6h8"/><path class="m-arrow__head" d="M4.5 2.5 8 6l-3.5 3.5"/></svg></a>
-    </div>
     <div class="closing__links">
       <div class="grid">
         <div class="span-4 stack-4">

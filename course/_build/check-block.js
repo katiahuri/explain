@@ -37,7 +37,7 @@ function checkSection(m, { esc }) {
             <p class="chk-a-h">How we would answer</p>
             <ul>${answers}</ul>
             <p class="chk-cta">Every module ends on a question like this.
-              <a href="digital-course.html#join">Join the waitlist &rarr;</a></p>
+              <a href="index.html#join">Join the waitlist</a></p>
           </div>
         </div>
       </div>
@@ -49,7 +49,7 @@ const CHECK_CSS = `
     .chk { max-width: 760px; margin-inline: auto; padding: 36px 38px; border: 1px solid var(--line); border-radius: 26px; background: #fff; }
     .chk-q { color: var(--navy); font-size: clamp(19px, 2.2vw, 25px); font-weight: 600; line-height: 1.35; letter-spacing: -.02em; }
     .chk-p { margin-top: 12px; color: var(--muted); font-size: 15.5px; line-height: 1.6; }
-    .chk-label { display: block; margin: 24px 0 8px; color: var(--violet); font-size: 11px; font-weight: 700;  }
+    .chk-label { display: block; margin: 24px 0 8px; color: var(--violet); font-size: 14px; font-weight: 700;  }
     .chk-in { display: block; width: 100%; padding: 14px 16px; border: 1px solid var(--line); border-radius: 14px; background: var(--off-white); color: var(--navy); font: inherit; font-size: 15px; line-height: 1.55; resize: vertical; }
     .chk-in:focus { outline: 3px solid var(--violet); outline-offset: 2px; border-color: transparent; }
     .chk-in::placeholder { color: #9aa3b5; }
@@ -59,7 +59,7 @@ const CHECK_CSS = `
     .chk-a { margin-top: 26px; padding-top: 24px; border-top: 1px dashed var(--line); animation: chkIn .45s cubic-bezier(.2,.7,.2,1); }
     .chk-a[hidden] { display: none; }
     @keyframes chkIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
-    .chk-a-h { color: var(--violet); font-size: 11px; font-weight: 700;  }
+    .chk-a-h { color: var(--violet); font-size: 14px; font-weight: 700;  }
     .chk-a ul { margin: 16px 0 0; padding-left: 20px; }
     .chk-a li { margin-bottom: 11px; color: var(--muted); font-size: 15px; line-height: 1.6; }
     .chk-a li b { color: var(--navy); }
