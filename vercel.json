@@ -54,5 +54,15 @@
         }
       ]
     }
+  ],
+  "crons": [
+    {
+      "path": "/api/ig-kick",
+      "schedule": "0 5 * * *"
+    },
+    {
+      "path": "/api/ig-kick",
+      "schedule": "0 6 * * *"
+    }
   ]
 }
